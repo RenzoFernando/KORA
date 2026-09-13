@@ -24,7 +24,7 @@
         const raw = localStorage.getItem('kora-corte3-state');
         const state = raw ? JSON.parse(raw) : null;
         document.documentElement.dataset.theme = state?.theme === 'dark' ? 'dark' : 'light';
-      } catch (error) {
+      } catch {
         document.documentElement.dataset.theme = 'light';
       }
     </script>
@@ -35,17 +35,10 @@
   <body class="legal-body">
     <main class="legal-shell">
       <header class="legal-top">
-        <a href="index.html" class="brand-block" aria-label="KORΛ, volver a la aplicación"
-          ><span class="brand-logo-pair" aria-hidden="true"
-            ><img
-              class="brand-logo-on-light"
-              src="branding/10_logotipo_korlambda_oscuro.svg"
-              alt="" /><img
-              class="brand-logo-on-dark"
-              src="branding/11_logotipo_korlambda_claro.svg"
-              alt="" /></span
-          ><span>Legal</span></a
-        >
+        <a href="index.html" class="brand-block" aria-label="KORΛ, volver a la aplicación">
+          <span class="brand-word">KORΛ</span>
+          <span class="brand-subtitle">Legal</span>
+        </a>
 
         <nav class="legal-tabs" data-legal-tabs></nav>
       </header>

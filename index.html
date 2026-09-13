@@ -24,7 +24,7 @@
         const raw = localStorage.getItem('kora-corte3-state');
         const state = raw ? JSON.parse(raw) : null;
         document.documentElement.dataset.theme = state?.theme === 'dark' ? 'dark' : 'light';
-      } catch (error) {
+      } catch {
         document.documentElement.dataset.theme = 'light';
       }
     </script>
@@ -35,16 +35,10 @@
   <body>
     <div class="app-shell">
       <aside class="sidebar" aria-label="Navegación principal">
-        <a class="brand-block" href="index.html" aria-label="KORΛ, ir al inicio"
-          ><span class="brand-logo-pair" aria-hidden="true"
-            ><img
-              class="brand-logo-on-light"
-              src="branding/10_logotipo_korlambda_oscuro.svg"
-              alt="" /><img
-              class="brand-logo-on-dark"
-              src="branding/11_logotipo_korlambda_claro.svg"
-              alt="" /></span
-        ></a>
+        <a class="brand-block" href="index.html" aria-label="KORΛ, ir al inicio">
+          <span class="brand-word">KORΛ</span>
+          <span class="brand-subtitle">Discover</span>
+        </a>
 
         <button class="profile-pill" type="button" data-go-login>
           <span class="avatar-shell"
@@ -269,9 +263,14 @@
             </svg>
           </button>
 
-          <a class="mobile-brand app-mark" href="index.html" aria-label="KORΛ, ir al inicio"
-            ><img src="branding/21_icono_app_naranja.svg" alt=""
-          /></a>
+          <a class="mobile-brand" href="index.html" aria-label="KORΛ, ir al inicio">
+            <span class="brand-word">KORΛ</span>
+          </a>
+
+          <div class="topbar-context" aria-live="polite">
+            <strong data-topbar-title>Descubrir</strong>
+            <small data-topbar-subtitle>música emergente</small>
+          </div>
 
           <div class="topbar-actions" aria-label="Acciones de la aplicación">
             <button
@@ -365,8 +364,8 @@
             <article class="panel-card discover-summary-card" data-discover-summary>
               <div class="panel-head">
                 <div>
-                  <p class="eyebrow">Qué vas a encontrar</p>
-                  <h2>Historias, hallazgos y comunidad local</h2>
+                  <p class="eyebrow">Cómo funciona</p>
+                  <h2>30 segundos para decidir qué merece quedarse.</h2>
                 </div>
                 <button
                   class="soft-button"
@@ -380,34 +379,24 @@
 
               <div class="discover-summary-content" data-discover-summary-content>
                 <p>
-                  En KORΛ cada canción llega con una historia de escena, barrio o comunidad. El
-                  usuario escucha una cápsula breve, guarda lo que quiere recordar y ve cómo otras
-                  personas participan alrededor de ese hallazgo.
+                  Escucha primero. Abre el contexto cuando lo necesites. Guarda solo lo que conecte
+                  contigo.
                 </p>
 
                 <div class="role-action-grid">
                   <article class="role-feature">
                     <strong>Historia local</strong
-                    ><span
-                      >Cada cápsula muestra por qué la canción importa en una escena, barrio o
-                      comunidad.</span
-                    >
+                    ><span>El contexto aparece sin interrumpir la música.</span>
                   </article>
 
                   <article class="role-feature">
                     <strong>Memoria musical</strong
-                    ><span
-                      >Los hallazgos guardados vuelven al tablero con razones, notas y
-                      recordatorios.</span
-                    >
+                    ><span>Lo que guardas vuelve a ti como memoria musical.</span>
                   </article>
 
                   <article class="role-feature">
                     <strong>Descubrimiento social</strong
-                    ><span
-                      >Amigos, curadores y artistas convierten la escucha en conversación y
-                      recomendación.</span
-                    >
+                    ><span>La comunidad aporta señales humanas, no ruido.</span>
                   </article>
                 </div>
               </div>
@@ -417,12 +406,11 @@
               <div>
                 <p class="eyebrow">Cápsulas locales</p>
 
-                <h1>Descubre artistas emergentes con contexto cultural.</h1>
+                <h1>Descubre lo próximo.</h1>
               </div>
 
               <div class="section-actions">
-                <button class="soft-button" type="button" data-open-view-guide>
-                  ¿Qué encuentro aquí?</button
+                <button class="soft-button" type="button" data-open-view-guide>Cómo funciona</button
                 ><button class="soft-button" type="button" data-next-artist>
                   Siguiente cápsula
                 </button>
@@ -504,7 +492,7 @@
             <div class="section-heading player-section-heading">
               <div>
                 <p class="eyebrow">Escucha activa</p>
-                <h1>Escucha la cápsula. Decide qué sigue.</h1>
+                <h1>Escucha. Guarda. Sigue.</h1>
               </div>
               <div class="section-actions">
                 <button
@@ -661,12 +649,11 @@
             <div class="section-heading">
               <div>
                 <p class="eyebrow">Feed social</p>
-                <h1>Interacción con artistas, curadores y escena local.</h1>
+                <h1>La escena está hablando.</h1>
               </div>
 
               <div class="section-actions">
-                <button class="soft-button" type="button" data-open-view-guide>
-                  ¿Qué encuentro aquí?</button
+                <button class="soft-button" type="button" data-open-view-guide>Cómo funciona</button
                 ><button class="primary-button" type="button" data-add-playlist>
                   Sumar a playlist local
                 </button>
@@ -682,11 +669,7 @@
                 <span class="counter-pill">Feed público</span>
               </div>
 
-              <p>
-                El feed muestra lo que guardan, comentan y comparten otros usuarios para que el
-                descubrimiento tenga criterio social, memoria local y conversación visible dentro de
-                la plataforma.
-              </p>
+              <p>Comentarios, reposts y guardados que añaden criterio al descubrimiento.</p>
             </article>
 
             <div class="interaction-layout">
@@ -925,7 +908,7 @@
             <div class="section-heading">
               <div>
                 <p class="eyebrow">Perfil activo</p>
-                <h1>Tu memoria, actividad y espacio dentro de KORΛ.</h1>
+                <h1>Tu espacio en KORΛ.</h1>
               </div>
               <button class="soft-button" type="button" data-open-view-guide>
                 ¿Qué encuentro aquí?
@@ -1028,17 +1011,8 @@
     <div class="consent-overlay" data-consent-overlay hidden>
       <section class="consent-card" role="dialog" aria-modal="true" aria-labelledby="consent-title">
         <div class="consent-brand" aria-label="KORΛ">
-          <span class="brand-logo-pair" aria-hidden="true"
-            ><img
-              class="brand-logo-on-light"
-              src="branding/10_logotipo_korlambda_oscuro.svg"
-              alt="" /><img
-              class="brand-logo-on-dark"
-              src="branding/11_logotipo_korlambda_claro.svg"
-              alt=""
-          /></span>
+          <span class="brand-word">KORΛ</span>
         </div>
-
         <h2 id="consent-title">Términos y condiciones</h2>
 
         <p class="consent-role-lead" data-consent-role-lead>
@@ -1086,7 +1060,10 @@
     <div class="toast" data-toast aria-live="polite"></div>
 
     <script src="js/data.js"></script>
-
+    <script src="js/app/core.js"></script>
+    <script src="js/app/discover-player.js"></script>
+    <script src="js/app/community-account.js"></script>
+    <script src="js/app/overlays.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

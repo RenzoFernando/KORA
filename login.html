@@ -24,7 +24,7 @@
         const raw = localStorage.getItem('kora-corte3-state');
         const state = raw ? JSON.parse(raw) : null;
         document.documentElement.dataset.theme = state?.theme === 'dark' ? 'dark' : 'light';
-      } catch (error) {
+      } catch {
         document.documentElement.dataset.theme = 'light';
       }
     </script>
@@ -38,15 +38,8 @@
         <section class="login-panel auth-panel login-primary-card">
           <div class="auth-card-main">
             <div class="login-brand-row" aria-label="KORΛ">
-              <span class="brand-logo-pair" aria-hidden="true"
-                ><img
-                  class="brand-logo-on-light"
-                  src="branding/10_logotipo_korlambda_oscuro.svg"
-                  alt="" /><img
-                  class="brand-logo-on-dark"
-                  src="branding/11_logotipo_korlambda_claro.svg"
-                  alt="" /></span
-              ><span>Acceso seguro</span>
+              <span class="brand-word">KORΛ</span>
+              <span>Acceso seguro</span>
             </div>
 
             <div class="panel-head">
@@ -123,32 +116,24 @@
             <div>
               <p class="eyebrow">Qué es KORΛ</p>
 
-              <h1>Descubre música emergente con historia, comunidad y memoria local.</h1>
+              <h1>Música nueva, antes de que sea obvia.</h1>
 
               <p>
-                En KORΛ encuentras artistas de la escena local, entiendes su contexto cultural,
-                guardas hallazgos y los compartes con una comunidad musical.
+                Descubre artistas emergentes en cápsulas breves. El contexto aparece cuando
+                realmente aporta.
               </p>
             </div>
 
             <div class="login-brand-symbol" aria-label="KORΛ">
-              <span class="brand-symbol-pair" aria-hidden="true"
-                ><img
-                  class="brand-logo-on-light"
-                  src="branding/01_isotipo_positivo.svg"
-                  alt="" /><img
-                  class="brand-logo-on-dark"
-                  src="branding/02_isotipo_negativo.svg"
-                  alt=""
-              /></span>
+              <span class="login-brand-glyph" aria-hidden="true">Λ</span>
             </div>
           </section>
 
           <section class="login-panel compact-login-info">
             <div class="panel-head">
               <div>
-                <p class="eyebrow">Qué vas a encontrar</p>
-                <h2>Cinco acciones clave</h2>
+                <p class="eyebrow">En KORΛ</p>
+                <h2>Escuchar es el centro.</h2>
               </div>
               <span class="counter-pill">Antes de entrar</span>
             </div>

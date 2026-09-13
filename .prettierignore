@@ -1,8 +1,8 @@
 node_modules/
 Branding/
 branding/
-assets/audio/
-assets/img/
+audio/
+img/
 dist/
 build/
 coverage/

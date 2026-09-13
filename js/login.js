@@ -23,7 +23,7 @@ function toast(message) {
 function loadState() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-  } catch (error) {
+  } catch {
     return {};
   }
 }
@@ -54,7 +54,7 @@ function saveProfile(profile) {
 function createdProfiles() {
   try {
     return JSON.parse(localStorage.getItem(CREATED_KEY) || '[]');
-  } catch (error) {
+  } catch {
     return [];
   }
 }
@@ -99,10 +99,6 @@ function renderProfiles() {
         })
         .join('')
     : '<div class="empty-state">Aún no hay usuarios creados en este navegador.</div>';
-}
-
-function roleLabel(role) {
-  return roleDefinition(role).label;
 }
 
 function createProfileFromForm(form) {

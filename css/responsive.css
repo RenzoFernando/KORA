@@ -1,0 +1,456 @@
+@media (max-width: 1180px) {
+  :root {
+    --sidebar-width: 230px;
+  }
+
+  .content-area {
+    padding-inline: 22px;
+  }
+
+  .plan-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .login-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1100px) {
+  :root {
+    --sidebar-width: 270px;
+  }
+
+  .sidebar {
+    transform: translateX(-104%);
+    box-shadow: var(--shadow-lg);
+    transition: transform 220ms ease;
+  }
+
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+    display: block;
+    border: 0;
+    background: rgba(8, 8, 10, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--ease);
+  }
+
+  body.sidebar-open .sidebar-scrim {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .workspace {
+    margin-left: 0;
+  }
+
+  .topbar {
+    padding-inline: 18px;
+  }
+
+  [data-mobile-menu],
+  .mobile-brand {
+    display: inline-grid;
+  }
+
+  .mobile-brand {
+    margin-left: 8px;
+  }
+
+  .mobile-brand .brand-word {
+    font-size: 1.2rem;
+  }
+
+  .topbar-actions {
+    margin-left: auto;
+  }
+
+  .interaction-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-panel {
+    position: static;
+  }
+
+  .now-playing-bar {
+    width: min(620px, calc(100vw - 36px));
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-panel,
+  .player-panel,
+  .player-fullscreen-body,
+  .login-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-panel {
+    min-height: 0;
+  }
+
+  .hero-art {
+    width: min(100%, 330px);
+    justify-self: start;
+    order: -1;
+    transform: none;
+  }
+
+  .player-panel .cover-art {
+    width: min(100%, 420px);
+  }
+
+  .player-fullscreen-cover {
+    width: min(100%, 420px);
+  }
+
+  .login-primary-card {
+    position: static;
+  }
+
+  .role-action-grid,
+  .profile-summary-grid,
+  .role-dashboard-grid,
+  .role-aware-metrics,
+  .community-signal-grid,
+  .phase-mini-grid,
+  .artist-health-grid,
+  .scouting-responsible-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .discover-summary-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --topbar-height: 64px;
+  }
+
+  body {
+    padding-bottom: 72px;
+  }
+
+  .content-area {
+    padding: 20px 14px 120px;
+  }
+
+  .topbar {
+    height: var(--topbar-height);
+    padding-inline: 12px;
+  }
+
+  .help-top-icon {
+    display: none;
+  }
+
+  .top-icon,
+  .icon-button {
+    width: 38px;
+    height: 38px;
+  }
+
+  .section-heading {
+    display: grid;
+    gap: 12px;
+    margin: 26px 0 14px;
+  }
+
+  .section-actions {
+    justify-content: flex-start;
+  }
+
+  .section-heading h1 {
+    font-size: 2rem;
+  }
+
+  .hero-panel {
+    gap: 22px;
+    border-radius: var(--radius-lg);
+    padding: 18px;
+  }
+
+  .hero-copy h1 {
+    font-size: 2.35rem;
+  }
+
+  .hero-art {
+    width: min(100%, 280px);
+    border-radius: 22px;
+  }
+
+  .hero-copy .tag-row .tag:nth-child(n + 3) {
+    display: none;
+  }
+
+  .hero-copy .action-row .soft-button:last-child {
+    display: none;
+  }
+
+  .capsule-carousel {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel-button {
+    display: none;
+  }
+
+  .capsule-grid {
+    margin-inline: -14px;
+    padding-inline: 14px;
+    scroll-snap-type: x proximity;
+  }
+
+  .capsule-card {
+    --card-width: min(78vw, 272px);
+    scroll-snap-align: start;
+  }
+
+  .two-column,
+  .billing-grid,
+  .publish-layout,
+  .player-secondary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .player-panel {
+    gap: 22px;
+    border-radius: var(--radius-lg);
+    padding: 18px;
+  }
+
+  .player-copy h1 {
+    font-size: 2.3rem;
+  }
+
+  .player-quick-actions {
+    justify-content: flex-start;
+  }
+
+  .player-mode-action {
+    display: none;
+  }
+
+  .feed-body-head {
+    display: block;
+  }
+
+  .feed-body-head .counter-pill {
+    margin-top: 10px;
+  }
+
+  .community-tags > span:nth-child(n + 3),
+  .social-stats-row {
+    display: none;
+  }
+
+  .panel-card {
+    padding: 17px;
+  }
+
+  .plan-grid,
+  .login-grid,
+  .role-action-grid,
+  .profile-summary-grid,
+  .role-dashboard-grid,
+  .role-aware-metrics,
+  .community-signal-grid,
+  .phase-mini-grid,
+  .artist-health-grid,
+  .scouting-responsible-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 3px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface-glass);
+    padding: 6px;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(24px);
+  }
+
+  .bottom-nav button {
+    display: grid;
+    min-height: 48px;
+    place-items: center;
+    gap: 2px;
+    border: 0;
+    border-radius: 14px;
+    background: transparent;
+    color: var(--faint);
+    font-size: 0.59rem;
+  }
+
+  .bottom-nav button.is-active {
+    background: rgba(241, 135, 28, 0.12);
+    color: var(--accent);
+  }
+
+  .bottom-nav .nav-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .bottom-nav .nav-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .bottom-nav button[data-view-target='billing'] {
+    display: none;
+  }
+
+  .now-playing-bar {
+    right: 8px;
+    bottom: 76px;
+    width: calc(100vw - 16px);
+    border-radius: 18px;
+  }
+
+  .mini-now-controls .icon-button:nth-of-type(1),
+  .mini-now-controls .icon-button:nth-of-type(3),
+  .mini-now-controls .icon-button:nth-of-type(4),
+  .mini-now-controls .icon-button:nth-of-type(5) {
+    display: none;
+  }
+
+  .modal-layer,
+  .consent-overlay {
+    align-items: end;
+    padding: 10px;
+  }
+
+  .modal-layer > article,
+  .modal-layer > section,
+  .modal-layer > div:not(.player-fullscreen-backdrop),
+  .consent-card {
+    width: 100%;
+    max-height: 88vh;
+    border-radius: 26px;
+    padding: 19px;
+  }
+
+  .theme-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .player-fullscreen-backdrop {
+    align-items: end;
+    padding: 8px;
+  }
+
+  .player-fullscreen-shell {
+    max-height: 92vh;
+    overflow-y: auto;
+    border-radius: 26px;
+  }
+
+  .player-fullscreen-body {
+    gap: 22px;
+    padding: 14px 18px 24px;
+  }
+
+  .login-shell,
+  .legal-shell {
+    width: min(100% - 24px, 1240px);
+    padding-top: 16px;
+  }
+
+  .login-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    border-radius: var(--radius-lg);
+    padding: 22px;
+  }
+
+  .login-brand-symbol {
+    width: 72px;
+    height: 72px;
+  }
+
+  .legal-top {
+    position: static;
+    display: grid;
+    gap: 8px;
+  }
+
+  .legal-tabs {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 2px;
+  }
+
+  .legal-document {
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (max-width: 440px) {
+  .topbar-actions .top-icon:nth-child(2) {
+    display: none;
+  }
+
+  .hero-copy h1,
+  .player-copy h1 {
+    font-size: 2rem;
+  }
+
+  .capsule-card {
+    --card-width: 82vw;
+  }
+
+  .profile-hero-mini,
+  .role-profile-hero {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .profile-hero-mini > :last-child,
+  .role-profile-hero > :last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar-context {
+    display: none;
+  }
+
+  .friend-layout,
+  .phase-panel-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .player-fullscreen-meta {
+    gap: 12px;
+  }
+
+  .player-fullscreen-side-actions {
+    gap: 5px;
+  }
+
+  .player-icon-button {
+    width: 38px;
+    height: 38px;
+  }
+}
