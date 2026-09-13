@@ -1,4 +1,4 @@
-/* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, addCommunityEvent, allProfiles, ambassadorDashboard, applyInterfacePreferences, artistAuthorizationCards, artistById, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, audioContext, audioPlayer, avatarMarkup, bindEvents, capsuleLoopTimer, capsuleSequenceWidth, closeModal, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, completeViewGuide, createdProfiles, curatorDashboard, currentView, defaultState, ecosystemConfig, escapeHtml, explorerDashboard, fallbackNodes, finishOnboarding, formatCommunityTime, formatMemoryDate, formatTime, generateInvoice, getAudioPlayer, handleConsentForm, handleGlobalClick, iconActionMarkup, imgMarkup, lastRoleSignal, legalConsentCopy, legalDocLink, loadState, logoutSession, lowerAccount, maybeShowViewGuide, memoryArtistCard, memoryReminderItems, money, normalizeCapsuleLoop, nowPlayingHideTimer, phasePrototypePanel, playTimer, playerFullscreenContent, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishTrack, publishedProfileCard, qs, qsa, registerResponsibleScout, remindOnboardingLater, remindViewGuideLater, removeSaved, renderAll, renderBilling, renderCapsules, renderDiscoverSummary, renderHero, renderInteraction, renderNowPlaying, renderPlayer, renderProfile, renderProfileChrome, renderPrototypePanels, renderPublished, renderSaved, renderSidebarSession, replaySaved, repostArtist, repostCurrent, resetEverything, roleActionButtons, roleDashboard, roleDefinition, roleFeatureCards, roleLegalCopy, roleMetricItems, roleWorkspace, runtimeArtists, saveArtist, saveState, savedReason, scrollActiveCapsuleIntoView, scrollCapsules, sessionMedia, setCurrentArtist, setView, shareCurrent, showActionGuide, showLegalGate, showModal, showSaveNote, showWelcomeOnboarding, startClock, startFallbackAudio, startPlayback, statPill, state, stopFallbackAudio, stopPlayback, submitSaveNote, svgIcon, syncViewChrome, toast, toggleLikeArtist, toggleLikeCurrent, togglePlay, updateFileLabel, viewChromeCopy, viewGuideCopy, viewGuideKey */
+/* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, addCommunityEvent, allProfiles, ambassadorDashboard, applyInterfacePreferences, artistAuthorizationCards, artistById, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, audioContext, audioPlayer, avatarMarkup, bindEvents, capsuleLoopTimer, capsuleSequenceWidth, closeModal, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, completeViewGuide, createdProfiles, curatorDashboard, currentView, defaultState, ecosystemConfig, escapeHtml, explorerDashboard, fallbackNodes, finishOnboarding, formatCommunityTime, formatMemoryDate, formatTime, generateInvoice, getAudioPlayer, handleConsentForm, handleGlobalClick, iconActionMarkup, imgMarkup, lastRoleSignal, legalConsentCopy, legalDocLink, loadState, logoutSession, lowerAccount, maybeShowViewGuide, memoryArtistCard, memoryReminderItems, money, normalizeCapsuleLoop, nowPlayingHideTimer, ecosystemOverviewPanel, playTimer, playerFullscreenContent, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishTrack, publishedProfileCard, qs, qsa, registerResponsibleScout, remindOnboardingLater, remindViewGuideLater, removeSaved, renderAll, renderBilling, renderCapsules, renderDiscoverSummary, renderHero, renderInteraction, renderNowPlaying, renderPlayer, renderProfile, renderProfileChrome, renderEcosystemPanels, renderPublished, renderSaved, renderSidebarSession, replaySaved, repostArtist, repostCurrent, resetEverything, roleActionButtons, roleDashboard, roleDefinition, roleFeatureCards, roleLegalCopy, roleMetricItems, roleWorkspace, runtimeArtists, saveArtist, saveState, savedReason, scrollActiveCapsuleIntoView, scrollCapsules, sessionMedia, setCurrentArtist, setView, shareCurrent, showActionGuide, showLegalGate, showModal, showSaveNote, showWelcomeOnboarding, startClock, startFallbackAudio, startPlayback, statPill, state, stopFallbackAudio, stopPlayback, submitSaveNote, svgIcon, syncViewChrome, toast, toggleLikeArtist, toggleLikeCurrent, togglePlay, updateFileLabel, viewChromeCopy, viewGuideCopy, viewGuideKey */
 /* exported activeProfileNameParts, applyQuickComment, applyVoiceComment, dismissNotification, notificationBelongsToActiveProfile, personalizeBaseNotification, renderNotificationBadge, runAiAction, settingEnabled, settingsToggleRow, showAiAssistant, showCommentComposer, showFriendsPanel, showNotificationsPanel, showPlayerFullscreen, showSettingsPanel, showSharePanel, submitComment, submitFriendMessage, toggleSetting, unreadNotifications */
 
 function showPlayerFullscreen() {
@@ -9,7 +9,7 @@ function showAiAssistant() {
   const artist = activeArtist();
 
   showModal(
-    `<h2>KORΛ AI</h2><p>Estoy leyendo la cápsula activa y el contexto cultural para ayudarte a decidir rápido.</p><div class="ai-card"><strong>${escapeHtml(artist.track)} · ${escapeHtml(artist.name)}</strong><p>${escapeHtml(artist.story)}</p><span class="status-chip">Pregunta sugerida: ¿por qué este artista importa en Cali?</span></div><div class="settings-list"><button class="soft-button full" type="button" data-ai-action="recommend">Recomiéndame algo parecido</button><button class="soft-button full" type="button" data-ai-action="summary">Resume el contexto cultural</button><button class="soft-button full" type="button" data-ai-action="playlist">Crear playlist con este sonido</button></div><div class="ai-output" data-ai-output><strong>Listo para ayudarte.</strong><span>Elige una acción para generar una respuesta personalizada.</span></div><button class="primary-button full" type="button" data-close-modal>Cerrar</button>`
+    `<h2>KORΛ IA</h2><p>Estoy leyendo la cápsula activa y el contexto cultural para ayudarte a decidir rápido.</p><div class="ai-card"><strong>${escapeHtml(artist.track)} · ${escapeHtml(artist.name)}</strong><p>${escapeHtml(artist.story)}</p><span class="status-chip">Pregunta sugerida: ¿por qué este artista importa en Cali?</span></div><div class="settings-list"><button class="soft-button full" type="button" data-ai-action="recommend">Recomiéndame algo parecido</button><button class="soft-button full" type="button" data-ai-action="summary">Resume el contexto cultural</button><button class="soft-button full" type="button" data-ai-action="playlist">Crear lista con este sonido</button></div><div class="ai-output" data-ai-output><strong>Listo para ayudarte.</strong><span>Elige una acción para generar una respuesta personalizada.</span></div><button class="primary-button full" type="button" data-close-modal>Cerrar</button>`
   );
 }
 
@@ -23,7 +23,7 @@ function runAiAction(action) {
   output.classList.add('is-thinking');
 
   output.innerHTML =
-    '<strong>KORΛ AI está escribiendo...</strong><span>Analizando sonido, barrio, afinidad y señales de guardado.</span>';
+    '<strong>KORΛ IA está escribiendo...</strong><span>Analizando sonido, barrio, afinidad y señales de guardado.</span>';
 
   setTimeout(() => {
     output.classList.remove('is-thinking');
@@ -44,15 +44,15 @@ function runAiAction(action) {
       return;
     }
 
-    output.innerHTML = `<strong>Playlist creada</strong><span>Organicé una ruta con ${escapeHtml(artist.track)}, Barrio Norte y Tierra Sonora para combinar identidad local, descubrimiento rápido y alta probabilidad de guardado.</span>`;
+    output.innerHTML = `<strong>Lista creada</strong><span>Organicé una ruta con ${escapeHtml(artist.track)}, Barrio Norte y Tierra Sonora para combinar identidad local, descubrimiento rápido y alta probabilidad de guardado.</span>`;
   }, 850);
 }
 
-function showSharePanel() {
+function showSharePanel(payload = null) {
   const artist = activeArtist();
-
+  const url = payload?.url || new URL('index.html', window.location.href).href;
   showModal(
-    `<h2>Compartir cápsula</h2><p>Elige cómo quieres compartir ${escapeHtml(artist.track)}.</p><div class="settings-list"><button class="soft-button full" type="button" data-open-friends>Compartir con amigos</button><button class="soft-button full" type="button">Copiar enlace de KORΛ</button><button class="soft-button full" type="button">Enviar a WhatsApp</button><button class="soft-button full" type="button">Publicar en Instagram</button><button class="soft-button full" type="button">Compartir en Facebook</button></div><button class="primary-button full" type="button" data-close-modal>Cerrar</button>`
+    `<div class="share-fallback"><div class="modal-icon" aria-hidden="true">${svgIcon('share')}</div><h2>Compartir cápsula</h2><p>Tu navegador no permitió abrir el menú de compartir. Copia este enlace para enviar ${escapeHtml(artist.track)}.</p><label>Enlace<input type="text" readonly value="${escapeHtml(url)}" data-share-fallback-input></label><button class="primary-button full" type="button" data-copy-fallback-link>${svgIcon('copy')}<span>Copiar enlace</span></button><button class="soft-button full" type="button" data-close-modal>Cerrar</button></div>`
   );
 }
 
@@ -68,39 +68,19 @@ function showSettingsPanel() {
   const lightActive = state.theme !== 'dark';
   const darkActive = !lightActive;
   const privacyRows = [
-    settingsToggleRow(
-      'notifications',
-      'Notificaciones',
-      'Avisos de lanzamientos, comentarios y actividad relevante.',
-      'blue'
-    ),
-    settingsToggleRow(
-      'privateMode',
-      'Modo privado',
-      'Reduce temporalmente la visibilidad de tu actividad de escucha.',
-      'turquoise'
-    ),
+    settingsToggleRow('notifications', 'Notificaciones', 'Avisos de lanzamientos, comentarios y actividad relevante.', 'blue'),
+    settingsToggleRow('privateMode', 'Modo privado', 'Reduce temporalmente la visibilidad de tu actividad de escucha.', 'turquoise'),
   ].join('');
   const interfaceRows = [
-    settingsToggleRow(
-      'compactMode',
-      'Interfaz compacta',
-      'Reduce espacios sin esconder funciones.',
-      'pink'
-    ),
-    settingsToggleRow(
-      'highContrast',
-      'Contraste reforzado',
-      'Aumenta la separación visual de bordes y superficies.',
-      'green'
-    ),
+    settingsToggleRow('compactMode', 'Interfaz compacta', 'Reduce espacios sin esconder funciones.', 'pink'),
+    settingsToggleRow('highContrast', 'Contraste reforzado', 'Aumenta la separación visual de bordes y superficies.', 'green'),
   ].join('');
 
   showModal(
     `<div class="panel-head"><div><p class="eyebrow">Preferencias</p><h2>Ajustes</h2></div><button class="icon-button" type="button" data-close-modal aria-label="Cerrar">${svgIcon('close')}</button></div>
     <div class="settings-section"><p class="settings-section-title">Apariencia</p><div class="theme-choice-grid">
-      <button class="theme-choice ${lightActive ? 'is-active' : ''}" type="button" data-set-theme="light"><span class="theme-swatch light"></span><span><strong>Claro</strong><small>Blanco predominante</small></span><span class="theme-check">${lightActive ? '✓' : ''}</span></button>
-      <button class="theme-choice ${darkActive ? 'is-active' : ''}" type="button" data-set-theme="dark"><span class="theme-swatch dark"></span><span><strong>Oscuro</strong><small>#0F0F12</small></span><span class="theme-check">${darkActive ? '✓' : ''}</span></button>
+      <button class="theme-choice ${lightActive ? 'is-active' : ''}" type="button" data-set-theme="light"><span class="theme-swatch light"></span><span><strong>Claro</strong></span><span class="theme-check">${lightActive ? '✓' : ''}</span></button>
+      <button class="theme-choice ${darkActive ? 'is-active' : ''}" type="button" data-set-theme="dark"><span class="theme-swatch dark"></span><span><strong>Oscuro</strong></span><span class="theme-check">${darkActive ? '✓' : ''}</span></button>
     </div></div>
     <div class="settings-section"><p class="settings-section-title">Reproducción</p><div class="settings-list">
       <article class="settings-row"><div><strong>Aleatorio</strong><p>Mezcla el orden de las cápsulas.</p></div><button class="switch-button ${state.shuffle ? 'is-on' : ''}" type="button" data-toggle-shuffle aria-pressed="${state.shuffle}"><span></span></button></article>
@@ -292,7 +272,7 @@ function showFriendsPanel() {
     .join('');
 
   showModal(
-    `<h2>Amigos y actividad</h2><p>Comparte la cápsula activa y revisa qué está moviendo la comunidad sin depender de un chat privado.</p><div class="friend-layout"><div class="settings-list"><article class="privacy-card"><strong>Actividad comunitaria reciente</strong><p>Guardados, comentarios, reposts y playlists aparecen como señales visibles.</p></article>${communityActivityCards(6)}</div><form class="friend-chat-form" data-friend-chat-form><label>Amigo<select name="friend">${friends}</select></label><label>Mensaje<textarea name="message" data-friend-message-text>Escucha ${escapeHtml(artist.track)} de ${escapeHtml(artist.name)}. Creo que conecta con tu playlist local.</textarea></label><button class="primary-button full" type="submit">Enviar cápsula al chat</button></form></div><div class="chat-thread">${messages}</div><button class="soft-button full" type="button" data-close-modal>Cerrar</button>`
+    `<h2>Amigos y actividad</h2><p>Comparte la cápsula activa y revisa qué está moviendo la comunidad sin depender de un chat privado.</p><div class="friend-layout"><div class="settings-list"><article class="privacy-card"><strong>Actividad comunitaria reciente</strong><p>Guardados, comentarios, recomendaciones y listas aparecen como señales visibles.</p></article>${communityActivityCards(6)}</div><form class="friend-chat-form" data-friend-chat-form><label>Amigo<select name="friend">${friends}</select></label><label>Mensaje<textarea name="message" data-friend-message-text>Escucha ${escapeHtml(artist.track)} de ${escapeHtml(artist.name)}. Creo que conecta con tu lista local.</textarea></label><button class="primary-button full" type="submit">Enviar cápsula al chat</button></form></div><div class="chat-thread">${messages}</div><button class="soft-button full" type="button" data-close-modal>Cerrar</button>`
   );
 }
 
@@ -330,7 +310,7 @@ function showCommentComposer(postId) {
   const artist = artistById(post.artistId) || activeArtist();
 
   showModal(
-    `<h2>${escapeHtml(post.cta)}</h2><p>${escapeHtml(artist.name)} está esperando una señal de la comunidad sobre ${escapeHtml(post.title.toLowerCase())}.</p><form class="comment-form social-comment-form" data-comment-form data-post-id="${escapeHtml(postId)}"><div class="quick-comment-grid"><button class="soft-button compact-button" type="button" data-quick-comment="Me conecta por el barrio y la historia local.">${svgIcon('comment')}<span>Contexto</span></button><button class="soft-button compact-button" type="button" data-quick-comment="Voto por la línea con más identidad caleña.">${svgIcon('heart')}<span>Voto</span></button><button class="soft-button compact-button" type="button" data-quick-comment="Guardaría esta cápsula para compartirla con amigos.">${svgIcon('share')}<span>Share</span></button><button class="soft-button compact-button" type="button" data-voice-comment>${svgIcon('friends')}<span>Voz</span></button></div><label>Comentario<textarea name="comment" data-comment-text required placeholder="Escribe tu aporte"></textarea></label><div class="social-comment-actions"><button class="soft-button" type="button" data-close-modal>Cancelar</button><button class="primary-button" type="submit">Publicar</button></div></form>`,
+    `<h2>${escapeHtml(post.cta)}</h2><p>${escapeHtml(artist.name)} está esperando una señal de la comunidad sobre ${escapeHtml(post.title.toLowerCase())}.</p><form class="comment-form social-comment-form" data-comment-form data-post-id="${escapeHtml(postId)}"><div class="quick-comment-grid"><button class="soft-button compact-button" type="button" data-quick-comment="Me conecta por el barrio y la historia local.">${svgIcon('comment')}<span>Contexto</span></button><button class="soft-button compact-button" type="button" data-quick-comment="Voto por la línea con más identidad caleña.">${svgIcon('heart')}<span>Voto</span></button><button class="soft-button compact-button" type="button" data-quick-comment="Guardaría esta cápsula para compartirla con amigos.">${svgIcon('share')}<span>Compartir</span></button><button class="soft-button compact-button" type="button" data-voice-comment>${svgIcon('friends')}<span>Voz</span></button></div><label>Comentario<textarea name="comment" data-comment-text required placeholder="Escribe tu aporte"></textarea></label><div class="social-comment-actions"><button class="soft-button" type="button" data-close-modal>Cancelar</button><button class="primary-button" type="submit">Publicar</button></div></form>`,
     'social-comment-modal'
   );
 }
@@ -396,5 +376,5 @@ function applyVoiceComment() {
   area.value =
     'Aporte de voz: esta cápsula tiene una entrada clara y representa bien la escena local.';
 
-  toast('Grabación simulada añadida como aporte de voz.');
+  toast('Texto de aporte de voz añadido.');
 }

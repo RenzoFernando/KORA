@@ -65,7 +65,7 @@ function writeCreatedProfiles(profiles) {
 
 function avatarMarkup(profile) {
   if (profile.avatar)
-    return `<span class="avatar-shell"><img src="${escapeHtml(profile.avatar)}" alt="${escapeHtml(profile.name)}" onerror="this.classList.add('is-hidden')"><span>${escapeHtml(profile.initial || profile.name.slice(0, 1))}</span></span>`;
+    return `<span class="avatar-shell"><img src="${escapeHtml(profile.avatar)}" alt="${escapeHtml(profile.name)}" width="256" height="256" loading="lazy" decoding="async" onerror="this.classList.add('is-hidden')"><span>${escapeHtml(profile.initial || profile.name.slice(0, 1))}</span></span>`;
   return `<span class="avatar-shell"><span>${escapeHtml(profile.initial || profile.name.slice(0, 1))}</span></span>`;
 }
 
@@ -100,6 +100,7 @@ function renderProfiles() {
         .join('')
     : '<div class="empty-state">Aún no hay usuarios creados en este navegador.</div>';
 }
+
 
 function createProfileFromForm(form) {
   const data = new FormData(form);

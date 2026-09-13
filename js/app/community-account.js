@@ -1,12 +1,12 @@
 /* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, activeProfileNameParts, addCommunityEvent, allProfiles, applyInterfacePreferences, applyQuickComment, applyVoiceComment, artistById, audioContext, audioPlayer, avatarMarkup, bindEvents, capsuleLoopTimer, capsuleSequenceWidth, closeModal, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, completeViewGuide, createdProfiles, currentView, defaultState, dismissNotification, escapeHtml, fallbackNodes, finishOnboarding, formatCommunityTime, formatMemoryDate, formatTime, getAudioPlayer, handleConsentForm, handleGlobalClick, iconActionMarkup, imgMarkup, legalConsentCopy, legalDocLink, loadState, logoutSession, lowerAccount, maybeShowViewGuide, memoryReminderItems, money, normalizeCapsuleLoop, notificationBelongsToActiveProfile, nowPlayingHideTimer, personalizeBaseNotification, playTimer, playerFullscreenContent, publishTrack, qs, qsa, remindOnboardingLater, remindViewGuideLater, removeSaved, renderAll, renderCapsules, renderHero, renderNotificationBadge, renderPlayer, renderProfileChrome, renderSaved, renderSidebarSession, replaySaved, repostArtist, repostCurrent, resetEverything, roleActionButtons, roleDefinition, roleFeatureCards, roleLegalCopy, runAiAction, runtimeArtists, saveArtist, saveState, savedReason, scrollActiveCapsuleIntoView, scrollCapsules, sessionMedia, setCurrentArtist, setView, settingEnabled, settingsToggleRow, shareCurrent, showActionGuide, showAiAssistant, showCommentComposer, showFriendsPanel, showLegalGate, showModal, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, showWelcomeOnboarding, startClock, startFallbackAudio, startPlayback, statPill, state, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, svgIcon, syncViewChrome, toast, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, updateFileLabel, viewChromeCopy, viewGuideCopy, viewGuideKey */
-/* exported ambassadorDashboard, artistAuthorizationCards, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, curatorDashboard, ecosystemConfig, explorerDashboard, generateInvoice, lastRoleSignal, memoryArtistCard, phasePrototypePanel, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishedProfileCard, registerResponsibleScout, renderBilling, renderDiscoverSummary, renderInteraction, renderNowPlaying, renderProfile, renderPrototypePanels, renderPublished, roleDashboard, roleMetricItems, roleWorkspace */
+/* exported ambassadorDashboard, artistAuthorizationCards, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, curatorDashboard, ecosystemConfig, explorerDashboard, generateInvoice, lastRoleSignal, memoryArtistCard, ecosystemOverviewPanel, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishedProfileCard, registerResponsibleScout, renderBilling, renderDiscoverSummary, renderInteraction, renderNowPlaying, renderProfile, renderEcosystemPanels, renderPublished, roleDashboard, roleMetricItems, roleWorkspace */
 
 function renderInteraction() {
   const profile = activeProfile();
 
   const role = roleDefinition(profile);
 
-  const headline = qs('[data-view="interaction"] .section-heading h1');
+  const headline = qs('[data-view="interaction"] .section-heading h2');
 
   const cta = qs('[data-add-playlist]');
 
@@ -101,7 +101,7 @@ function renderInteraction() {
 
           ${statPill('comment', 'Comentarios', postComments.length)}
 
-          ${statPill('repost', 'Reposts', communityForArtist)}
+          ${statPill('repost', 'Recomendaciones', communityForArtist)}
 
         </div>
 
@@ -115,7 +115,7 @@ function renderInteraction() {
 
           <button class="social-action ${saved ? 'is-active' : ''}" type="button" data-save-artist="${escapeHtml(artist.id)}" title="${saved ? 'Quitar guardado' : 'Guardar'}">${svgIcon(saved ? 'check' : 'plus')}<span>${saved ? '1' : '0'}</span></button>
 
-          <button class="social-action ${reposted ? 'is-active' : ''}" type="button" data-repost-artist="${escapeHtml(artist.id)}" title="${reposted ? 'Quitar repost' : 'Repostear'}">${svgIcon('repost')}<span>${reposted ? '1' : '0'}</span></button>
+          <button class="social-action ${reposted ? 'is-active' : ''}" type="button" data-repost-artist="${escapeHtml(artist.id)}" title="${reposted ? 'Quitar recomendación' : 'Recomendar'}">${svgIcon('repost')}<span>${reposted ? '1' : '0'}</span></button>
 
           <button class="social-action ${shared ? 'is-active' : ''}" type="button" data-share-artist="${escapeHtml(artist.id)}" title="Compartir cápsula">${svgIcon('share')}<span>${shared ? '1' : '0'}</span></button>
 
@@ -136,12 +136,12 @@ function renderInteraction() {
         .map(
           artist => `
 
-    <article class="list-item social-list-item"><span class="list-cover tone-${escapeHtml(artist.tone || 'sunset')}">${imgMarkup(artist.cover, artist.track, artist.symbol)}</span><div class="list-item-content"><strong>${escapeHtml(artist.track)}</strong><span>${escapeHtml(artist.name)} · añadido por la comunidad</span></div><button class="social-action ${state.reposted.includes(artist.id) ? 'is-active' : ''}" type="button" data-repost-artist="${escapeHtml(artist.id)}" title="Repost">${svgIcon('repost')}<span>Repost</span></button></article>
+    <article class="list-item social-list-item"><span class="list-cover tone-${escapeHtml(artist.tone || 'sunset')}">${imgMarkup(artist.cover, artist.track, artist.symbol)}</span><div class="list-item-content"><strong>${escapeHtml(artist.track)}</strong><span>${escapeHtml(artist.name)} · añadido por la comunidad</span></div><button class="social-action ${state.reposted.includes(artist.id) ? 'is-active' : ''}" type="button" data-repost-artist="${escapeHtml(artist.id)}" title="Recomendar">${svgIcon('repost')}<span>Recomendar</span></button></article>
 
   `
         )
         .join('')
-    : '<div class="empty-state">La playlist local todavía no tiene aportes.</div>';
+    : '<div class="empty-state">La lista local todavía no tiene aportes.</div>';
 
   qs('[data-impact-box]').innerHTML =
     `<strong>${playlist.length} ${escapeHtml(role.impactTitle)}</strong><p>${escapeHtml(role.impactBody)}</p><div class="community-trail">${communityActivityCards(3)}</div>`;
@@ -158,10 +158,10 @@ function renderInteraction() {
         .slice(0, 4)
         .map(
           item =>
-            `<article class="mini-card"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.body)}</span></article>`
+            `<article class="notification-summary-row"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.body)}</span></article>`
         )
         .join('') ||
-      '<article class="mini-card"><strong>Sin notificaciones pendientes</strong><span>Tu bandeja está limpia.</span></article>';
+      '<article class="notification-summary-row"><strong>Sin notificaciones pendientes</strong><span>Tu bandeja está limpia.</span></article>';
 }
 
 function ecosystemConfig() {
@@ -172,7 +172,7 @@ function ecosystemConfig() {
       body: 'Artistas, empresas y usuarios participan con permisos claros, métricas visibles y funciones separadas por rol.',
 
       artist: {
-        eyebrow: 'Workspace artista',
+        eyebrow: 'Espacio del artista',
         title: 'Publicación y seguimiento del artista',
         badge: 'Herramientas de artista',
         body: 'Publicación, métricas, licencia y autorización de visibilidad.',
@@ -181,16 +181,16 @@ function ecosystemConfig() {
 
       company: {
         eyebrow: 'Radar empresarial',
-        title: 'Scouting con datos autorizados',
+        title: 'Evaluación con datos autorizados',
         badge: 'Acceso controlado',
-        body: 'Radar, escenas activas y scouting responsable.',
+        body: 'Radar, escenas activas y evaluación responsable.',
         items: ['Radar', 'Escenas', 'Métricas', 'Límites'],
       },
     }
   );
 }
 
-function phasePrototypePanel(type) {
+function ecosystemOverviewPanel(type) {
   const ecosystem = ecosystemConfig();
 
   const block = ecosystem[type] || ecosystem.artist;
@@ -228,14 +228,14 @@ function phasePrototypePanel(type) {
   `;
 }
 
-function renderPrototypePanels() {
-  const artistPanel = qs('[data-artist-prototype-panel]');
+function renderEcosystemPanels() {
+  const artistPanel = qs('[data-artist-ecosystem-panel]');
 
-  if (artistPanel) artistPanel.innerHTML = phasePrototypePanel('artist');
+  if (artistPanel) artistPanel.innerHTML = ecosystemOverviewPanel('artist');
 
-  const companyPanel = qs('[data-company-prototype-panel]');
+  const companyPanel = qs('[data-company-ecosystem-panel]');
 
-  if (companyPanel) companyPanel.innerHTML = phasePrototypePanel('company');
+  if (companyPanel) companyPanel.innerHTML = ecosystemOverviewPanel('company');
 }
 
 function renderDiscoverSummary() {
@@ -331,7 +331,7 @@ function renderBilling() {
 
       <div class="plan-price">${plan.price ? money(plan.price) : 'Sin costo'}</div>
 
-      <div class="stack-list">${plan.features.map(feature => `<div class="privacy-card">${escapeHtml(feature)}</div>`).join('')}</div>
+      <ul class="plan-feature-list">${plan.features.map(feature => `<li>${escapeHtml(feature)}</li>`).join('')}</ul>
 
       ${plan.note ? `<p class="support-copy">${escapeHtml(plan.note)}</p>` : ''}
 
@@ -378,9 +378,9 @@ function renderBilling() {
 
     <div class="tag-cloud"><span class="tag">Métricas agregadas</span><span class="tag">Artistas visibles</span><span class="tag">Límites de uso</span><span class="tag">Acceso controlado</span></div>
 
-    <p>El acceso empresarial se limita a artistas que autorizaron visibilidad o análisis de perfil. La información se presenta para scouting responsable, no para contacto automático ni cesión irrestricta de datos.</p>
+    <p>El acceso empresarial se limita a artistas que autorizaron visibilidad o análisis de perfil. La información se presenta para evaluación responsable, no para contacto automático ni cesión irrestricta de datos.</p>
 
-    <div class="phase-mini-grid"><article class="mini-card"><strong>Qué puede ver</strong><span>Match cultural, escena, guardados agregados y señales comunitarias.</span></article><article class="mini-card"><strong>Qué no puede ver</strong><span>Datos privados, contacto directo o información no autorizada por artistas.</span></article></div>
+    <div class="phase-mini-grid"><article class="mini-card"><strong>Qué puede ver</strong><span>Afinidad cultural, escena, guardados agregados y señales comunitarias.</span></article><article class="mini-card"><strong>Qué no puede ver</strong><span>Datos privados, contacto directo o información no autorizada por artistas.</span></article></div>
 
   `
       : `
@@ -432,7 +432,7 @@ function generateInvoice(form) {
   renderBilling();
 
   showModal(
-    `<h2>Pago registrado</h2><div class="invoice-card"><strong>${escapeHtml(invoice.number)}</strong><p>${escapeHtml(invoice.planName)}</p><p>Subtotal: ${money(invoice.subtotal)}<br>IVA incluido: ${money(invoice.tax)}<br>Total: ${money(invoice.total)}</p><span class="status-chip">Enviada a ${escapeHtml(invoice.email)}</span></div><div class="legal-note">Comprobante generado para la demostración. Las condiciones comerciales, retracto, reversión y alcance por rol están documentados en la sección legal.</div><button class="primary-button full" type="button" data-close-modal>Entendido</button>`
+    `<h2>Pago registrado</h2><div class="invoice-card"><strong>${escapeHtml(invoice.number)}</strong><p>${escapeHtml(invoice.planName)}</p><p>Subtotal: ${money(invoice.subtotal)}<br>IVA incluido: ${money(invoice.tax)}<br>Total: ${money(invoice.total)}</p><span class="status-chip">Enviada a ${escapeHtml(invoice.email)}</span></div><div class="legal-note">Comprobante generado en la aplicación. Las condiciones comerciales, retracto, reversión y alcance por rol están documentados en la sección legal.</div><button class="primary-button full" type="button" data-close-modal>Entendido</button>`
   );
 
   form.reset();
@@ -457,7 +457,7 @@ function renderProfile() {
 
     <div class="profile-panel-stack">
 
-      <div class="tag-cloud"><span class="tag">${escapeHtml(role.label)}</span><span class="tag">${escapeHtml(profile.city)}</span><span class="tag">${escapeHtml(profile.code || 'Cuenta creada')}</span><span class="tag">${escapeHtml(summary.space)}</span><span class="tag">${escapeHtml(profilePlan(profile).name)}</span></div>
+      <div class="tag-cloud"><span class="tag">${escapeHtml(role.label)}</span><span class="tag">${escapeHtml(profile.city)}</span><span class="tag">${escapeHtml(summary.space)}</span><span class="tag">${escapeHtml(profilePlan(profile).name)}</span></div>
 
       <div class="profile-role-banner"><strong>${escapeHtml(summary.title)}</strong><span>${escapeHtml(summary.body)}</span></div>
 
@@ -467,7 +467,7 @@ function renderProfile() {
 
       <div class="profile-activity-strip">${summary.chips.map(item => `<span class="status-chip">${escapeHtml(item)}</span>`).join('')}</div>
 
-      <div class="profile-actions-row"><button class="soft-button" type="button" data-open-friends>Actividad de amigos</button><button class="soft-button" type="button" data-open-settings>Ajustes</button><button class="soft-button" type="button" data-open-ai>KORΛ AI</button></div>
+      <div class="profile-actions-row"><button class="soft-button" type="button" data-open-friends>Actividad de amigos</button><button class="soft-button" type="button" data-open-settings>Ajustes</button><button class="soft-button" type="button" data-open-ai>KORΛ IA</button></div>
 
     </div>
 
@@ -492,9 +492,9 @@ function profileRoleSummary(profile) {
 
       title: 'Espacio de exploración',
 
-      body: 'Tu perfil prioriza hallazgos guardados, playlists locales y actividad reciente para volver a escuchar sin perder lo descubierto.',
+      body: 'Tu perfil prioriza hallazgos guardados, listas locales y actividad reciente para volver a escuchar sin perder lo descubierto.',
 
-      chips: ['Hallazgos', 'Playlists', 'Actividad reciente'],
+      chips: ['Hallazgos', 'Listas', 'Actividad reciente'],
     },
 
     curator: {
@@ -502,9 +502,9 @@ function profileRoleSummary(profile) {
 
       title: 'Espacio de recomendación',
 
-      body: 'Tu perfil ordena comentarios, reposts y playlists curadas para convertir canciones emergentes en rutas de escucha con criterio.',
+      body: 'Tu perfil ordena comentarios, recomendaciones y listas curadas para convertir canciones emergentes en rutas de escucha con criterio.',
 
-      chips: ['Recomendaciones', 'Comentarios destacados', 'Playlists curadas'],
+      chips: ['Recomendaciones', 'Comentarios destacados', 'Listas curadas'],
     },
 
     ambassador: {
@@ -528,13 +528,13 @@ function profileRoleSummary(profile) {
     },
 
     company: {
-      space: 'Radar de scouting',
+      space: 'Radar de talento',
 
       title: 'Espacio de análisis autorizado',
 
       body: 'Tu perfil prioriza radar de talento, métricas agregadas y límites de datos para analizar artistas con permisos claros.',
 
-      chips: ['Radar', 'Métricas autorizadas', 'Scouting'],
+      chips: ['Radar', 'Métricas autorizadas', 'Evaluación'],
     },
   };
 
@@ -563,7 +563,7 @@ function roleMetricItems(profile) {
     user: [
       [state.saved.length, 'Hallazgos'],
 
-      [state.playlist.length, 'Playlist'],
+      [state.playlist.length, 'Lista'],
 
       [memoryReminderItems().length, 'Recordatorios'],
 
@@ -573,9 +573,9 @@ function roleMetricItems(profile) {
     curator: [
       [comments, 'Comentarios'],
 
-      [state.reposted.length, 'Reposts'],
+      [state.reposted.length, 'Recomendaciones'],
 
-      [DATA.playlists.length, 'Playlists curadas'],
+      [DATA.playlists.length, 'Listas curadas'],
 
       [events, 'Señales propias'],
     ],
@@ -739,7 +739,7 @@ function explorerDashboard(_profile) {
 
   const playlist = state.playlist.map(artistById).filter(Boolean).slice(0, 3);
 
-  return `<div class="role-dashboard-grid"><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Hallazgos</p><h3>Para volver a escuchar</h3></div><span class="counter-pill">${state.saved.length}</span></div>${saved.length ? saved.map(artist => memoryArtistCard(artist)).join('') : '<div class="empty-state">Guarda una cápsula para construir tu memoria musical.</div>'}</section><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Playlist</p><h3>Rutas activas</h3></div><span class="counter-pill">${playlist.length}</span></div>${playlist.length ? playlist.map(artist => compactArtistCard(artist, 'Repost', 'data-repost-artist')).join('') : '<div class="empty-state">Aún no hay canciones en playlist.</div>'}</section><section class="role-workspace-section role-section-wide"><div class="panel-head"><div><p class="eyebrow">Actividad reciente</p><h3>Lo que mueve tu comunidad</h3></div></div><div class="role-mini-list">${communityActivityCards(4)}</div></section></div>`;
+  return `<div class="role-dashboard-grid"><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Hallazgos</p><h3>Para volver a escuchar</h3></div><span class="counter-pill">${state.saved.length}</span></div>${saved.length ? saved.map(artist => memoryArtistCard(artist)).join('') : '<div class="empty-state">Guarda una cápsula para construir tu memoria musical.</div>'}</section><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Lista</p><h3>Rutas activas</h3></div><span class="counter-pill">${playlist.length}</span></div>${playlist.length ? playlist.map(artist => compactArtistCard(artist, 'Recomendar', 'data-repost-artist')).join('') : '<div class="empty-state">Aún no hay canciones en la lista.</div>'}</section><section class="role-workspace-section role-section-wide"><div class="panel-head"><div><p class="eyebrow">Actividad reciente</p><h3>Lo que mueve tu comunidad</h3></div></div><div class="role-mini-list">${communityActivityCards(4)}</div></section></div>`;
 }
 
 function curatorDashboard(profile) {
@@ -749,7 +749,7 @@ function curatorDashboard(profile) {
 
   const playlists = (DATA.playlists || []).slice(0, 3);
 
-  return `<div class="role-dashboard-grid"><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Recomendaciones</p><h3>Reposts con criterio</h3></div><span class="counter-pill">${reposted.length}</span></div>${reposted.length ? reposted.map(artist => compactArtistCard(artist, 'Recomendar', 'data-repost-artist')).join('') : '<div class="empty-state">Repostea una cápsula para iniciar tu ruta curatorial.</div>'}</section><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Comentarios</p><h3>Criterio visible</h3></div><span class="counter-pill">${comments.length}</span></div>${comments.length ? comments.map(item => `<article class="role-dossier"><strong>${escapeHtml(item.text)}</strong><span>${escapeHtml(item.at || 'Ahora')}</span></article>`).join('') : '<div class="empty-state">Publica comentarios para que aparezcan como señales curatoriales.</div>'}</section><section class="role-workspace-section role-section-wide"><div class="panel-head"><div><p class="eyebrow">Playlists curadas</p><h3>Rutas de escucha sugeridas</h3></div></div><div class="playlist-grid">${playlists.map(item => `<article class="playlist-card"><span class="list-cover">${imgMarkup(item.cover, item.name, '♪')}</span><div><strong>${escapeHtml(item.name)}</strong><p>${escapeHtml(item.mood)}</p><span class="tag">Curada por ${escapeHtml(item.curator)}</span></div></article>`).join('')}</div></section></div>`;
+  return `<div class="role-dashboard-grid"><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Recomendaciones</p><h3>Recomendaciones con criterio</h3></div><span class="counter-pill">${reposted.length}</span></div>${reposted.length ? reposted.map(artist => compactArtistCard(artist, 'Recomendar', 'data-repost-artist')).join('') : '<div class="empty-state">Recomienda una cápsula para iniciar tu ruta curatorial.</div>'}</section><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Comentarios</p><h3>Criterio visible</h3></div><span class="counter-pill">${comments.length}</span></div>${comments.length ? comments.map(item => `<article class="role-dossier"><strong>${escapeHtml(item.text)}</strong><span>${escapeHtml(item.at || 'Ahora')}</span></article>`).join('') : '<div class="empty-state">Publica comentarios para que aparezcan como señales curatoriales.</div>'}</section><section class="role-workspace-section role-section-wide"><div class="panel-head"><div><p class="eyebrow">Listas curadas</p><h3>Rutas de escucha sugeridas</h3></div></div><div class="playlist-grid">${playlists.map(item => `<article class="playlist-card"><span class="list-cover">${imgMarkup(item.cover, item.name, '♪')}</span><div><strong>${escapeHtml(item.name)}</strong><p>${escapeHtml(item.mood)}</p><span class="tag">Curada por ${escapeHtml(item.curator)}</span></div></article>`).join('')}</div></section></div>`;
 }
 
 function ambassadorDashboard(profile) {
@@ -761,7 +761,7 @@ function ambassadorDashboard(profile) {
     .filter(item => ['context', 'comment', 'playlist'].includes(item.type))
     .slice(0, 4);
 
-  return `<div class="role-dashboard-grid"><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Barrios</p><h3>Territorios destacados</h3></div><span class="counter-pill">${neighborhoods.length}</span></div><div class="scene-map">${neighborhoods.map(item => `<span>${escapeHtml(item)}</span>`).join('') || '<span>Cali</span>'}</div></section><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Escenas</p><h3>Lectura cultural</h3></div><span class="counter-pill">${scenes.length}</span></div><div class="scene-map">${scenes.map(item => `<span>${escapeHtml(item)}</span>`).join('') || '<span>Escena local</span>'}</div></section><section class="role-workspace-section role-section-wide"><div class="panel-head"><div><p class="eyebrow">Aportes culturales</p><h3>Memoria agregada por comunidad</h3></div><span class="counter-pill">${events.length}</span></div>${events.length ? events.map(item => `<article class="role-dossier"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.body)}</span></article>`).join('') : '<div class="empty-state">Comenta o suma canciones a playlist para crear aportes culturales visibles.</div>'}</section></div>`;
+  return `<div class="role-dashboard-grid"><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Barrios</p><h3>Territorios destacados</h3></div><span class="counter-pill">${neighborhoods.length}</span></div><div class="scene-map">${neighborhoods.map(item => `<span>${escapeHtml(item)}</span>`).join('') || '<span>Cali</span>'}</div></section><section class="role-workspace-section"><div class="panel-head"><div><p class="eyebrow">Escenas</p><h3>Lectura cultural</h3></div><span class="counter-pill">${scenes.length}</span></div><div class="scene-map">${scenes.map(item => `<span>${escapeHtml(item)}</span>`).join('') || '<span>Escena local</span>'}</div></section><section class="role-workspace-section role-section-wide"><div class="panel-head"><div><p class="eyebrow">Aportes culturales</p><h3>Memoria agregada por comunidad</h3></div><span class="counter-pill">${events.length}</span></div>${events.length ? events.map(item => `<article class="role-dossier"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.body)}</span></article>`).join('') : '<div class="empty-state">Comenta o suma canciones a una lista para crear aportes culturales visibles.</div>'}</section></div>`;
 }
 
 function artistDashboard(_profile) {
@@ -775,7 +775,7 @@ function artistDashboard(_profile) {
 
   return `<div class="role-dashboard-grid">
 
-    <section class="role-workspace-section role-section-wide prototype-inline">${phasePrototypePanel('artist')}</section>
+    <section class="role-workspace-section role-section-wide ecosystem-inline">${ecosystemOverviewPanel('artist')}</section>
 
     <section class="role-workspace-section">
 
@@ -794,7 +794,7 @@ function artistDashboard(_profile) {
 
     <section class="role-workspace-section">
 
-      <div class="panel-head"><div><p class="eyebrow">Métricas</p><h3>Recepción simulada</h3></div><span class="counter-pill">${artistReceptionCount()} señales</span></div>
+      <div class="panel-head"><div><p class="eyebrow">Métricas</p><h3>Recepción reciente</h3></div><span class="counter-pill">${artistReceptionCount()} señales</span></div>
 
       <div class="artist-health-grid">${artistMetricCards(published)}</div>
 
@@ -810,7 +810,7 @@ function artistDashboard(_profile) {
 
     <section class="role-workspace-section">
 
-      <div class="panel-head"><div><p class="eyebrow">Checklist</p><h3>Antes de publicar</h3></div><span class="counter-pill">Guía</span></div>
+      <div class="panel-head"><div><p class="eyebrow">Lista de verificación</p><h3>Antes de publicar</h3></div><span class="counter-pill">Guía</span></div>
 
       <div class="publish-checklist">${artistChecklistCards()}</div>
 
@@ -835,11 +835,11 @@ function artistMetricCards(published) {
   return [
     [saves, 'Guardados de cápsulas'],
 
-    [reposts, 'Reposts comunitarios'],
+    [reposts, 'Recomendaciones comunitarias'],
 
     [comments, 'Comentarios recibidos'],
 
-    [relatedEvents.length, 'Eventos de feed'],
+    [relatedEvents.length, 'Eventos de comunidad'],
 
     [visible, 'Visibles para CM'],
 
@@ -861,7 +861,7 @@ function artistAuthorizationCards(published, visible, legalState) {
 
     [
       'Datos compartidos',
-      'Solo señales agregadas: guardados, reposts, comentarios y afinidad cultural.',
+      'Solo señales agregadas: guardados, recomendaciones, comentarios y afinidad cultural.',
       'Limitado',
     ],
 
@@ -901,11 +901,11 @@ function companyDashboard(_profile) {
 
   return `<div class="role-dashboard-grid">
 
-    <section class="role-workspace-section role-section-wide prototype-inline">${phasePrototypePanel('company')}</section>
+    <section class="role-workspace-section role-section-wide ecosystem-inline">${ecosystemOverviewPanel('company')}</section>
 
     <section class="role-workspace-section role-section-wide">
 
-      <div class="panel-head"><div><p class="eyebrow">Radar de talento</p><h3>Artistas con señales de scouting</h3></div><span class="counter-pill">${authorized.length} autorizados</span></div>
+      <div class="panel-head"><div><p class="eyebrow">Radar de talento</p><h3>Artistas con señales de evaluación</h3></div><span class="counter-pill">${authorized.length} autorizados</span></div>
 
       <div class="company-radar-dashboard">${radar.map(artist => companyRadarCard(artist, logged)).join('')}</div>
 
@@ -929,7 +929,7 @@ function companyDashboard(_profile) {
 
     <section class="role-workspace-section role-section-wide">
 
-      <div class="panel-head"><div><p class="eyebrow">Scouting responsable</p><h3>Uso permitido del radar</h3></div><span class="counter-pill">${logged.length} revisiones</span></div>
+      <div class="panel-head"><div><p class="eyebrow">Evaluación responsable</p><h3>Uso permitido del radar</h3></div><span class="counter-pill">${logged.length} revisiones</span></div>
 
       <div class="scouting-responsible-grid">${companyScoutingCards()}</div>
 
@@ -972,7 +972,7 @@ function companySceneCards(radar) {
   return companySceneSummary(radar)
     .map(
       item =>
-        `<article class="role-dossier"><div class="license-status-head"><strong>${escapeHtml(item.scene)}</strong><span class="status-chip">${item.count} artista${item.count === 1 ? '' : 's'}</span></div><span>${item.average}% de afinidad promedio en radar simulado.</span></article>`
+        `<article class="role-dossier"><div class="license-status-head"><strong>${escapeHtml(item.scene)}</strong><span class="status-chip">${item.count} artista${item.count === 1 ? '' : 's'}</span></div><span>${item.average}% de afinidad promedio en el radar.</span></article>`
     )
     .join('');
 }
@@ -989,7 +989,7 @@ function companyMetricCards(radar, authorized) {
   return [
     [authorized.length, 'Artistas autorizados'],
 
-    [`${avgMatch}%`, 'Match promedio'],
+    [`${avgMatch}%`, 'Afinidad promedio'],
 
     [savedRadar, 'Guardados en radar'],
 
@@ -1019,7 +1019,7 @@ function registerResponsibleScout(artistId) {
   const profile = activeProfile();
 
   if (profile.role !== 'company') {
-    toast('Solo un perfil de empresa o scout puede registrar revisiones de radar.');
+    toast('Solo un perfil de empresa puede registrar revisiones de radar.');
 
     return;
   }
@@ -1144,7 +1144,7 @@ function renderNowPlaying() {
 
     <div class="mini-now-controls"><button class="icon-button" type="button" data-prev-artist aria-label="Anterior">${svgIcon('prev')}</button><button class="primary-button play-toggle mini-play" type="button" data-toggle-play aria-label="${playLabel}">${svgIcon(playIcon)}<span class="visually-hidden">${playLabel}</span></button><button class="icon-button" type="button" data-next-artist aria-label="Siguiente">${svgIcon('next')}</button><button class="icon-button ${state.shuffle ? 'is-active' : ''}" type="button" data-toggle-shuffle aria-label="Aleatorio">${svgIcon('shuffle')}</button><button class="icon-button ${state.repeat ? 'is-active' : ''}" type="button" data-toggle-repeat aria-label="Repetir">${svgIcon('repeat')}</button></div>
 
-    <div class="mini-now-actions"><button class="icon-button" type="button" data-open-player-fullscreen aria-label="Expandir">${svgIcon('expand')}</button><button class="icon-button" type="button" data-repost-current aria-label="Repost">${svgIcon('repost')}</button><button class="icon-button" type="button" data-share-menu aria-label="Compartir">${svgIcon('share')}</button></div>
+    <div class="mini-now-actions"><button class="icon-button" type="button" data-open-player-fullscreen aria-label="Expandir">${svgIcon('expand')}</button><button class="icon-button" type="button" data-repost-current aria-label="Recomendar">${svgIcon('repost')}</button><button class="icon-button" type="button" data-share-menu aria-label="Compartir">${svgIcon('share')}</button></div>
 
   `;
 }

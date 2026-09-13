@@ -1,4 +1,4 @@
-/* global activeProfileNameParts, ambassadorDashboard, applyQuickComment, applyVoiceComment, artistAuthorizationCards, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, bindEvents, capsuleSequenceWidth, closeModal, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, completeViewGuide, curatorDashboard, dismissNotification, ecosystemConfig, explorerDashboard, finishOnboarding, formatTime, generateInvoice, getAudioPlayer, handleConsentForm, handleGlobalClick, lastRoleSignal, logoutSession, lowerAccount, maybeShowViewGuide, memoryArtistCard, normalizeCapsuleLoop, notificationBelongsToActiveProfile, personalizeBaseNotification, phasePrototypePanel, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishTrack, publishedProfileCard, registerResponsibleScout, remindOnboardingLater, remindViewGuideLater, removeSaved, renderAll, renderBilling, renderCapsules, renderDiscoverSummary, renderHero, renderInteraction, renderNotificationBadge, renderNowPlaying, renderPlayer, renderProfile, renderPrototypePanels, renderPublished, renderSaved, replaySaved, repostArtist, repostCurrent, resetEverything, roleDashboard, roleMetricItems, roleWorkspace, runAiAction, saveArtist, scrollActiveCapsuleIntoView, scrollCapsules, setCurrentArtist, settingEnabled, settingsToggleRow, shareCurrent, showActionGuide, showAiAssistant, showCommentComposer, showFriendsPanel, showLegalGate, showModal, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, showWelcomeOnboarding, startClock, startFallbackAudio, startPlayback, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, updateFileLabel */
+/* global activeProfileNameParts, ambassadorDashboard, applyQuickComment, applyVoiceComment, artistAuthorizationCards, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, bindEvents, capsuleSequenceWidth, closeModal, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, completeViewGuide, curatorDashboard, dismissNotification, ecosystemConfig, explorerDashboard, finishOnboarding, formatTime, generateInvoice, getAudioPlayer, handleConsentForm, handleGlobalClick, lastRoleSignal, logoutSession, lowerAccount, maybeShowViewGuide, memoryArtistCard, normalizeCapsuleLoop, notificationBelongsToActiveProfile, personalizeBaseNotification, ecosystemOverviewPanel, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishTrack, publishedProfileCard, registerResponsibleScout, remindOnboardingLater, remindViewGuideLater, removeSaved, renderAll, renderBilling, renderCapsules, renderDiscoverSummary, renderHero, renderInteraction, renderNotificationBadge, renderNowPlaying, renderPlayer, renderProfile, renderEcosystemPanels, renderPublished, renderSaved, replaySaved, repostArtist, repostCurrent, resetEverything, roleDashboard, roleMetricItems, roleWorkspace, runAiAction, saveArtist, scrollActiveCapsuleIntoView, scrollCapsules, setCurrentArtist, settingEnabled, settingsToggleRow, shareCurrent, showActionGuide, showAiAssistant, showCommentComposer, showFriendsPanel, showLegalGate, showModal, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, showWelcomeOnboarding, startClock, startFallbackAudio, startPlayback, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, updateFileLabel */
 /* exported CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, addCommunityEvent, allProfiles, applyInterfacePreferences, artistById, audioContext, audioPlayer, avatarMarkup, capsuleLoopTimer, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, createdProfiles, currentView, defaultState, escapeHtml, fallbackNodes, formatCommunityTime, formatMemoryDate, iconActionMarkup, imgMarkup, legalConsentCopy, legalDocLink, loadState, memoryReminderItems, money, nowPlayingHideTimer, playTimer, playerFullscreenContent, qs, qsa, renderProfileChrome, renderSidebarSession, roleActionButtons, roleDefinition, roleFeatureCards, roleLegalCopy, runtimeArtists, saveState, savedReason, sessionMedia, setView, statPill, state, svgIcon, syncViewChrome, toast, viewChromeCopy, viewGuideCopy, viewGuideKey */
 
 const DATA = window.KORA_DATA;
@@ -89,6 +89,12 @@ const defaultState = {
 };
 
 let state = loadState();
+
+const sharedArtistId = new URLSearchParams(window.location.search).get('artista');
+if (sharedArtistId) {
+  const sharedArtistIndex = DATA.artists.findIndex(artist => artist.id === sharedArtistId);
+  if (sharedArtistIndex >= 0) state.currentArtist = sharedArtistIndex;
+}
 
 let playTimer = null;
 
@@ -230,8 +236,11 @@ function svgIcon(name) {
 
     moon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8.2 8.2 0 0 1 8.8 4a8.2 8.2 0 1 0 11.2 11.2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
 
-    close:
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    close: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+
+    book: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h5.4c1 0 1.6.3 1.6 1.1V20c0-.9-.8-1.4-2-1.4H5V4.5Zm14 0h-5.4c-1 0-1.6.3-1.6 1.1V20c0-.9.8-1.4 2-1.4h5V4.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+
+    copy: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>',
 
     friends:
       '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm0 2c-3.2 0-6 1.6-6 3.8V20h12v-2.7c0-2.2-2.8-3.8-6-3.8Zm8.5-1.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 1.7c-.8 0-1.6.1-2.3.4 1.1.9 1.8 2 1.8 3.2V20h4v-2.4c0-2-1.9-3.9-3.5-3.9Z" fill="currentColor"/></svg>',
@@ -255,12 +264,12 @@ function toast(message) {
 function imgMarkup(src, alt, symbol, className = '') {
   if (!src) return `<span class="cover-symbol">${escapeHtml(symbol || '♪')}</span>`;
 
-  return `<img class="${className}" src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cover-symbol',textContent:'${escapeHtml(symbol || '♪')}' }))">`;
+  return `<img class="${className}" src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" width="800" height="800" loading="lazy" decoding="async" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cover-symbol',textContent:'${escapeHtml(symbol || '♪')}' }))">`;
 }
 
 function avatarMarkup(profile) {
   if (profile.avatar)
-    return `<img src="${escapeHtml(profile.avatar)}" alt="${escapeHtml(profile.name)}" onerror="this.classList.add('is-hidden')"><span>${escapeHtml(profile.initial || profile.name.slice(0, 1))}</span>`;
+    return `<img src="${escapeHtml(profile.avatar)}" alt="${escapeHtml(profile.name)}" width="256" height="256" decoding="async" onerror="this.classList.add('is-hidden')"><span>${escapeHtml(profile.initial || profile.name.slice(0, 1))}</span>`;
 
   return `<span>${escapeHtml(profile.initial || profile.name.slice(0, 1))}</span>`;
 }
@@ -275,10 +284,10 @@ function roleDefinition(profile) {
       action: 'Descubrir',
       purpose: 'Participa en el descubrimiento musical local.',
       accountState: 'Explorando Cali',
-      accountMeta: 'Guardados, playlists y actividad protegidos.',
+      accountMeta: 'Guardados, listas y actividad de la cuenta.',
       profileAxis: 'Descubrimiento musical',
       interactionHeadline: 'Interacción con artistas, curadores y escena local.',
-      interactionCta: 'Sumar a playlist local',
+      interactionCta: 'Sumar a lista local',
       saveLabel: 'Guardar artista',
       impactTitle: 'artistas visibles',
       impactBody: 'Cada aporte aparece como señal cultural para otros usuarios.',
@@ -313,7 +322,8 @@ function roleLegalCopy(profile) {
 }
 
 function legalDocLink(doc, label) {
-  return `<a href="legal.html?doc=${escapeHtml(doc)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
+  const routes = { terms: 'legal/terminos/', privacy: 'legal/privacidad/', license: 'legal/licencia-musical/', payments: 'legal/pagos/' };
+  return `<a href="${routes[doc] || routes.terms}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
 }
 
 function legalConsentCopy(roleLegal) {
@@ -453,11 +463,11 @@ function addCommunityEvent(type, artist, options = {}) {
 
     comment: `${profile.name} comentó un hallazgo`,
 
-    repost: `${profile.name} reposteó ${safeArtist.track}`,
+    repost: `${profile.name} recomendó ${safeArtist.track}`,
 
     share: `${profile.name} compartió ${safeArtist.track}`,
 
-    playlist: `${profile.name} sumó ${safeArtist.track} a la playlist local`,
+    playlist: `${profile.name} sumó ${safeArtist.track} a la lista local`,
 
     publish: `${profile.name} publicó una nueva cápsula`,
 
@@ -477,7 +487,7 @@ function addCommunityEvent(type, artist, options = {}) {
 
     share: `La cápsula viaja con contexto, no solo como enlace suelto.`,
 
-    playlist: `La playlist colaborativa crece con una señal humana de descubrimiento.`,
+    playlist: `La lista colaborativa crece con una señal humana de descubrimiento.`,
 
     publish: `${safeArtist.name} ya tiene una cápsula disponible para escuchar, guardar y comentar.`,
 
@@ -485,7 +495,7 @@ function addCommunityEvent(type, artist, options = {}) {
 
     context: `El aporte conecta música, barrio y memoria cultural.`,
 
-    scout: `La revisión queda registrada como scouting responsable con límites de datos autorizados.`,
+    scout: `La revisión queda registrada como evaluación responsable con límites de datos autorizados.`,
   };
 
   state.communityEvents.unshift({
@@ -592,7 +602,7 @@ function communitySignalPanel() {
 
   const signals = DATA.communitySignals || [];
 
-  return `<article class="panel-card community-overview"><div class="panel-head"><div><p class="eyebrow">Comunidad activa</p><h2>Lo que pasa alrededor de la música</h2></div><span class="counter-pill">${events.length} señales</span></div><div class="community-metrics"><span><b>${saves}</b><small>Guardados</small></span><span><b>${comments}</b><small>Comentarios</small></span><span><b>${reposts}</b><small>Reposts</small></span><span><b>${playlist}</b><small>Playlist</small></span></div><div class="community-signal-grid">${signals.map(item => `<article class="role-feature"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.body)}</span></article>`).join('')}</div></article>`;
+  return `<article class="panel-card community-overview"><div class="panel-head"><div><p class="eyebrow">Comunidad activa</p><h2>Lo que pasa alrededor de la música</h2></div><span class="counter-pill">${events.length} señales</span></div><div class="community-metrics"><span><b>${saves}</b><small>Guardados</small></span><span><b>${comments}</b><small>Comentarios</small></span><span><b>${reposts}</b><small>Recomendaciones</small></span><span><b>${playlist}</b><small>Lista</small></span></div><div class="community-signal-grid">${signals.map(item => `<article class="role-feature"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.body)}</span></article>`).join('')}</div></article>`;
 }
 
 function iconActionMarkup(icon, label, active = false, text = '') {
@@ -629,7 +639,7 @@ function playerFullscreenContent() {
 
         <button class="top-icon" type="button" data-close-modal aria-label="Cerrar">${svgIcon('prev')}</button>
 
-        <div class="player-fullscreen-title"><p class="eyebrow">Now playing</p><strong>${state.previewMode === 'short' ? 'Cápsula local' : 'Modo extendido'}</strong></div>
+        <div class="player-fullscreen-title"><p class="eyebrow">Reproduciendo</p><strong>${state.previewMode === 'short' ? 'Cápsula local' : 'Modo extendido'}</strong></div>
 
         <button class="top-icon" type="button" data-toggle-preview-mode aria-label="Cambiar modo">${svgIcon('expand')}</button>
 
@@ -655,7 +665,7 @@ function playerFullscreenContent() {
 
             <button class="player-icon-button ${saved ? 'is-active' : ''}" type="button" data-save-current title="${saved ? 'Quitar guardado' : 'Guardar'}">${svgIcon(saved ? 'check' : 'plus')}</button>
 
-            <button class="player-icon-button ${reposted ? 'is-active' : ''}" type="button" data-repost-current title="${reposted ? 'Quitar repost' : 'Repostear'}">${svgIcon('repost')}</button>
+            <button class="player-icon-button ${reposted ? 'is-active' : ''}" type="button" data-repost-current title="${reposted ? 'Quitar recomendación' : 'Recomendar'}">${svgIcon('repost')}</button>
 
             <button class="player-icon-button" type="button" data-share-menu title="Compartir">${svgIcon('share')}</button>
 
@@ -683,11 +693,11 @@ function playerFullscreenContent() {
 
         <div class="player-fullscreen-subcontrols">
 
-          <button class="soft-button compact-button ${state.shuffle ? 'is-active' : ''}" type="button" data-toggle-shuffle>${svgIcon('shuffle')}<span>Mix</span></button>
+          <button class="soft-button compact-button ${state.shuffle ? 'is-active' : ''}" type="button" data-toggle-shuffle>${svgIcon('shuffle')}<span>Aleatorio</span></button>
 
-          <button class="soft-button compact-button ${state.repeat ? 'is-active' : ''}" type="button" data-toggle-repeat>${svgIcon('repeat')}<span>Loop</span></button>
+          <button class="soft-button compact-button ${state.repeat ? 'is-active' : ''}" type="button" data-toggle-repeat>${svgIcon('repeat')}<span>Repetir</span></button>
 
-          <button class="soft-button compact-button" type="button" data-follow-listen>Completa</button>
+          <button class="soft-button compact-button" type="button" data-toggle-preview-mode>${state.previewMode === 'short' ? 'Escuchar canción completa' : 'Volver a cápsula de 30 s'}</button>
 
           <button class="soft-button compact-button" type="button" data-discard-artist>Pasar</button>
 
@@ -697,7 +707,7 @@ function playerFullscreenContent() {
 
           <p>${escapeHtml(artist.story)}</p>
 
-          <div class="tag-row"><span class="tag">${artist.match}% match</span><span class="tag">${escapeHtml(artist.scene)}</span><span class="tag">${escapeHtml(artist.neighborhood)}</span></div>
+          <div class="tag-row"><span class="tag">${artist.match}% afinidad</span><span class="tag">${escapeHtml(artist.scene)}</span><span class="tag">${escapeHtml(artist.neighborhood)}</span></div>
 
         </div>
 
@@ -749,9 +759,9 @@ function roleActionButtons(actions) {
 function viewChromeCopy(view) {
   const copy = {
     discover: ['Descubrir', 'música emergente'],
-    player: ['Player', 'escucha activa'],
+    player: ['Reproductor', 'escucha activa'],
     interaction: ['Comunidad', 'señales humanas'],
-    publish: ['Publicar', 'workspace artista'],
+    publish: ['Publicar', 'espacio del artista'],
     billing: ['Pagos', 'planes y facturación'],
     profile: ['Perfil', 'tu espacio'],
   };

@@ -3,7 +3,6 @@ window.KORA_DATA = {
     {
       id: 'johan',
       name: 'Johan Guzman',
-      code: 'A00401480',
       role: 'curator',
       roleLabel: 'Oyente curador',
       city: 'Cali',
@@ -16,7 +15,6 @@ window.KORA_DATA = {
     {
       id: 'karold',
       name: 'Karold Mejia',
-      code: 'A00401806',
       role: 'artist',
       roleLabel: 'Artista local',
       city: 'Cali',
@@ -29,7 +27,6 @@ window.KORA_DATA = {
     {
       id: 'luna',
       name: 'Luna Martinez',
-      code: 'A00401964',
       role: 'user',
       roleLabel: 'Exploradora musical',
       city: 'Cali',
@@ -42,9 +39,8 @@ window.KORA_DATA = {
     {
       id: 'renzo',
       name: 'Renzo Mosquera',
-      code: 'A00401681',
       role: 'company',
-      roleLabel: 'Empresa / scout',
+      roleLabel: 'Empresa / talento',
       city: 'Cali',
       initial: 'R',
       avatar: 'img/renzo-mosquera-daza.svg',
@@ -56,19 +52,19 @@ window.KORA_DATA = {
   roleProfiles: [
     {
       id: 'scout-role',
-      name: 'Agencia Brújula',
+      name: 'Nébula Sur',
       role: 'company',
-      roleLabel: 'Empresa / scout',
+      roleLabel: 'Empresa / talento',
       city: 'Cali',
       initial: 'A',
       avatar: '',
-      bio: 'Analiza escenas, identifica artistas y revisa señales autorizadas para scouting responsable.',
+      bio: 'Analiza escenas, identifica artistas y revisa señales autorizadas para evaluación responsable.',
       planId: 'company',
     },
 
     {
       id: 'ambassador-role',
-      name: 'Laura Pérez',
+      name: 'Marea Violeta',
       role: 'ambassador',
       roleLabel: 'Embajadora cultural',
       city: 'Cali',
@@ -80,7 +76,7 @@ window.KORA_DATA = {
 
     {
       id: 'listener-role',
-      name: 'Mateo Rivas',
+      name: 'Ruido Menta',
       role: 'user',
       roleLabel: 'Explorador musical',
       city: 'Cali',
@@ -92,7 +88,7 @@ window.KORA_DATA = {
 
     {
       id: 'artist-role',
-      name: 'Sara León',
+      name: 'Sol Nómada',
       role: 'artist',
       roleLabel: 'Artista local',
       city: 'Cali',
@@ -113,13 +109,13 @@ window.KORA_DATA = {
 
       accountState: 'Descubriendo escena local',
 
-      accountMeta: 'Hallazgos, playlists y actividad protegidos.',
+      accountMeta: 'Hallazgos, listas de reproducción y actividad de esta sesión.',
 
       profileAxis: 'Descubrimiento musical',
 
       interactionHeadline: 'Descubre artistas, guarda hallazgos y conversa con la escena local.',
 
-      interactionCta: 'Sumar a playlist local',
+      interactionCta: 'Sumar a lista de reproducción local',
 
       saveLabel: 'Guardar artista',
 
@@ -165,7 +161,7 @@ window.KORA_DATA = {
       privacy: [
         [
           'Actividad de descubrimiento',
-          'Tus guardados, likes y playlists se usan para personalizar la experiencia sin convertirlos en datos comerciales visibles por defecto.',
+          'Tus guardados, marcados como me gusta y listas de reproducción se usan para personalizar la experiencia sin convertirlos en datos comerciales visibles por defecto.',
         ],
       ],
     },
@@ -175,7 +171,7 @@ window.KORA_DATA = {
 
       action: 'Recomendar',
 
-      purpose: 'Comenta, repostea y da criterio para que otros descubran con razones.',
+      purpose: 'Comenta, recomendaciónea y da criterio para que otros descubran con razones.',
 
       accountState: 'Curaduría activa',
 
@@ -203,7 +199,7 @@ window.KORA_DATA = {
         badge: 'Recomendar',
 
         intro:
-          'El oyente curador no solo escucha: explica por qué una cápsula vale la pena, la repostea con criterio y ayuda a otros usuarios a encontrar música relevante.',
+          'El oyente curador no solo escucha: explica por qué una cápsula vale la pena, la recomendaciónea con criterio y ayuda a otros usuarios a encontrar música relevante.',
 
         features: [
           [
@@ -212,7 +208,7 @@ window.KORA_DATA = {
           ],
 
           [
-            'Repost con criterio',
+            'Recomendación con criterio',
             'Convierte un hallazgo en recomendación visible para la comunidad.',
           ],
 
@@ -223,7 +219,7 @@ window.KORA_DATA = {
         ],
 
         actions: [
-          ['primary', 'Recomendar en feed', 'interactPost:post-1'],
+          ['primary', 'Recomendar en comunidad', 'interactPost:post-1'],
 
           ['soft', 'Guardar para curar', 'saveCurrent'],
         ],
@@ -232,7 +228,7 @@ window.KORA_DATA = {
       privacy: [
         [
           'Aportes curatoriales',
-          'Tus comentarios y recomendaciones pueden mostrarse en el feed como señales comunitarias asociadas a tu perfil.',
+          'Tus comentarios y recomendaciones pueden mostrarse en la comunidad como señales comunitarias asociadas a tu perfil.',
         ],
       ],
     },
@@ -285,7 +281,7 @@ window.KORA_DATA = {
 
           [
             'Activación comunitaria',
-            'Invita a otros usuarios a sumar recuerdos, comentarios o playlists locales.',
+            'Invita a otros usuarios a sumar recuerdos, comentarios o listas de reproducción locales.',
           ],
         ],
 
@@ -326,7 +322,7 @@ window.KORA_DATA = {
       impactTitle: 'señales para lanzamiento',
 
       impactBody:
-        'Cada guardado, comentario o repost ayuda a leer cómo conecta tu música con la comunidad.',
+        'Cada guardado, comentario o recomendación ayuda a leer cómo conecta tu música con la comunidad.',
 
       workspace: {
         eyebrow: 'Rol: publicar',
@@ -341,7 +337,7 @@ window.KORA_DATA = {
         features: [
           ['Cápsulas', 'Publica adelantos con audio, portada, barrio, género e historia cultural.'],
 
-          ['Recepción', 'Revisa guardados, likes, reposts y señales de interacción simuladas.'],
+          ['Recepción', 'Revisa guardados, marcados como me gusta, recomendaciones y señales de interacción disponibles.'],
 
           [
             'Visibilidad autorizada',
@@ -352,7 +348,7 @@ window.KORA_DATA = {
         actions: [
           ['primary', 'Ir a publicar música', 'view:publish'],
 
-          ['soft', 'Generar copy de lanzamiento', 'openAi'],
+          ['soft', 'Generar texto de lanzamiento', 'openAi'],
         ],
       },
 
@@ -365,17 +361,17 @@ window.KORA_DATA = {
     },
 
     company: {
-      label: 'Empresa / scout',
+      label: 'Empresa / talento',
 
       action: 'Analizar',
 
       purpose: 'Revisa talento emergente mediante métricas agregadas y datos autorizados.',
 
-      accountState: 'Scouting activo',
+      accountState: 'Evaluación de talento activa',
 
       accountMeta: 'Métricas agregadas y datos autorizados visibles.',
 
-      profileAxis: 'Scouting responsable',
+      profileAxis: 'Evaluación responsable',
 
       interactionHeadline: 'Analiza artistas, señales y oportunidades con datos autorizados.',
 
@@ -391,17 +387,17 @@ window.KORA_DATA = {
       workspace: {
         eyebrow: 'Rol: analizar',
 
-        title: 'Empresa / scout',
+        title: 'Empresa / talento',
 
         badge: 'Analizar',
 
         intro:
-          'La empresa o scout explora talento emergente con métricas agregadas y solo accede a información autorizada por artistas.',
+          'La empresa explora talento emergente con métricas agregadas y solo accede a información autorizada por artistas.',
 
         features: [
           [
             'Radar de talento',
-            'Marca artistas con afinidad alta para revisar oportunidades de scouting.',
+            'Marca artistas con afinidad alta para revisar oportunidades de evaluación.',
           ],
 
           [
@@ -425,7 +421,7 @@ window.KORA_DATA = {
       privacy: [
         [
           'Límites empresariales',
-          'La empresa accede a datos autorizados para scouting y gestión, con límites de disponibilidad y veracidad informados.',
+          'La empresa accede a datos autorizados para evaluación y gestión, con límites de disponibilidad y veracidad informados.',
         ],
       ],
     },
@@ -435,10 +431,10 @@ window.KORA_DATA = {
     user: {
       title: 'Autorizaciones para explorador musical',
 
-      lead: 'Estas autorizaciones se enfocan en descubrimiento, guardados, playlists, actividad social y recordatorios de hallazgos.',
+      lead: 'Estas autorizaciones se enfocan en descubrimiento, guardados, listas de reproducción, actividad social y recordatorios de hallazgos.',
 
       terms:
-        'Acepto el uso de KORΛ como explorador musical para descubrir cápsulas, guardar hallazgos, crear playlists y participar en el feed comunitario.',
+        'Acepto el uso de KORΛ como explorador musical para descubrir cápsulas, guardar hallazgos, crear listas de reproducción y participar en la comunidad.',
 
       privacy:
         'Autorizo el tratamiento de mis datos de perfil, gustos, guardados, reproducciones, notas de hallazgo y actividad social para personalizar mi experiencia.',
@@ -450,13 +446,13 @@ window.KORA_DATA = {
     curator: {
       title: 'Autorizaciones para oyente curador',
 
-      lead: 'Estas autorizaciones se enfocan en recomendaciones, comentarios curatoriales, reposts y tableros de escucha.',
+      lead: 'Estas autorizaciones se enfocan en recomendaciones, comentarios curatoriales, recomendaciones y tableros de escucha.',
 
       terms:
         'Acepto participar como oyente curador, publicando recomendaciones, comentarios y señales de criterio sobre canciones emergentes.',
 
       privacy:
-        'Autorizo el tratamiento de mis comentarios, reposts, guardados y criterios de curaduría para ordenar recomendaciones dentro de la comunidad.',
+        'Autorizo el tratamiento de mis comentarios, recomendaciones, guardados y criterios de curaduría para ordenar recomendaciones dentro de la comunidad.',
 
       roleData:
         'Entiendo que mis aportes curatoriales pueden aparecer asociados a mi perfil como recomendaciones visibles para otros usuarios.',
@@ -474,7 +470,7 @@ window.KORA_DATA = {
         'Autorizo el tratamiento de mis aportes culturales, escenas seguidas, barrios destacados y comentarios comunitarios para fortalecer la memoria musical local.',
 
       roleData:
-        'Entiendo que mis aportes culturales pueden mostrarse públicamente como contexto de canciones, playlists o escenas dentro de KORΛ.',
+        'Entiendo que mis aportes culturales pueden mostrarse públicamente como contexto de canciones, listas de reproducción o escenas dentro de KORΛ.',
     },
 
     artist: {
@@ -486,22 +482,22 @@ window.KORA_DATA = {
         'Acepto publicar contenido como artista local y declaro que cuento con derechos o permisos suficientes sobre el audio, portada e información que suba.',
 
       privacy:
-        'Autorizo el tratamiento de mi perfil artístico, publicaciones, métricas de interacción, comentarios recibidos y señales de engagement de mis cápsulas.',
+        'Autorizo el tratamiento de mi perfil artístico, publicaciones, métricas de interacción, comentarios recibidos y señales de interacción de mis cápsulas.',
 
       roleData:
         'Entiendo que las empresas solo podrán ver métricas agregadas o señales de mis lanzamientos cuando yo active la autorización correspondiente.',
     },
 
     company: {
-      title: 'Autorizaciones para empresa o scout',
+      title: 'Autorizaciones para empresas',
 
-      lead: 'Estas autorizaciones se enfocan en scouting responsable, analítica agregada, facturación y límites de acceso a datos de artistas.',
+      lead: 'Estas autorizaciones se enfocan en evaluación responsable de talento, analítica agregada, facturación y límites de acceso a datos de artistas.',
 
       terms:
-        'Acepto usar KORΛ como empresa o scout únicamente para analizar talento con datos autorizados y sin contactar o explotar información fuera de los límites informados.',
+        'Acepto usar KORΛ como empresa únicamente para analizar talento con datos autorizados y sin contactar o explotar información fuera de los límites informados.',
 
       privacy:
-        'Autorizo el tratamiento de datos de cuenta empresarial, facturación, suscripción, artistas revisados y actividad de scouting dentro de KORΛ.',
+        'Autorizo el tratamiento de datos de cuenta empresarial, facturación, suscripción, artistas revisados y actividad de evaluación de talento dentro de KORΛ.',
 
       roleData:
         'Entiendo que el acceso empresarial se limita a métricas agregadas y datos autorizados por artistas, sin visibilidad de información privada no habilitada.',
@@ -532,9 +528,9 @@ window.KORA_DATA = {
     player: {
       eyebrow: 'Escucha con contexto',
 
-      title: 'Qué vas a encontrar en Player',
+      title: 'Qué vas a encontrar en el reproductor',
 
-      body: 'El player no solo reproduce: muestra historia, escena, match cultural y acciones para guardar, repostear o compartir la cápsula.',
+      body: 'El reproductor no solo reproduce: muestra historia, escena, afinidad cultural y acciones para guardar, recomendar o compartir la cápsula.',
 
       roleNotes: {
         user: 'Como explorador, decide si la canción pasa a tu memoria musical.',
@@ -554,7 +550,7 @@ window.KORA_DATA = {
 
       title: 'Qué vas a encontrar en Interacción',
 
-      body: 'Aquí se reúnen comentarios, reposts, actividad de amigos, playlists colaborativas y señales humanas alrededor de canciones locales.',
+      body: 'Aquí se reúnen comentarios, recomendaciones, actividad de amigos, listas de reproducción colaborativas y señales humanas alrededor de canciones locales.',
 
       roleNotes: {
         user: 'Como explorador, puedes seguir lo que otras personas guardan o recomiendan.',
@@ -595,10 +591,10 @@ window.KORA_DATA = {
 
       title: 'Qué vas a encontrar en Pagos',
 
-      body: 'Aquí se muestran planes, beneficios, suscripción, factura simulada y acceso comercial según tipo de usuario.',
+      body: 'Aquí se muestran planes, beneficios, suscripción, facturación y acceso comercial según tipo de usuario.',
 
       roleNotes: {
-        user: 'Como explorador, puedes revisar opciones para ampliar descubrimiento y playlists.',
+        user: 'Como explorador, puedes revisar opciones para ampliar descubrimiento y listas de reproducción.',
 
         curator: 'Como curador, los planes refuerzan herramientas de descubrimiento frecuente.',
 
@@ -606,7 +602,7 @@ window.KORA_DATA = {
 
         artist: 'Como artista, revisa el plan de publicación y métricas de lanzamiento.',
 
-        company: 'Como empresa, revisa el plan de scouting y analítica autorizada.',
+        company: 'Como empresa, revisa el plan de evaluación de talento y analítica autorizada.',
       },
     },
 
@@ -615,10 +611,10 @@ window.KORA_DATA = {
 
       title: 'Qué vas a encontrar en Perfil',
 
-      body: 'El perfil resume tu rol, métricas personales, permisos, autorizaciones y workspace de participación dentro del ecosistema.',
+      body: 'El perfil resume tu rol, métricas personales, permisos, autorizaciones y espacio de participación dentro del ecosistema.',
 
       roleNotes: {
-        user: 'Como explorador, verás hallazgos, playlists y actividad protegida.',
+        user: 'Como explorador, verás hallazgos, listas de reproducción y actividad de esta sesión.',
 
         curator: 'Como curador, verás recomendaciones, comentarios y tableros.',
 
@@ -626,7 +622,7 @@ window.KORA_DATA = {
 
         artist: 'Como artista, verás publicaciones, permisos y señales de recepción.',
 
-        company: 'Como empresa, verás radar, límites de datos y scouting responsable.',
+        company: 'Como empresa, verás radar, límites de datos y evaluación responsable.',
       },
     },
   },
@@ -636,7 +632,7 @@ window.KORA_DATA = {
 
     'Tiene historia de barrio y contexto cultural.',
 
-    'Puede servir para una playlist o tablero futuro.',
+    'Puede servir para una lista de reproducción o tablero futuro.',
 
     'La comunidad está generando señales alrededor de esta cápsula.',
 
@@ -648,11 +644,11 @@ window.KORA_DATA = {
 
     comment: 'Comentario',
 
-    repost: 'Repost',
+    recomendación: 'Recomendación',
 
     share: 'Compartido',
 
-    playlist: 'Playlist',
+    playlist: 'Lista de reproducción',
 
     publish: 'Lanzamiento',
 
@@ -660,13 +656,13 @@ window.KORA_DATA = {
 
     context: 'Contexto',
 
-    scout: 'Scouting',
+    scout: 'Evaluación',
   },
 
   communitySignals: [
     {
       title: 'Criterio humano',
-      body: 'Las recomendaciones visibles vienen de comentarios, reposts y guardados de la comunidad.',
+      body: 'Las recomendaciones visibles vienen de comentarios, recomendaciones y guardados de la comunidad.',
     },
 
     {
@@ -676,7 +672,7 @@ window.KORA_DATA = {
 
     {
       title: 'Actividad sin chat privado',
-      body: 'El usuario se entera por feed, notificaciones y actividad de amigos.',
+      body: 'El usuario se entera por comunidad, notificaciones y actividad de amigos.',
     },
   ],
 
@@ -686,7 +682,7 @@ window.KORA_DATA = {
     body: 'Artistas, empresas y usuarios participan con permisos claros, métricas visibles y funciones separadas por rol.',
 
     artist: {
-      eyebrow: 'Workspace artista',
+      eyebrow: 'Espacio del artista',
       title: 'Publicación y seguimiento del artista',
       badge: 'Herramientas de artista',
       body: 'El artista puede publicar cápsulas, revisar recepción, confirmar estado de licencia y decidir si habilita métricas agregadas para empresas.',
@@ -695,7 +691,7 @@ window.KORA_DATA = {
 
     company: {
       eyebrow: 'Radar empresarial',
-      title: 'Scouting con datos autorizados',
+      title: 'Evaluación con datos autorizados',
       badge: 'Acceso controlado',
       body: 'La empresa puede revisar radar de artistas, escenas activas y métricas agregadas sin acceder a información privada no autorizada.',
       items: ['Radar', 'Escenas', 'Métricas', 'Límites'],
@@ -736,13 +732,13 @@ window.KORA_DATA = {
 
   companyScoutingSignals: [
     {
-      title: 'Match cultural',
-      body: 'Afinidad simulada entre artista, escena y criterios de descubrimiento.',
+      title: 'Afinidad cultural',
+      body: 'Afinidad indicada entre artista, escena y criterios de descubrimiento.',
     },
 
     {
       title: 'Recepción comunitaria',
-      body: 'Guardados, reposts, comentarios y actividad visible dentro de KORΛ.',
+      body: 'Guardados, recomendaciones, comentarios y actividad visible dentro de KORΛ.',
     },
 
     {
@@ -760,7 +756,7 @@ window.KORA_DATA = {
     {
       id: 'valentina-cruz',
       name: 'Valentina Cruz',
-      track: 'Rio de Fuego',
+      track: 'Río de Fuego',
       genre: 'R&B afrolatino',
       city: 'Cali',
       neighborhood: 'San Antonio',
@@ -813,7 +809,7 @@ window.KORA_DATA = {
       insight: [
         'Gancho lírico claro desde los primeros 10 segundos.',
         'Buen contenido para compartir como cápsula cultural.',
-        'Ideal para playlist de rap caleño.',
+        'Ideal para lista de reproducción de rap caleño.',
       ],
     },
 
@@ -838,7 +834,7 @@ window.KORA_DATA = {
       story:
         'Pop luminoso con percusión latina, diseñado para cápsulas breves y fácil recordación.',
 
-      tags: ['El Peñón', 'Pop local', 'Hook rápido', 'Playlist verano'],
+      tags: ['El Peñón', 'Pop local', 'Hook rápido', 'Lista de verano'],
 
       insight: [
         'La melodía principal entra antes del segundo 12.',
@@ -903,7 +899,7 @@ window.KORA_DATA = {
       insight: [
         'Contexto cultural diferencial y fácil de explicar.',
         'Conecta con usuarios que buscan identidad local.',
-        'Aporta diversidad al feed principal.',
+        'Aporta diversidad al comunidad principal.',
       ],
     },
 
@@ -963,7 +959,7 @@ window.KORA_DATA = {
       insight: [
         'Entrada vocal directa y cálida.',
         'Conecta con usuarios que guardan R&B y soul.',
-        'Aporta representación de ladera al feed digital.',
+        'Aporta representación de ladera al comunidad digital.',
       ],
     },
 
@@ -992,7 +988,7 @@ window.KORA_DATA = {
 
       insight: [
         'Ideal para cápsulas visuales con movimiento.',
-        'Buena opción para playlists de noche.',
+        'Buena opción para listas de reproducción de noche.',
         'Su contexto funciona antes del drop.',
       ],
     },
@@ -1096,7 +1092,7 @@ window.KORA_DATA = {
     },
 
     {
-      id: 'notif-comment-repost',
+      id: 'notif-comment-recomendación',
       title: 'Comentaron un hallazgo de tu comunidad',
       body: 'Un aporte agregó contexto de barrio a una cápsula compartida.',
       type: 'comment',
@@ -1115,17 +1111,17 @@ window.KORA_DATA = {
     {
       id: 'notif-curator-context',
       title: 'Una canción fue destacada por su contexto cultural',
-      body: 'La recomendación aparece como señal curatorial en el feed.',
+      body: 'La recomendación aparece como señal curatorial en la comunidad.',
       type: 'curator',
       artistId: 'valentina-cruz',
       postId: 'post-1',
     },
 
     {
-      id: 'notif-playlist-grow',
-      title: 'La playlist local creció',
+      id: 'notif-lista de reproducción-grow',
+      title: 'La lista de reproducción local creció',
       body: 'La comunidad sumó nuevos aportes esta semana.',
-      type: 'playlist',
+      type: 'lista de reproducción',
     },
 
     {
@@ -1141,9 +1137,9 @@ window.KORA_DATA = {
 
     { name: 'Karold', affinity: 'Lanzamientos y métricas' },
 
-    { name: 'Luna', affinity: 'Playlists y tableros' },
+    { name: 'Luna', affinity: 'Listas y tableros' },
 
-    { name: 'Renzo', affinity: 'Scouting y radar' },
+    { name: 'Renzo', affinity: 'Evaluación y radar' },
   ],
 
   playlists: [
@@ -1168,7 +1164,7 @@ window.KORA_DATA = {
     {
       id: 'pop-local',
       name: 'Pop local emergente',
-      curator: 'Laura Pérez',
+      curator: 'Marea Violeta',
       cover: 'img/cover-brisa-oriente.svg',
       tracks: ['nina-santacruz', 'brisa-oriente'],
       mood: 'Hooks rápidos para compartir',
@@ -1178,20 +1174,20 @@ window.KORA_DATA = {
   settings: [
     { title: 'Tu cuenta', body: 'Perfil, correo, privacidad y baja de cuenta.' },
 
-    { title: 'Playback', body: 'Modo de reproducción, repetir, aleatorio y calidad.' },
+    { title: 'Reproducción', body: 'Modo de reproducción, repetir, aleatorio y calidad.' },
 
     { title: 'Vista', body: 'Tema claro u oscuro, densidad de interfaz y accesibilidad.' },
 
     { title: 'Modo privado', body: 'Oculta temporalmente tu actividad de escucha.' },
 
-    { title: 'Nueva playlist', body: 'Crea tableros de descubrimiento musical local.' },
+    { title: 'Nueva lista de reproducción', body: 'Crea tableros de descubrimiento musical local.' },
 
     {
-      title: 'Help y comunidad KORΛ',
+      title: 'Ayuda y comunidad KORΛ',
       body: 'Soporte, preguntas frecuentes y normas comunitarias.',
     },
 
-    { title: 'About KORΛ', body: 'Propósito, identidad KORΛ y enfoque de descubrimiento digital.' },
+    { title: 'Acerca de KORΛ', body: 'Propósito, identidad KORΛ y enfoque de descubrimiento digital.' },
   ],
 
   plans: [
@@ -1204,8 +1200,8 @@ window.KORA_DATA = {
       features: [
         'Cápsulas de 30 segundos con historia',
         'Guardados y tablero de memoria',
-        'Feed público de interacción',
-        'Playlist local colaborativa',
+        'Comunidad público de interacción',
+        'Lista local colaborativa',
       ],
       note: 'Plan enfocado en descubrir, guardar y participar en comunidad.',
     },
@@ -1218,7 +1214,7 @@ window.KORA_DATA = {
       badge: 'Descubrimiento ampliado',
       features: [
         'Descubrimiento más personalizado',
-        'Playlists locales curadas',
+        'Listas locales curadas',
         'Acceso anticipado a lanzamientos',
         'Pasaporte digital con insignias',
       ],
@@ -1233,9 +1229,9 @@ window.KORA_DATA = {
       badge: 'Para publicar',
       features: [
         'Publicación de cápsulas con historia',
-        'Dashboard de recepción simulada',
+        'Panel de recepción',
         'Estado de licencia y autorización CM',
-        'Checklist previo a publicación',
+        'Lista de verificación previa a publicación',
       ],
       note: 'Plan orientado a publicación, seguimiento y permisos de visibilidad.',
     },
@@ -1244,15 +1240,15 @@ window.KORA_DATA = {
       id: 'company',
       name: 'KORΛ Empresas CM',
       price: 69900,
-      audience: 'Empresas y scouts',
+      audience: 'Empresas y talento',
       badge: 'B2B',
       features: [
         'Radar de talento emergente',
         'Escenas activas por contexto',
         'Métricas agregadas autorizadas',
-        'Scouting responsable con límites legales',
+        'Evaluación responsable con límites legales',
       ],
-      note: 'Plan orientado a scouting responsable con datos autorizados.',
+      note: 'Plan orientado a evaluación responsable con datos autorizados.',
     },
   ],
 
@@ -1270,7 +1266,7 @@ window.KORA_DATA = {
 
         [
           'Categorías de usuario',
-          'Los usuarios normales pueden crear, guardar y compartir contenido tipo tablero. Los artistas pueden publicar canciones, asociar contenido visual y promocionar material. Las empresas pueden contratar planes para scouting, community management y analítica autorizada.',
+          'Los usuarios normales pueden crear, guardar y compartir contenido tipo tablero. Los artistas pueden publicar canciones, asociar contenido visual y promocionar material. Las empresas pueden contratar planes para evaluación de talento, gestión de comunidad y analítica autorizada.',
         ],
 
         [
@@ -1308,7 +1304,7 @@ window.KORA_DATA = {
 
         [
           'Datos de artistas',
-          'KORΛ puede tratar métricas de contenido, engagement, publicaciones, rendimiento de cápsulas, perfil artístico y señales de curaduría.',
+          'KORΛ puede tratar métricas de contenido, interacción, publicaciones, rendimiento de cápsulas, perfil artístico y señales de curaduría.',
         ],
 
         [
@@ -1323,7 +1319,7 @@ window.KORA_DATA = {
 
         [
           'Canal de datos',
-          'Las dudas, quejas o reclamos sobre tratamiento de datos podrán enviarse al correo privacidad@kora.local.',
+          'Las dudas, quejas o reclamos sobre tratamiento de datos deberán gestionarse mediante el canal de privacidad que KORΛ informe dentro de la plataforma.',
         ],
 
         [
@@ -1334,7 +1330,7 @@ window.KORA_DATA = {
     },
 
     license: {
-      title: 'Licencia Musical y Protocolo Notice and Takedown',
+      title: 'Licencia Musical y Protocolo de Aviso y Retiro',
 
       lead: 'Los artistas conservan sus derechos morales sobre la obra, pero autorizan usos patrimoniales necesarios para que KORΛ funcione.',
 
@@ -1351,17 +1347,17 @@ window.KORA_DATA = {
 
         [
           'Derechos patrimoniales autorizados',
-          'La autorización permite operar el feed, el player, las playlists colaborativas, la promoción interna y la visualización de contenido por usuarios o empresas autorizadas.',
+          'La autorización permite operar la comunidad, el reproductor, las listas de reproducción colaborativas, la promoción interna y la visualización de contenido por usuarios o empresas autorizadas.',
         ],
 
         [
           'Música de terceros',
-          'Quien suba contenido declara que cuenta con autorizaciones suficientes. Si existe posible infracción, KORΛ podrá retirar preventivamente el contenido mediante protocolo Notice and Takedown.',
+          'Quien suba contenido declara que cuenta con autorizaciones suficientes. Si existe posible infracción, KORΛ podrá retirar preventivamente el contenido mediante el protocolo de aviso y retiro.',
         ],
 
         [
           'Retiro de contenido',
-          'Los titulares de derechos podrán reportar material presuntamente infractor al correo derechos@kora.local indicando obra, titularidad y motivo de retiro.',
+          'Los titulares de derechos podrán reportar material presuntamente infractor mediante el canal de derechos que KORΛ informe, indicando obra, titularidad y motivo de retiro.',
         ],
 
         [
@@ -1399,11 +1395,11 @@ window.KORA_DATA = {
 
         [
           'Reversión del pago',
-          'KORΛ habilitará revisión de reversión por fraude, operación no solicitada o fallas del servicio. El contacto operativo será soporte@kora.local.',
+          'KORΛ habilitará revisión de reversión por fraude, operación no solicitada o fallas del servicio mediante el canal de soporte que se informe al usuario.',
         ],
 
         [
-          'SLA empresas',
+          'Nivel de servicio para empresas',
           'Los planes empresariales informarán disponibilidad esperada, alcance de datos autorizados, límites de exactitud y canales de soporte comercial.',
         ],
 

@@ -6,7 +6,14 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>KORΛ</title>
+    <title>KORΛ | Aplicación de descubrimiento musical emergente</title>
+
+    <meta name="description" content="Espacio privado de KORΛ para descubrir música emergente, escuchar cápsulas, guardar hallazgos y participar en la comunidad." />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="theme-color" content="#F1871C" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="canonical" href="https://renzofernando.github.io/KORA/" />
+    <link rel="manifest" href="site.webmanifest" />
 
     <link rel="icon" href="branding/09_favicon_web.svg" type="image/svg+xml" />
 
@@ -37,7 +44,7 @@
       <aside class="sidebar" aria-label="Navegación principal">
         <a class="brand-block" href="index.html" aria-label="KORΛ, ir al inicio">
           <span class="brand-word">KORΛ</span>
-          <span class="brand-subtitle">Discover</span>
+          <span class="brand-subtitle">Música emergente</span>
         </a>
 
         <button class="profile-pill" type="button" data-go-login>
@@ -67,7 +74,7 @@
             <span class="nav-icon" aria-hidden="true"
               ><svg viewBox="0 0 24 24">
                 <path d="M7 5.3v13.4L18.4 12 7 5.3Z" fill="currentColor" /></svg></span
-            ><span>Player</span>
+            ><span>Reproductor</span>
           </button>
 
           <button class="nav-item" type="button" data-view-target="interaction">
@@ -121,12 +128,12 @@
 
           <strong data-account-state>Explorando Cali</strong>
 
-          <span data-account-meta>Datos de usuario protegidos</span>
+          <span data-account-meta>Datos de esta sesión</span>
 
           <div class="session-grid">
             <span><b data-side-saved>0</b><small>Hallazgos</small></span>
 
-            <span><b data-side-playlist>2</b><small>Playlist</small></span>
+            <span><b data-side-playlist>2</b><small>Lista</small></span>
           </div>
 
           <div class="side-current" data-side-current></div>
@@ -167,7 +174,7 @@
                   stroke-width="1.8"
                   stroke-linecap="round"
                 /></svg></span
-            ><span>KORΛ AI</span>
+            ><span>KORΛ IA</span>
           </button>
 
           <button class="tool-link" type="button" data-open-onboarding>
@@ -231,13 +238,13 @@
         <section class="sidebar-card legal-links compact-card">
           <p class="eyebrow">Legal</p>
 
-          <a href="legal.html?doc=terms">Términos y condiciones</a>
+          <a href="legal/terminos/">Términos y condiciones</a>
 
-          <a href="legal.html?doc=privacy">Datos personales</a>
+          <a href="legal/privacidad/">Datos personales</a>
 
-          <a href="legal.html?doc=license">Licencia musical</a>
+          <a href="legal/licencia-musical/">Licencia musical</a>
 
-          <a href="legal.html?doc=payments">Pagos</a>
+          <a href="legal/pagos/">Pagos</a>
         </section>
       </aside>
 
@@ -358,6 +365,7 @@
         </header>
 
         <main class="content-area">
+          <h1 class="visually-hidden">KORΛ, aplicación de descubrimiento de música emergente</h1>
           <section class="view is-active" data-view="discover">
             <article class="hero-panel" data-hero-panel></article>
 
@@ -386,17 +394,23 @@
                 <div class="role-action-grid">
                   <article class="role-feature">
                     <strong>Historia local</strong
-                    ><span>El contexto aparece sin interrumpir la música.</span>
+                    ><span
+                      >El contexto aparece sin interrumpir la música.</span
+                    >
                   </article>
 
                   <article class="role-feature">
                     <strong>Memoria musical</strong
-                    ><span>Lo que guardas vuelve a ti como memoria musical.</span>
+                    ><span
+                      >Lo que guardas vuelve a ti como memoria musical.</span
+                    >
                   </article>
 
                   <article class="role-feature">
                     <strong>Descubrimiento social</strong
-                    ><span>La comunidad aporta señales humanas, no ruido.</span>
+                    ><span
+                      >La comunidad aporta señales humanas, no ruido.</span
+                    >
                   </article>
                 </div>
               </div>
@@ -406,11 +420,12 @@
               <div>
                 <p class="eyebrow">Cápsulas locales</p>
 
-                <h1>Descubre lo próximo.</h1>
+                <h2>Descubre lo próximo.</h2>
               </div>
 
               <div class="section-actions">
-                <button class="soft-button" type="button" data-open-view-guide>Cómo funciona</button
+                <button class="soft-button" type="button" data-open-view-guide>
+                  Cómo funciona</button
                 ><button class="soft-button" type="button" data-next-artist>
                   Siguiente cápsula
                 </button>
@@ -492,7 +507,7 @@
             <div class="section-heading player-section-heading">
               <div>
                 <p class="eyebrow">Escucha activa</p>
-                <h1>Escucha. Guarda. Sigue.</h1>
+                <h2>Escucha. Guarda. Sigue.</h2>
               </div>
               <div class="section-actions">
                 <button
@@ -587,7 +602,7 @@
                   class="player-action"
                   type="button"
                   data-repost-current
-                  title="Repostear"
+                  title="Recomendar"
                 ></button>
                 <button
                   class="player-action"
@@ -598,16 +613,9 @@
                 <button
                   class="soft-button compact-button player-mode-action"
                   type="button"
-                  data-follow-listen
-                >
-                  Escuchar completa
-                </button>
-                <button
-                  class="soft-button compact-button player-mode-action"
-                  type="button"
                   data-toggle-preview-mode
                 >
-                  Full
+                  Escuchar canción completa
                 </button>
                 <button
                   class="soft-button compact-button player-mode-action"
@@ -648,14 +656,15 @@
           <section class="view" data-view="interaction">
             <div class="section-heading">
               <div>
-                <p class="eyebrow">Feed social</p>
-                <h1>La escena está hablando.</h1>
+                <p class="eyebrow">Actividad social</p>
+                <h2>La escena está hablando.</h2>
               </div>
 
               <div class="section-actions">
-                <button class="soft-button" type="button" data-open-view-guide>Cómo funciona</button
+                <button class="soft-button" type="button" data-open-view-guide>
+                  Cómo funciona</button
                 ><button class="primary-button" type="button" data-add-playlist>
-                  Sumar a playlist local
+                  Sumar a lista local
                 </button>
               </div>
             </div>
@@ -666,10 +675,12 @@
                   <p class="eyebrow">Comunidad diferencial</p>
                   <h2>La recomendación nace de personas, no solo de algoritmos</h2>
                 </div>
-                <span class="counter-pill">Feed público</span>
+                <span class="counter-pill">Comunidad pública</span>
               </div>
 
-              <p>Comentarios, reposts y guardados que añaden criterio al descubrimiento.</p>
+              <p>
+                Comentarios, recomendaciones y guardados que añaden criterio al descubrimiento.
+              </p>
             </article>
 
             <div class="interaction-layout">
@@ -678,7 +689,7 @@
               <aside class="panel-card sticky-panel">
                 <div class="panel-head">
                   <div>
-                    <p class="eyebrow">Playlist colaborativa</p>
+                    <p class="eyebrow">Lista colaborativa</p>
                     <h2>KORΛ Cali curada por usuarios</h2>
                   </div>
                 </div>
@@ -711,8 +722,8 @@
           <section class="view" data-view="publish">
             <div class="section-heading">
               <div>
-                <p class="eyebrow">Workspace artista</p>
-                <h1>Publica música, contexto visual y cápsulas de 30 segundos.</h1>
+                <p class="eyebrow">Espacio del artista</p>
+                <h2>Publica música, contexto visual y cápsulas de 30 segundos.</h2>
               </div>
 
               <button class="soft-button" type="button" data-open-view-guide>
@@ -720,7 +731,7 @@
               </button>
             </div>
 
-            <article class="panel-card prototype-phase-panel" data-artist-prototype-panel></article>
+            <article class="panel-card ecosystem-overview-panel" data-artist-ecosystem-panel></article>
 
             <div class="publish-layout">
               <form class="panel-card publish-form" data-publish-form>
@@ -798,7 +809,7 @@
                 <label class="check-row"
                   ><input name="visibility" type="checkbox" /><span
                     >Autorizo que empresas CM suscriptoras vean métricas agregadas y señales de
-                    engagement de este lanzamiento.</span
+                    interacción de este lanzamiento.</span
                   ></label
                 >
 
@@ -823,7 +834,7 @@
             <div class="section-heading">
               <div>
                 <p class="eyebrow">Modelo de negocio</p>
-                <h1>Pagos, suscripciones y facturación electrónica.</h1>
+                <h2>Pagos, suscripciones y facturación electrónica.</h2>
               </div>
               <button class="soft-button" type="button" data-open-view-guide>
                 ¿Qué encuentro aquí?
@@ -831,8 +842,8 @@
             </div>
 
             <article
-              class="panel-card prototype-phase-panel"
-              data-company-prototype-panel
+              class="panel-card ecosystem-overview-panel"
+              data-company-ecosystem-panel
             ></article>
 
             <div class="plan-grid" data-plan-grid></div>
@@ -841,7 +852,7 @@
               <form class="panel-card payment-form" data-payment-form>
                 <div class="panel-head">
                   <div>
-                    <p class="eyebrow">Pago seguro</p>
+                    <p class="eyebrow">Suscripción</p>
                     <h2>Completar suscripción</h2>
                   </div>
                   <span class="counter-pill">COP</span>
@@ -908,7 +919,7 @@
             <div class="section-heading">
               <div>
                 <p class="eyebrow">Perfil activo</p>
-                <h1>Tu espacio en KORΛ.</h1>
+                <h2>Tu espacio en KORΛ.</h2>
               </div>
               <button class="soft-button" type="button" data-open-view-guide>
                 ¿Qué encuentro aquí?
@@ -964,7 +975,7 @@
         <span class="nav-icon" aria-hidden="true"
           ><svg viewBox="0 0 24 24">
             <path d="M7 5.3v13.4L18.4 12 7 5.3Z" fill="currentColor" /></svg></span
-        ><span>Player</span>
+        ><span>Reproductor</span>
       </button>
 
       <button type="button" data-view-target="interaction">
@@ -974,7 +985,7 @@
               d="M12 3c5 0 9 3.4 9 7.5S17 18 12 18a10 10 0 0 1-3-.4L4 20l1.5-4.2A6.8 6.8 0 0 1 3 10.5C3 6.4 7 3 12 3Z"
               fill="currentColor"
             /></svg></span
-        ><span>Feed</span>
+        ><span>Comunidad</span>
       </button>
 
       <button class="role-only" type="button" data-view-target="publish" data-role-nav="artist">
@@ -1010,20 +1021,31 @@
 
     <div class="consent-overlay" data-consent-overlay hidden>
       <section class="consent-card" role="dialog" aria-modal="true" aria-labelledby="consent-title">
-        <div class="consent-brand" aria-label="KORΛ">
-          <span class="brand-word">KORΛ</span>
+        <div class="consent-heading">
+          <div class="consent-legal-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 4.5h5.4c1 0 1.6.3 1.6 1.1V20c0-.9-.8-1.4-2-1.4H5V4.5Zm14 0h-5.4c-1 0-1.6.3-1.6 1.1V20c0-.9.8-1.4 2-1.4h5V4.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="consent-brand" aria-label="KORΛ"><span class="brand-word">KORΛ</span></div>
+            <h2 id="consent-title">Términos y condiciones</h2>
+          </div>
         </div>
-        <h2 id="consent-title">Términos y condiciones</h2>
 
         <p class="consent-role-lead" data-consent-role-lead>
-          Estas autorizaciones se ajustan al rol activo.
+          Lee las condiciones esenciales de tu rol antes de continuar.
         </p>
+        <nav class="consent-legal-links" aria-label="Documentos legales completos">
+          <a href="legal/terminos/" target="_blank" rel="noopener">Términos</a>
+          <a href="legal/privacidad/" target="_blank" rel="noopener">Datos personales</a>
+          <a href="legal/licencia-musical/" target="_blank" rel="noopener">Licencia musical</a>
+          <a href="legal/pagos/" target="_blank" rel="noopener">Pagos</a>
+        </nav>
 
         <form class="consent-form" data-consent-form>
           <label class="check-row"
             ><input type="checkbox" name="terms" /><span data-legal-copy="terms"
               >He leído y acepto los
-              <a href="legal.html?doc=terms" target="_blank" rel="noopener"
+              <a href="legal/terminos/" target="_blank" rel="noopener"
                 >Términos y Condiciones</a
               >
               de KORΛ.</span
@@ -1033,7 +1055,7 @@
           <label class="check-row"
             ><input type="checkbox" name="privacy" /><span data-legal-copy="privacy"
               >Acepto la
-              <a href="legal.html?doc=privacy" target="_blank" rel="noopener"
+              <a href="legal/privacidad/" target="_blank" rel="noopener"
                 >Autorización de Tratamiento de Datos Personales</a
               >
               según mi rol.</span
@@ -1043,7 +1065,7 @@
           <label class="check-row"
             ><input type="checkbox" name="roleData" /><span data-legal-copy="roleData"
               >Acepto los permisos y datos asociados a mi categoría dentro de KORΛ.
-              <a href="legal.html?doc=terms" target="_blank" rel="noopener">Ver más información</a
+              <a href="legal/terminos/" target="_blank" rel="noopener">Ver más información</a
               >.</span
             ></label
           >

@@ -1,0 +1,23 @@
+name: SEO quality
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verificar archivos SEO generados
+        run: node scripts/generate-seo.mjs --check
+      - name: Ejecutar reglas SEO
+        run: node scripts/seo-check.mjs
+      - name: Validar sintaxis JavaScript
+        shell: bash
+        run: find js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+      - name: Construir sitio estático
+        run: node scripts/build.mjs

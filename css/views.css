@@ -9,11 +9,7 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   background:
-    radial-gradient(
-      circle at 84% 18%,
-      color-mix(in srgb, var(--tone-a, var(--accent)) 18%, transparent),
-      transparent 34%
-    ),
+    radial-gradient(circle at 84% 18%, color-mix(in srgb, var(--tone-a, var(--accent)) 18%, transparent), transparent 34%),
     linear-gradient(150deg, var(--surface), var(--surface-muted));
   padding: clamp(26px, 5vw, 62px);
   box-shadow: var(--shadow-md);
@@ -37,7 +33,8 @@
   max-width: 720px;
 }
 
-.hero-copy h1 {
+.hero-copy h1,
+.hero-copy h2 {
   max-width: 680px;
 }
 
@@ -112,7 +109,15 @@
 }
 
 .role-feature {
+  min-width: 0;
   min-height: 100%;
+}
+
+.role-feature strong,
+.role-feature span {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .role-feature:nth-child(3n + 1) {
@@ -299,7 +304,7 @@
 }
 
 .cover-art {
-  width: min(100%, 470px);
+  width: min(100%, 360px);
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 30px;
@@ -307,7 +312,8 @@
   box-shadow: 0 28px 70px color-mix(in srgb, var(--tone-a, var(--accent)) 22%, transparent);
 }
 
-.player-copy h1 {
+.player-copy h1,
+.player-copy h2 {
   font-size: clamp(2.1rem, 4vw, 4.2rem);
 }
 
@@ -489,7 +495,8 @@
 
 .feed-media {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  max-height: 340px;
+  aspect-ratio: 16 / 8.5;
   overflow: hidden;
   background: linear-gradient(135deg, var(--tone-a, var(--accent)), var(--tone-b, var(--accent-2)));
 }
@@ -709,7 +716,7 @@
 .profile-role-banner,
 .workspace-hero,
 .role-profile-hero,
-.prototype-phase-panel {
+.ecosystem-overview-panel {
   margin-bottom: 18px;
 }
 
@@ -854,17 +861,14 @@
 }
 
 .player-fullscreen-shell {
-  --full-width: min(1080px, 100%);
+  --full-width: min(920px, calc(100vw - 48px));
   width: var(--full-width);
-  overflow: hidden;
+  max-height: min(760px, calc(100vh - 48px));
+  overflow: auto;
   border: 1px solid rgba(255, 255, 255, 0.11);
   border-radius: 34px;
   background:
-    radial-gradient(
-      circle at 10% 10%,
-      color-mix(in srgb, var(--tone-a, var(--accent)) 26%, transparent),
-      transparent 36%
-    ),
+    radial-gradient(circle at 10% 10%, color-mix(in srgb, var(--tone-a, var(--accent)) 26%, transparent), transparent 36%),
     #111116;
   color: #f7f3ee;
   box-shadow: 0 36px 100px rgba(0, 0, 0, 0.55);
@@ -879,7 +883,7 @@
 
 .player-fullscreen-body {
   display: grid;
-  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(260px, 0.82fr) minmax(0, 1.18fr);
   gap: 38px;
   align-items: center;
   padding: 18px 34px 38px;
@@ -1054,9 +1058,9 @@
   grid-column: 1 / -1;
 }
 
-.prototype-inline,
+.ecosystem-inline,
 .phase-validation-note {
-  border-style: dashed;
+  border-style: solid;
 }
 
 .phase-panel-layout {
@@ -1189,4 +1193,170 @@
 
 .mini-now-actions {
   justify-content: flex-end;
+}
+
+/* Refinamientos de densidad visual */
+.plan-feature-list {
+  display: grid;
+  gap: 0;
+  margin: 14px 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-feature-list li {
+  position: relative;
+  padding: 10px 0 10px 22px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.plan-feature-list li::before {
+  position: absolute;
+  top: 14px;
+  left: 2px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+  content: '';
+}
+
+.plan-feature-list li:last-child { border-bottom: 0; }
+
+.notification-summary-row {
+  display: grid;
+  gap: 3px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.notification-summary-row:last-child { border-bottom: 0; }
+.notification-summary-row strong { font-size: 0.78rem; }
+.notification-summary-row span { color: var(--muted); font-size: 0.7rem; line-height: 1.45; }
+
+.phase-validation-note {
+  max-width: 430px;
+  border: 0;
+  border-left: 3px solid var(--accent);
+  border-radius: 0;
+  background: transparent;
+  padding: 4px 0 4px 16px;
+}
+
+.ecosystem-inline {
+  border: 0;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--blue) 7%, transparent), color-mix(in srgb, var(--turquoise) 6%, transparent));
+}
+
+.role-dashboard-grid { gap: 18px; }
+.role-workspace-section { min-width: 0; }
+.role-workspace-section p,
+.role-workspace-section span { line-height: 1.5; }
+.role-dossier { padding: 13px 0; border-radius: 0; border-width: 0 0 1px; background: transparent; }
+.role-dossier:last-child { border-bottom: 0; }
+
+.scouting-responsible-grid .checklist-card,
+.artist-health-grid .checklist-card {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 10px 0;
+}
+
+.player-fullscreen-story {
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: 14px;
+}
+
+.player-mode-action { white-space: nowrap; }
+
+/* Ajustes de legibilidad y controles de reproducción */
+.progress-wrap input[type='range'] {
+  appearance: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.progress-wrap input[type='range']::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  appearance: none;
+  border: 3px solid var(--surface);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.progress-wrap input[type='range']::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 3px solid var(--surface);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.progress-wrap input[type='range']::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-muted);
+}
+
+.feed-card .feed-media {
+  max-height: 300px;
+}
+
+.feed-card .feed-body,
+.feed-card .comment-list {
+  font-size: 0.92rem;
+}
+
+.feed-body p,
+.comment-chip span,
+.muted-comment {
+  line-height: 1.5;
+}
+
+.plan-card .panel-head,
+.role-workspace-section .panel-head {
+  margin-bottom: 12px;
+}
+
+.role-workspace-section h3 {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.25;
+}
+
+.role-workspace-section p,
+.role-workspace-section span,
+.role-dossier span {
+  font-size: 0.78rem;
+}
+
+.role-workspace-section .role-feature {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 10px 0;
+}
+
+.profile-summary-grid .role-feature {
+  min-width: 0;
+}
+
+.profile-summary-grid .role-feature strong,
+.profile-summary-grid .role-feature span {
+  overflow-wrap: anywhere;
+}
+
+.player-fullscreen-shell {
+  --full-width: min(860px, calc(100vw - 56px));
+  max-height: min(720px, calc(100vh - 56px));
+}
+
+.player-fullscreen-cover {
+  width: min(100%, 360px);
 }

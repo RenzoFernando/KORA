@@ -1,4 +1,4 @@
-/* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, activeProfileNameParts, addCommunityEvent, allProfiles, ambassadorDashboard, applyInterfacePreferences, applyQuickComment, applyVoiceComment, artistAuthorizationCards, artistById, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, audioContext, audioPlayer, avatarMarkup, bindEvents, capsuleLoopTimer, capsuleSequenceWidth, closeModal, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, completeViewGuide, createdProfiles, curatorDashboard, currentView, defaultState, dismissNotification, ecosystemConfig, escapeHtml, explorerDashboard, fallbackNodes, finishOnboarding, formatCommunityTime, formatMemoryDate, generateInvoice, handleConsentForm, handleGlobalClick, iconActionMarkup, imgMarkup, lastRoleSignal, legalConsentCopy, legalDocLink, loadState, logoutSession, lowerAccount, maybeShowViewGuide, memoryArtistCard, memoryReminderItems, money, normalizeCapsuleLoop, notificationBelongsToActiveProfile, nowPlayingHideTimer, personalizeBaseNotification, phasePrototypePanel, playTimer, playerFullscreenContent, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishTrack, publishedProfileCard, qs, qsa, registerResponsibleScout, remindOnboardingLater, remindViewGuideLater, renderAll, renderBilling, renderDiscoverSummary, renderInteraction, renderNotificationBadge, renderNowPlaying, renderProfile, renderProfileChrome, renderPrototypePanels, renderPublished, renderSidebarSession, resetEverything, roleActionButtons, roleDashboard, roleDefinition, roleFeatureCards, roleLegalCopy, roleMetricItems, roleWorkspace, runAiAction, runtimeArtists, saveState, savedReason, scrollActiveCapsuleIntoView, scrollCapsules, sessionMedia, setView, settingEnabled, settingsToggleRow, showActionGuide, showAiAssistant, showCommentComposer, showFriendsPanel, showLegalGate, showModal, showNotificationsPanel, showPlayerFullscreen, showSettingsPanel, showSharePanel, showWelcomeOnboarding, statPill, state, submitComment, submitFriendMessage, svgIcon, syncViewChrome, toast, toggleSetting, unreadNotifications, updateFileLabel, viewChromeCopy, viewGuideCopy, viewGuideKey */
+/* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, activeProfileNameParts, addCommunityEvent, allProfiles, ambassadorDashboard, applyInterfacePreferences, applyQuickComment, applyVoiceComment, artistAuthorizationCards, artistById, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, audioContext, audioPlayer, avatarMarkup, bindEvents, capsuleLoopTimer, capsuleSequenceWidth, closeModal, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, completeViewGuide, createdProfiles, curatorDashboard, currentView, defaultState, dismissNotification, ecosystemConfig, escapeHtml, explorerDashboard, fallbackNodes, finishOnboarding, formatCommunityTime, formatMemoryDate, generateInvoice, handleConsentForm, handleGlobalClick, iconActionMarkup, imgMarkup, lastRoleSignal, legalConsentCopy, legalDocLink, loadState, logoutSession, lowerAccount, maybeShowViewGuide, memoryArtistCard, memoryReminderItems, money, normalizeCapsuleLoop, notificationBelongsToActiveProfile, nowPlayingHideTimer, personalizeBaseNotification, ecosystemOverviewPanel, playTimer, playerFullscreenContent, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishTrack, publishedProfileCard, qs, qsa, registerResponsibleScout, remindOnboardingLater, remindViewGuideLater, renderAll, renderBilling, renderDiscoverSummary, renderInteraction, renderNotificationBadge, renderNowPlaying, renderProfile, renderProfileChrome, renderEcosystemPanels, renderPublished, renderSidebarSession, resetEverything, roleActionButtons, roleDashboard, roleDefinition, roleFeatureCards, roleLegalCopy, roleMetricItems, roleWorkspace, runAiAction, runtimeArtists, saveState, savedReason, scrollActiveCapsuleIntoView, scrollCapsules, sessionMedia, setView, settingEnabled, settingsToggleRow, showActionGuide, showAiAssistant, showCommentComposer, showFriendsPanel, showLegalGate, showModal, showNotificationsPanel, showPlayerFullscreen, showSettingsPanel, showSharePanel, showWelcomeOnboarding, statPill, state, submitComment, submitFriendMessage, svgIcon, syncViewChrome, toast, toggleSetting, unreadNotifications, updateFileLabel, viewChromeCopy, viewGuideCopy, viewGuideKey */
 /* exported formatTime, getAudioPlayer, removeSaved, renderCapsules, renderHero, renderPlayer, renderSaved, replaySaved, repostArtist, repostCurrent, saveArtist, setCurrentArtist, shareCurrent, showSaveNote, startClock, startFallbackAudio, startPlayback, stopFallbackAudio, stopPlayback, submitSaveNote, toggleLikeArtist, toggleLikeCurrent, togglePlay */
 
 function renderHero() {
@@ -12,7 +12,7 @@ function renderHero() {
 
       <p class="eyebrow">${escapeHtml(artist.city)} · ${escapeHtml(artist.neighborhood)}</p>
 
-      <h1>${escapeHtml(artist.name)} en ${escapeHtml(artist.preview)} segundos.</h1>
+      <h2>${escapeHtml(artist.name)} en ${escapeHtml(artist.preview)} segundos.</h2>
 
       <p>${escapeHtml(artist.story)}</p>
 
@@ -64,7 +64,7 @@ function renderCapsules() {
           <h3>${escapeHtml(artist.track)}</h3>
           <p>${escapeHtml(artist.name)} · ${escapeHtml(artist.genre)}</p>
         </div>
-        <div class="tag-row"><span class="tag">${escapeHtml(artist.neighborhood)}</span><span class="tag">${artist.match}% match</span><span class="tag">${escapeHtml(artist.language)}</span></div>
+        <div class="tag-row"><span class="tag">${escapeHtml(artist.neighborhood)}</span><span class="tag">${artist.match}% afinidad</span><span class="tag">${escapeHtml(artist.language)}</span></div>
         <div class="action-row">
           <button class="soft-button" type="button" data-select-artist="${index}">Ver</button>
           <button class="soft-button ${saved ? 'is-active' : ''}" type="button" data-save-artist="${escapeHtml(artist.id)}">${saved ? 'Guardado' : 'Guardar'}</button>
@@ -150,7 +150,7 @@ function renderSaved() {
     'Barrio',
     'Escena',
     'Idioma',
-    'Match',
+    'Afinidad',
     'Guardados',
     'Impacto social',
   ]
@@ -181,7 +181,7 @@ function renderPlayer() {
         <p class="eyebrow">${escapeHtml(artist.city)} · ${escapeHtml(artist.neighborhood)}</p>
         <span class="status-chip">${state.previewMode === 'short' ? `${artist.preview} s` : 'Completa'}</span>
       </div>
-      <h1>${escapeHtml(artist.track)}</h1>
+      <h2>${escapeHtml(artist.track)}</h2>
       <p class="player-artistline"><strong>${escapeHtml(artist.name)}</strong><span>${escapeHtml(artist.genre)} · ${escapeHtml(artist.scene)}</span></p>
       <p class="player-story">${escapeHtml(artist.story)}</p>
       <div class="tag-row"><span class="tag">${artist.match}% afinidad</span><span class="tag">${escapeHtml(artist.language)}</span></div>
@@ -207,7 +207,7 @@ function renderPlayer() {
   const previewButton = qs('[data-toggle-preview-mode]');
 
   if (previewButton)
-    previewButton.innerHTML = `${svgIcon('expand')}<span>${state.previewMode === 'short' ? 'Completa' : '30 s'}</span>`;
+    previewButton.innerHTML = `${svgIcon('expand')}<span>${state.previewMode === 'short' ? 'Escuchar canción completa' : 'Volver a cápsula de 30 s'}</span>`;
 
   qsa('[data-like-current]').forEach(button => {
     button.classList.toggle('is-active', liked);
@@ -241,9 +241,9 @@ function renderPlayer() {
 
   qsa('[data-repost-current]').forEach(button => {
     button.classList.toggle('is-active', reposted);
-    const label = reposted ? 'Quitar repost' : 'Repostear';
+    const label = reposted ? 'Quitar recomendación' : 'Recomendar';
     button.innerHTML = button.classList.contains('player-action')
-      ? iconActionMarkup('repost', label, reposted, reposted ? 'Reposteado' : 'Repostear')
+      ? iconActionMarkup('repost', label, reposted, reposted ? 'Recomendado' : 'Recomendar')
       : svgIcon('repost');
     button.setAttribute('title', label);
     button.setAttribute('aria-label', label);
@@ -452,13 +452,13 @@ function repostArtist(id) {
   if (state.reposted.includes(artist.id)) {
     state.reposted = state.reposted.filter(item => item !== artist.id);
 
-    toast('Repost retirado de tu perfil.');
+    toast('Recomendación retirada de tu perfil.');
   } else {
     state.reposted.push(artist.id);
 
     addCommunityEvent('repost', artist);
 
-    toast(`Reposteaste ${artist.track} en tu actividad comunitaria.`);
+    toast(`Recomendaste ${artist.track} en tu actividad comunitaria.`);
   }
 
   saveState();
@@ -470,18 +470,37 @@ function repostCurrent() {
   repostArtist(activeArtist().id);
 }
 
-function shareCurrent() {
+async function shareCurrent() {
   const artist = activeArtist();
+  const url = new URL('index.html', window.location.href);
+  url.searchParams.set('artista', artist.id);
+  const payload = {
+    title: `${artist.track} · ${artist.name} en KORΛ`,
+    text: `Escucha ${artist.track} de ${artist.name} y conoce su contexto en KORΛ.`,
+    url: url.href,
+  };
 
   if (!state.shared.includes(artist.id)) state.shared.push(artist.id);
-
   addCommunityEvent('share', artist, { notification: false });
-
   saveState();
-
   renderAll();
 
-  showSharePanel();
+  if (navigator.share) {
+    try {
+      await navigator.share(payload);
+      toast('Cápsula compartida.');
+      return;
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+    }
+  }
+
+  try {
+    await navigator.clipboard.writeText(payload.url);
+    toast('Enlace de la cápsula copiado.');
+  } catch {
+    showSharePanel(payload);
+  }
 }
 
 function getAudioPlayer() {

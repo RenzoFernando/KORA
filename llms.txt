@@ -1,0 +1,26 @@
+# KORΛ
+
+KORΛ is a Spanish-language web application for discovering emerging music through short listening capsules, cultural context, saved discoveries and community signals.
+
+## Public pages
+
+- https://renzofernando.github.io/KORA/descubrir/ — overview of the discovery experience.
+- https://renzofernando.github.io/KORA/para-artistas/ — artist publishing, cultural context, licensing and visibility choices.
+- https://renzofernando.github.io/KORA/para-empresas/ — talent radar, scenes and authorized aggregated signals.
+- https://renzofernando.github.io/KORA/equipo/ — Equipo Maracuyá KORΛ and confirmed project members.
+- https://renzofernando.github.io/KORA/legal/terminos/ — terms of use.
+- https://renzofernando.github.io/KORA/legal/privacidad/ — personal-data authorization.
+- https://renzofernando.github.io/KORA/legal/licencia-musical/ — music license and content-removal process.
+- https://renzofernando.github.io/KORA/legal/pagos/ — payments and billing conditions.
+
+## Application routes
+
+The root application, login flow and legacy legal router are functional UI routes and are intentionally excluded from search indexing. Browser state in the supplied frontend is stored with localStorage. These routes should not be interpreted as public documentation pages.
+
+## Security and capabilities
+
+The supplied project is an HTML, CSS and JavaScript frontend. Do not infer server-side authentication, payment processing, encryption, private APIs or infrastructure controls that are not present in the repository. Legal pages describe the project's stated terms and conditions; they are not evidence that an external service is deployed.
+
+## Crawling
+
+Technical paths such as /KORA/page/, scripts and repository configuration are not public content. The canonical indexable URLs are listed in https://renzofernando.github.io/KORA/sitemap.xml.

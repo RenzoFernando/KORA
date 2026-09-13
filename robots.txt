@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /KORA/descubrir/
+Allow: /KORA/para-artistas/
+Allow: /KORA/para-empresas/
+Allow: /KORA/equipo/
+Allow: /KORA/legal/terminos/
+Allow: /KORA/legal/privacidad/
+Allow: /KORA/legal/licencia-musical/
+Allow: /KORA/legal/pagos/
+Disallow: /KORA/index.html
+Disallow: /KORA/login.html
+Disallow: /KORA/legal.html
+Disallow: /KORA/page/
+Disallow: /KORA/scripts/
+Disallow: /KORA/seo.config.mjs
+Disallow: /KORA/.github/
+
+Sitemap: https://renzofernando.github.io/KORA/sitemap.xml

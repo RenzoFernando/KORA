@@ -1,0 +1,25 @@
+{
+  "name": "KORΛ — Descubrimiento musical",
+  "short_name": "KORΛ",
+  "lang": "es-CO",
+  "start_url": "/KORA/login.html",
+  "scope": "/KORA/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#F1871C",
+  "description": "Aplicación web de descubrimiento de música emergente con cápsulas breves, contexto cultural y comunidad.",
+  "icons": [
+    {
+      "src": "/KORA/branding/08_icono_app.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/KORA/branding/20_icono_app_crema.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-/* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, activeProfileNameParts, addCommunityEvent, allProfiles, ambassadorDashboard, applyInterfacePreferences, applyQuickComment, applyVoiceComment, artistAuthorizationCards, artistById, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, audioContext, audioPlayer, avatarMarkup, capsuleLoopTimer, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, createdProfiles, curatorDashboard, currentView, defaultState, dismissNotification, ecosystemConfig, escapeHtml, explorerDashboard, fallbackNodes, formatCommunityTime, formatMemoryDate, formatTime, generateInvoice, getAudioPlayer, iconActionMarkup, imgMarkup, lastRoleSignal, legalConsentCopy, legalDocLink, loadState, memoryArtistCard, memoryReminderItems, money, notificationBelongsToActiveProfile, nowPlayingHideTimer, personalizeBaseNotification, phasePrototypePanel, playTimer, playerFullscreenContent, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishedProfileCard, qs, qsa, registerResponsibleScout, removeSaved, renderBilling, renderCapsules, renderDiscoverSummary, renderHero, renderInteraction, renderNotificationBadge, renderNowPlaying, renderPlayer, renderProfile, renderProfileChrome, renderPrototypePanels, renderPublished, renderSaved, renderSidebarSession, replaySaved, repostArtist, repostCurrent, roleActionButtons, roleDashboard, roleDefinition, roleFeatureCards, roleLegalCopy, roleMetricItems, roleWorkspace, runAiAction, runtimeArtists, saveArtist, saveState, savedReason, sessionMedia, setCurrentArtist, setView, settingEnabled, settingsToggleRow, shareCurrent, showAiAssistant, showCommentComposer, showFriendsPanel, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, startClock, startFallbackAudio, startPlayback, statPill, state, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, svgIcon, syncViewChrome, toast, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, viewChromeCopy, viewGuideCopy, viewGuideKey */
+/* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, activeProfileNameParts, addCommunityEvent, allProfiles, ambassadorDashboard, applyInterfacePreferences, applyQuickComment, applyVoiceComment, artistAuthorizationCards, artistById, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, audioContext, audioPlayer, avatarMarkup, capsuleLoopTimer, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, createdProfiles, curatorDashboard, currentView, defaultState, dismissNotification, ecosystemConfig, escapeHtml, explorerDashboard, fallbackNodes, formatCommunityTime, formatMemoryDate, formatTime, generateInvoice, getAudioPlayer, iconActionMarkup, imgMarkup, lastRoleSignal, legalConsentCopy, legalDocLink, loadState, memoryArtistCard, memoryReminderItems, money, notificationBelongsToActiveProfile, nowPlayingHideTimer, personalizeBaseNotification, ecosystemOverviewPanel, playTimer, playerFullscreenContent, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishedProfileCard, qs, qsa, registerResponsibleScout, removeSaved, renderBilling, renderCapsules, renderDiscoverSummary, renderHero, renderInteraction, renderNotificationBadge, renderNowPlaying, renderPlayer, renderProfile, renderProfileChrome, renderEcosystemPanels, renderPublished, renderSaved, renderSidebarSession, replaySaved, repostArtist, repostCurrent, roleActionButtons, roleDashboard, roleDefinition, roleFeatureCards, roleLegalCopy, roleMetricItems, roleWorkspace, runAiAction, runtimeArtists, saveArtist, saveState, savedReason, sessionMedia, setCurrentArtist, setView, settingEnabled, settingsToggleRow, shareCurrent, showAiAssistant, showCommentComposer, showFriendsPanel, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, startClock, startFallbackAudio, startPlayback, statPill, state, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, svgIcon, syncViewChrome, toast, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, viewChromeCopy, viewGuideCopy, viewGuideKey */
 /* exported bindEvents, capsuleSequenceWidth, closeModal, completeViewGuide, finishOnboarding, handleConsentForm, handleGlobalClick, logoutSession, lowerAccount, maybeShowViewGuide, normalizeCapsuleLoop, publishTrack, remindOnboardingLater, remindViewGuideLater, renderAll, resetEverything, scrollActiveCapsuleIntoView, scrollCapsules, showActionGuide, showLegalGate, showModal, showWelcomeOnboarding, updateFileLabel */
 
 function renderAll() {
@@ -24,7 +24,7 @@ function renderAll() {
 
   renderBilling();
 
-  renderPrototypePanels();
+  renderEcosystemPanels();
 
   renderProfile();
 
@@ -174,7 +174,7 @@ function showActionGuide(action) {
 
     community: [
       'Compartir comunidad',
-      'Repostea, comenta o comparte para que el descubrimiento tenga señales humanas y no solo reproducciones.',
+      'Recomienda, comenta o comparte para que el descubrimiento tenga señales humanas y no solo reproducciones.',
     ],
 
     role: [
@@ -304,9 +304,9 @@ function publishTrack(form) {
     ],
 
     insight: [
-      'Cápsula publicada desde workspace artista.',
+      'Cápsula publicada desde el espacio del artista.',
       'Licencia de uso registrada para operación de KORΛ.',
-      'Lista para guardado, escucha y playlist local.',
+      'Lista para guardado, escucha y lista local.',
     ],
 
     visibility: Boolean(formData.get('visibility')),
@@ -326,7 +326,7 @@ function publishTrack(form) {
 
   renderAll();
 
-  toast('Cápsula publicada, agregada al feed local y notificada a la comunidad.');
+  toast('Cápsula publicada, agregada a la comunidad y notificada a sus participantes.');
 }
 
 function lowerAccount() {
@@ -347,7 +347,7 @@ function lowerAccount() {
   renderAll();
 
   showModal(
-    '<h2>Cuenta dada de baja</h2><p>El perfil deja de ser visible inmediatamente. Se limpiaron guardados e interacciones personales de esta sesión. Serás enviado al login para elegir o crear otra cuenta.</p><button class="primary-button full" type="button" data-go-login>Ir al login</button>'
+    '<h2>Cuenta dada de baja</h2><p>El perfil deja de ser visible inmediatamente. Se limpiaron guardados e interacciones personales de esta sesión. Serás enviado al acceso para elegir o crear otra cuenta.</p><button class="primary-button full" type="button" data-go-login>Ir al acceso</button>'
   );
 
   setTimeout(() => {
@@ -507,24 +507,26 @@ function handleGlobalClick(event) {
 
   if (target.dataset.shareCurrent !== undefined) shareCurrent();
 
-  if (target.dataset.shareMenu !== undefined) showSharePanel();
+  if (target.dataset.shareMenu !== undefined) shareCurrent();
+
+  if (target.dataset.copyFallbackLink !== undefined) {
+    const input = qs('[data-share-fallback-input]');
+    if (input) {
+      input.select();
+      try {
+        navigator.clipboard?.writeText(input.value);
+      } catch {}
+      toast('Enlace copiado.');
+    }
+  }
 
   if (target.dataset.shareArtist) {
     const artist = artistById(target.dataset.shareArtist);
 
-    if (artist && !state.shared.includes(artist.id)) state.shared.push(artist.id);
-
     if (artist) {
       state.currentArtist = runtimeArtists().findIndex(item => item.id === artist.id);
-
-      addCommunityEvent('share', artist, { notification: false });
+      shareCurrent();
     }
-
-    saveState();
-
-    renderAll();
-
-    if (artist) showSharePanel();
   }
 
   if (target.dataset.togglePlay !== undefined) togglePlay();
@@ -543,20 +545,6 @@ function handleGlobalClick(event) {
     saveState();
 
     renderAll();
-  }
-
-  if (target.dataset.followListen !== undefined) {
-    state.previewMode = 'full';
-
-    if (state.playback < 30) state.playback = 30;
-
-    saveState();
-
-    renderPlayer();
-
-    startPlayback();
-
-    toast('Sigues escuchando la canción completa.');
   }
 
   if (target.dataset.discardArtist !== undefined) {
@@ -584,7 +572,7 @@ function handleGlobalClick(event) {
 
     renderNotificationBadge();
 
-    toast('Aporte añadido a la playlist local y visible como actividad comunitaria.');
+    toast('Aporte añadido a la lista local y visible como actividad comunitaria.');
   }
 
   if (target.dataset.interactPost) showCommentComposer(target.dataset.interactPost);
@@ -673,7 +661,8 @@ function handleGlobalClick(event) {
 
   if (target.dataset.dismissNotification) dismissNotification(target.dataset.dismissNotification);
 
-  if (target.dataset.toggleSetting !== undefined) toggleSetting(target.dataset.toggleSetting);
+  if (target.dataset.toggleSetting !== undefined)
+    toggleSetting(target.dataset.toggleSetting);
 
   if (target.dataset.openSettings !== undefined) showSettingsPanel();
 
