@@ -1,87 +1,236 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KORA · Login</title>
-  <link rel="icon" href="rebrand/app_icon_orange.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>try{const raw=localStorage.getItem('kora-corte3-state');const state=raw?JSON.parse(raw):null;document.documentElement.dataset.theme=state?.theme==='dark'?'dark':'light'}catch(error){document.documentElement.dataset.theme='light'}</script>
-  <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body class="login-body">
-  <main class="login-shell login-shell-auth">
-    <section class="login-layout">
-      <section class="login-panel auth-panel login-primary-card">
-        <div class="auth-card-main">
-          <div class="login-brand-row"><img src="rebrand/wordmark_kora.svg" alt="KORA"><span>Acceso seguro</span></div>
-          <div class="panel-head"><div><p class="eyebrow">Login</p><h1>Entra a KORA</h1></div><a class="soft-button compact-button" href="index.html">App</a></div>
-          <p class="support-copy">Inicia sesión, crea una cuenta o entra con un perfil de prueba. Cada rol activa permisos, guías y espacios propios dentro de KORA.</p>
-          <div class="auth-tabs">
-            <button class="auth-tab is-active" type="button" data-auth-tab="signin">Iniciar sesión</button>
-            <button class="auth-tab" type="button" data-auth-tab="signup">Crear usuario</button>
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>KORΛ · Login</title>
+
+    <link rel="icon" href="branding/09_favicon_web.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      try {
+        const raw = localStorage.getItem('kora-corte3-state');
+        const state = raw ? JSON.parse(raw) : null;
+        document.documentElement.dataset.theme = state?.theme === 'dark' ? 'dark' : 'light';
+      } catch (error) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    </script>
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body class="login-body">
+    <main class="login-shell login-shell-auth">
+      <section class="login-layout">
+        <section class="login-panel auth-panel login-primary-card">
+          <div class="auth-card-main">
+            <div class="login-brand-row" aria-label="KORΛ">
+              <span class="brand-logo-pair" aria-hidden="true"
+                ><img
+                  class="brand-logo-on-light"
+                  src="branding/10_logotipo_korlambda_oscuro.svg"
+                  alt="" /><img
+                  class="brand-logo-on-dark"
+                  src="branding/11_logotipo_korlambda_claro.svg"
+                  alt="" /></span
+              ><span>Acceso seguro</span>
+            </div>
+
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Login</p>
+                <h1>Entra a KORΛ</h1>
+              </div>
+              <a class="soft-button compact-button" href="index.html">App</a>
+            </div>
+
+            <p class="support-copy">
+              Inicia sesión, crea una cuenta o entra con un perfil de prueba. Cada rol activa
+              permisos, guías y espacios propios dentro de KORΛ.
+            </p>
+
+            <div class="auth-tabs">
+              <button class="auth-tab is-active" type="button" data-auth-tab="signin">
+                Iniciar sesión
+              </button>
+
+              <button class="auth-tab" type="button" data-auth-tab="signup">Crear usuario</button>
+            </div>
+
+            <form class="auth-form is-active" data-auth-form="signin">
+              <label
+                >Correo<input name="email" type="email" required placeholder="correo@dominio.com"
+              /></label>
+
+              <label
+                >Contraseña<input name="password" type="password" required placeholder="••••••••"
+              /></label>
+
+              <button class="primary-button full" type="submit">Entrar</button>
+
+              <p class="support-copy">
+                Si el correo no existe, KORΛ crea una cuenta de explorador musical para continuar.
+              </p>
+            </form>
+
+            <form class="auth-form" data-auth-form="signup">
+              <label
+                >Nombre<input name="name" type="text" required placeholder="Tu nombre"
+              /></label>
+
+              <label
+                >Correo<input name="email" type="email" required placeholder="correo@dominio.com"
+              /></label>
+
+              <label
+                >Rol<select name="role">
+                  <option value="user">Explorador musical · descubrir</option>
+                  <option value="curator">Oyente curador · recomendar</option>
+                  <option value="ambassador">Embajador cultural · contextualizar</option>
+                  <option value="artist">Artista local · publicar</option>
+                  <option value="company">Empresa / scout · analizar</option>
+                </select></label
+              >
+
+              <label
+                >Contraseña<input
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="Crear contraseña"
+              /></label>
+
+              <button class="primary-button full" type="submit">Crear y entrar</button>
+            </form>
           </div>
-          <form class="auth-form is-active" data-auth-form="signin">
-            <label>Correo<input name="email" type="email" required placeholder="correo@dominio.com"></label>
-            <label>Contraseña<input name="password" type="password" required placeholder="••••••••"></label>
-            <button class="primary-button full" type="submit">Entrar</button>
-            <p class="support-copy">Si el correo no existe, KORA crea una cuenta de explorador musical para continuar.</p>
-          </form>
-          <form class="auth-form" data-auth-form="signup">
-            <label>Nombre<input name="name" type="text" required placeholder="Tu nombre"></label>
-            <label>Correo<input name="email" type="email" required placeholder="correo@dominio.com"></label>
-            <label>Rol<select name="role"><option value="user">Explorador musical · descubrir</option><option value="curator">Oyente curador · recomendar</option><option value="ambassador">Embajador cultural · contextualizar</option><option value="artist">Artista local · publicar</option><option value="company">Empresa / scout · analizar</option></select></label>
-            <label>Contraseña<input name="password" type="password" required placeholder="Crear contraseña"></label>
-            <button class="primary-button full" type="submit">Crear y entrar</button>
-          </form>
-        </div>
+        </section>
+
+        <aside class="login-side-stack">
+          <section class="login-hero login-intro-card">
+            <div>
+              <p class="eyebrow">Qué es KORΛ</p>
+
+              <h1>Descubre música emergente con historia, comunidad y memoria local.</h1>
+
+              <p>
+                En KORΛ encuentras artistas de la escena local, entiendes su contexto cultural,
+                guardas hallazgos y los compartes con una comunidad musical.
+              </p>
+            </div>
+
+            <div class="login-brand-symbol" aria-label="KORΛ">
+              <span class="brand-symbol-pair" aria-hidden="true"
+                ><img
+                  class="brand-logo-on-light"
+                  src="branding/01_isotipo_positivo.svg"
+                  alt="" /><img
+                  class="brand-logo-on-dark"
+                  src="branding/02_isotipo_negativo.svg"
+                  alt=""
+              /></span>
+            </div>
+          </section>
+
+          <section class="login-panel compact-login-info">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Qué vas a encontrar</p>
+                <h2>Cinco acciones clave</h2>
+              </div>
+              <span class="counter-pill">Antes de entrar</span>
+            </div>
+
+            <div class="role-action-grid">
+              <article class="role-feature">
+                <strong>Descubrir</strong
+                ><span>Artistas emergentes por escena, barrio, género y afinidad cultural.</span>
+              </article>
+
+              <article class="role-feature">
+                <strong>Escuchar cápsulas</strong
+                ><span>Fragmentos breves acompañados de historia para decidir con contexto.</span>
+              </article>
+
+              <article class="role-feature">
+                <strong>Guardar hallazgos</strong
+                ><span
+                  >Un tablero de memoria musical para volver a escuchar lo que conectó
+                  contigo.</span
+                >
+              </article>
+
+              <article class="role-feature">
+                <strong>Compartir comunidad</strong
+                ><span
+                  >Reposts, comentarios y actividad de amigos para descubrir desde señales
+                  humanas.</span
+                >
+              </article>
+
+              <article class="role-feature">
+                <strong>Participar por rol</strong
+                ><span
+                  >Exploradores, curadores, embajadores, artistas y empresas viven funciones
+                  distintas con permisos y alcance visibles.</span
+                >
+              </article>
+            </div>
+          </section>
+        </aside>
       </section>
 
-      <aside class="login-side-stack">
-        <section class="login-hero login-intro-card">
+      <section class="login-panel created-panel">
+        <div class="panel-head">
           <div>
-            <p class="eyebrow">Qué es KORA</p>
-            <h1>Descubre música emergente con historia, comunidad y memoria local.</h1>
-            <p>En KORA encuentras artistas de la escena local, entiendes su contexto cultural, guardas hallazgos y los compartes con una comunidad musical.</p>
+            <p class="eyebrow">Cuentas creadas</p>
+            <h2>Usuarios nuevos</h2>
           </div>
-          <img src="rebrand/logo_compacto_divider.svg" alt="KORA">
-        </section>
+          <span class="counter-pill" data-created-count>0</span>
+        </div>
 
-        <section class="login-panel compact-login-info">
-          <div class="panel-head"><div><p class="eyebrow">Qué vas a encontrar</p><h2>Cinco acciones clave</h2></div><span class="counter-pill">Antes de entrar</span></div>
-          <div class="role-action-grid">
-            <article class="role-feature"><strong>Descubrir</strong><span>Artistas emergentes por escena, barrio, género y afinidad cultural.</span></article>
-            <article class="role-feature"><strong>Escuchar cápsulas</strong><span>Fragmentos breves acompañados de historia para decidir con contexto.</span></article>
-            <article class="role-feature"><strong>Guardar hallazgos</strong><span>Un tablero de memoria musical para volver a escuchar lo que conectó contigo.</span></article>
-            <article class="role-feature"><strong>Compartir comunidad</strong><span>Reposts, comentarios y actividad de amigos para descubrir desde señales humanas.</span></article>
-            <article class="role-feature"><strong>Participar por rol</strong><span>Exploradores, curadores, embajadores, artistas y empresas viven funciones distintas con permisos y alcance visibles.</span></article>
+        <div class="stack-list created-list" data-created-login></div>
+      </section>
+
+      <section class="login-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Célula A</p>
+            <h2>Integrantes</h2>
           </div>
-        </section>
-      </aside>
-    </section>
+        </div>
 
-    <section class="login-panel created-panel">
-      <div class="panel-head"><div><p class="eyebrow">Cuentas creadas</p><h2>Usuarios nuevos</h2></div><span class="counter-pill" data-created-count>0</span></div>
-      <div class="stack-list created-list" data-created-login></div>
-    </section>
+        <div class="login-grid" data-team-login></div>
+      </section>
 
-    <section class="login-panel">
-      <div class="panel-head"><div><p class="eyebrow">Célula A</p><h2>Integrantes</h2></div></div>
-      <div class="login-grid" data-team-login></div>
-    </section>
+      <section class="login-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Explora por rol</p>
+            <h2>Descubre, recomienda, contextualiza, publica o analiza</h2>
+          </div>
+        </div>
 
-    <section class="login-panel">
-      <div class="panel-head"><div><p class="eyebrow">Explora por rol</p><h2>Descubre, recomienda, contextualiza, publica o analiza</h2></div></div>
-      <div class="login-grid" data-role-login></div>
-    </section>
-  </main>
-  <div class="toast" data-toast aria-live="polite"></div>
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/login.js"></script>
-</body>
+        <div class="login-grid" data-role-login></div>
+      </section>
+    </main>
+
+    <div class="toast" data-toast aria-live="polite"></div>
+
+    <script src="js/data.js"></script>
+
+    <script src="js/login.js"></script>
+  </body>
 </html>
-
-
-

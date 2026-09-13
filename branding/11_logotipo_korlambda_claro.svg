@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="980 2980 800 420" fill="none"><defs>
+<linearGradient id="paint0_linear_0_1" x1="1031.57" y1="648.147" x2="1329.32" y2="936.653" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F1871C"/>
+<stop offset="1" stop-color="#FFB55E"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_1" x1="1931.57" y1="648.147" x2="2229.31" y2="936.653" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F1871C"/>
+<stop offset="1" stop-color="#FFB55E"/>
+</linearGradient>
+<linearGradient id="paint2_linear_0_1" x1="1953.81" y1="1566.35" x2="2232.55" y2="1836.44" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F1871C"/>
+<stop offset="1" stop-color="#FFB55E"/>
+</linearGradient>
+<linearGradient id="paint3_linear_0_1" x1="1053.81" y1="2486.35" x2="1332.55" y2="2756.44" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F1871C"/>
+<stop offset="1" stop-color="#FFB55E"/>
+</linearGradient>
+<linearGradient id="paint4_linear_0_1" x1="1916.36" y1="3792.25" x2="2045.94" y2="3917.81" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F1871C"/>
+<stop offset="1" stop-color="#FFB55E"/>
+</linearGradient>
+<linearGradient id="paint5_linear_0_1" x1="239.968" y1="4459.39" x2="445.083" y2="4658.14" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F1871C"/>
+<stop offset="1" stop-color="#FFB55E"/>
+</linearGradient>
+<linearGradient id="paint6_linear_0_1" x1="1031.57" y1="6428.15" x2="1329.32" y2="6716.65" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F1871C"/>
+<stop offset="1" stop-color="#FFB55E"/>
+</linearGradient>
+<clipPath id="clip0_0_1">
+<rect x="80" y="220" width="800" height="800" rx="32" fill="white"/>
+</clipPath>
+<clipPath id="clip1_0_1">
+<rect width="1140.44" height="1140.44" fill="white" transform="translate(-90.2206 62.9213)"/>
+</clipPath>
+<clipPath id="clip2_0_1">
+<rect x="980" y="220" width="800" height="800" rx="32" fill="white"/>
+</clipPath>
+<clipPath id="clip3_0_1">
+<rect width="1140.44" height="1140.44" fill="white" transform="translate(809.78 62.9213)"/>
+</clipPath>
+<clipPath id="clip4_0_1">
+<rect x="1880" y="220" width="800" height="800" rx="32" fill="white"/>
+</clipPath>
+<clipPath id="clip5_0_1">
+<rect width="1140.44" height="1140.44" fill="white" transform="translate(1709.78 62.9213)"/>
+</clipPath>
+<clipPath id="clip6_0_1">
+<rect x="80" y="1140" width="800" height="800" rx="32" fill="white"/>
+</clipPath>
+<clipPath id="clip7_0_1">
+<rect width="1140.44" height="1140.44" fill="white" transform="translate(-90.2206 982.921)"/>
+</clipPath>
+<clipPath id="clip8_0_1">
+<rect x="980" y="1140" width="800" height="800" rx="32" fill="white"/>
+</clipPath>
+<clipPath id="clip9_0_1">
+<rect width="1140.44" height="1140.44" fill="white" transform="translate(809.78 982.921)"/>
+</clipPath>
+<clipPath id="clip10_0_1">
+<rect x="1880" y="1140" width="800" height="800" rx="400" fill="white"/>
+</clipPath>
+<clipPath id="clip11_0_1">
+<rect x="80" y="2060" width="800" height="800" rx="400" fill="white"/>
+</clipPath>
+<clipPath id="clip12_0_1">
+<rect width="1067.65" height="1067.65" fill="white" transform="translate(-53.8235 1938.48)"/>
+</clipPath>
+<clipPath id="clip13_0_1">
+<rect x="980" y="2060" width="800" height="800" rx="180" fill="white"/>
+</clipPath>
+<clipPath id="clip14_0_1">
+<rect width="1067.65" height="1067.65" fill="white" transform="translate(846.176 1938.48)"/>
+</clipPath>
+<clipPath id="clip15_0_1">
+<rect x="1880" y="2060" width="800" height="800" rx="180" fill="white"/>
+</clipPath>
+<clipPath id="clip16_0_1">
+<rect width="1140.44" height="1140.44" fill="white" transform="translate(1709.78 1902.92)"/>
+</clipPath>
+<clipPath id="clip17_0_1">
+<rect x="980" y="3520" width="800" height="520" rx="28" fill="white"/>
+</clipPath>
+<clipPath id="clip18_0_1">
+<rect x="1880" y="3520" width="800" height="520" rx="28" fill="white"/>
+</clipPath>
+<clipPath id="clip19_0_1">
+<rect x="80" y="4160" width="800" height="800" rx="28" fill="white"/>
+</clipPath>
+<clipPath id="clip20_0_1">
+<rect x="980" y="4160" width="800" height="800" rx="32" fill="white"/>
+</clipPath>
+<clipPath id="clip21_0_1">
+<rect width="1140.44" height="1140.44" fill="white" transform="translate(809.779 4002.92)"/>
+</clipPath>
+<clipPath id="clip22_0_1">
+<rect x="1880" y="4160" width="800" height="800" rx="32" fill="white"/>
+</clipPath>
+<clipPath id="clip23_0_1">
+<rect width="1140.44" height="1140.44" fill="white" transform="translate(1709.78 4002.92)"/>
+</clipPath>
+<clipPath id="clip24_0_1">
+<rect x="80" y="5080" width="800" height="800" rx="400" fill="white"/>
+</clipPath>
+<clipPath id="clip25_0_1">
+<rect x="980" y="5080" width="800" height="800" rx="180" fill="white"/>
+</clipPath>
+<clipPath id="clip26_0_1">
+<rect width="1067.65" height="1067.65" fill="white" transform="translate(846.176 4958.48)"/>
+</clipPath>
+<clipPath id="clip27_0_1">
+<rect x="1880" y="5080" width="800" height="800" rx="180" fill="white"/>
+</clipPath>
+<clipPath id="clip28_0_1">
+<rect x="80" y="6000" width="800" height="800" rx="170" fill="white"/>
+</clipPath>
+<clipPath id="clip29_0_1">
+<rect width="1140.44" height="1140.44" fill="white" transform="translate(-90.2206 5842.92)"/>
+</clipPath>
+<clipPath id="clip30_0_1">
+<rect x="980" y="6000" width="800" height="800" rx="170" fill="white"/>
+</clipPath>
+<clipPath id="clip31_0_1">
+<rect width="1140.44" height="1140.44" fill="white" transform="translate(809.779 5842.92)"/>
+</clipPath>
+<clipPath id="clip32_0_1">
+<rect x="1880" y="6000" width="800" height="520" rx="28" fill="white"/>
+</clipPath>
+<clipPath id="clip33_0_1">
+<rect x="80" y="6920" width="800" height="800" rx="32" fill="white"/>
+</clipPath>
+<clipPath id="clip34_0_1">
+<rect width="785.649" height="785.649" fill="white" transform="translate(87.1757 6816.23)"/>
+</clipPath>
+<clipPath id="clip35_0_1">
+<rect x="980" y="6920" width="800" height="800" rx="32" fill="white"/>
+</clipPath>
+<clipPath id="clip36_0_1">
+<rect width="785.649" height="785.649" fill="white" transform="translate(987.176 6816.23)"/>
+</clipPath>
+</defs>
+<g id="11 â Logotipo KORÎ claro Â· SVG">
+<rect x="980" y="2980" width="800" height="420" rx="28" fill="#0F0F12"/>
+<path id="KORÎ_2" d="M1172.99 3251V3136.09H1197.28V3186.76H1198.8L1240.15 3136.09H1269.27L1226.63 3187.54L1269.77 3251H1240.71L1209.23 3203.76L1197.28 3218.35V3251H1172.99ZM1376.3 3193.55C1376.3 3206.08 1373.92 3216.74 1369.17 3225.53C1364.46 3234.32 1358.02 3241.03 1349.87 3245.67C1341.75 3250.27 1332.62 3252.57 1322.49 3252.57C1312.28 3252.57 1303.11 3250.25 1295 3245.61C1286.88 3240.98 1280.46 3234.26 1275.75 3225.47C1271.04 3216.68 1268.68 3206.04 1268.68 3193.55C1268.68 3181.01 1271.04 3170.35 1275.75 3161.56C1280.46 3152.77 1286.88 3146.08 1295 3141.48C1303.11 3136.84 1312.28 3134.52 1322.49 3134.52C1332.62 3134.52 1341.75 3136.84 1349.87 3141.48C1358.02 3146.08 1364.46 3152.77 1369.17 3161.56C1373.92 3170.35 1376.3 3181.01 1376.3 3193.55ZM1351.66 3193.55C1351.66 3185.43 1350.45 3178.58 1348.02 3173.01C1345.62 3167.44 1342.24 3163.21 1337.86 3160.33C1333.49 3157.45 1328.36 3156.01 1322.49 3156.01C1316.62 3156.01 1311.49 3157.45 1307.11 3160.33C1302.74 3163.21 1299.33 3167.44 1296.9 3173.01C1294.51 3178.58 1293.31 3185.43 1293.31 3193.55C1293.31 3201.66 1294.51 3208.51 1296.9 3214.08C1299.33 3219.65 1302.74 3223.88 1307.11 3226.76C1311.49 3229.64 1316.62 3231.08 1322.49 3231.08C1328.36 3231.08 1333.49 3229.64 1337.86 3226.76C1342.24 3223.88 1345.62 3219.65 1348.02 3214.08C1350.45 3208.51 1351.66 3201.66 1351.66 3193.55ZM1389.55 3251V3136.09H1434.89C1443.57 3136.09 1450.97 3137.64 1457.11 3140.75C1463.28 3143.82 1467.97 3148.17 1471.19 3153.82C1474.44 3159.43 1476.07 3166.03 1476.07 3173.63C1476.07 3181.26 1474.42 3187.82 1471.13 3193.32C1467.84 3198.78 1463.07 3202.97 1456.83 3205.89C1450.62 3208.81 1443.1 3210.27 1434.27 3210.27H1403.92V3190.74H1430.34C1434.98 3190.74 1438.83 3190.1 1441.9 3188.83C1444.97 3187.56 1447.25 3185.65 1448.75 3183.11C1450.28 3180.57 1451.05 3177.41 1451.05 3173.63C1451.05 3169.81 1450.28 3166.59 1448.75 3163.98C1447.25 3161.36 1444.95 3159.38 1441.84 3158.03C1438.78 3156.65 1434.91 3155.95 1430.23 3155.95H1413.85V3251H1389.55ZM1451.61 3198.71L1480.17 3251H1453.35L1425.41 3198.71H1451.61ZM1508.31 3251H1482.27L1521.94 3136.09H1553.25L1592.86 3251H1566.83L1538.04 3162.35H1537.15L1508.31 3251Z" fill="#F7F3EE"/>
+</g>
+</svg>

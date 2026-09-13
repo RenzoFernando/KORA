@@ -5,7 +5,11 @@ const qs = (selector, scope = document) => scope.querySelector(selector);
 const qsa = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
 
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
+  return String(value ?? '').replace(
+    /[&<>'"]/g,
+    character =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]
+  );
 }
 
 function toast(message) {
@@ -36,13 +40,15 @@ function saveProfile(profile) {
     legalRole: sameRole ? previous.legalRole : null,
     legalDraft: sameRole ? previous.legalDraft : { terms: false, privacy: false, roleData: false },
     onboardingSeen: sameRole ? Boolean(previous.onboardingSeen) : false,
-    onboardingSnoozedUntil: sameRole ? (previous.onboardingSnoozedUntil || 0) : 0,
-    viewGuidesSeen: sameRole ? (previous.viewGuidesSeen || {}) : {},
-    viewGuideSnoozed: sameRole ? (previous.viewGuideSnoozed || {}) : {}
+    onboardingSnoozedUntil: sameRole ? previous.onboardingSnoozedUntil || 0 : 0,
+    viewGuidesSeen: sameRole ? previous.viewGuidesSeen || {} : {},
+    viewGuideSnoozed: sameRole ? previous.viewGuideSnoozed || {} : {},
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   toast(`Entrando como ${profile.name}.`);
-  setTimeout(() => { window.location.href = 'index.html'; }, 420);
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 420);
 }
 
 function createdProfiles() {
@@ -58,13 +64,21 @@ function writeCreatedProfiles(profiles) {
 }
 
 function avatarMarkup(profile) {
-  if (profile.avatar) return `<span class="avatar-shell"><img src="${escapeHtml(profile.avatar)}" alt="${escapeHtml(profile.name)}" onerror="this.classList.add('is-hidden')"><span>${escapeHtml(profile.initial || profile.name.slice(0, 1))}</span></span>`;
+  if (profile.avatar)
+    return `<span class="avatar-shell"><img src="${escapeHtml(profile.avatar)}" alt="${escapeHtml(profile.name)}" onerror="this.classList.add('is-hidden')"><span>${escapeHtml(profile.initial || profile.name.slice(0, 1))}</span></span>`;
   return `<span class="avatar-shell"><span>${escapeHtml(profile.initial || profile.name.slice(0, 1))}</span></span>`;
 }
 
 function roleDefinition(role) {
   const roles = DATA.roleSystem || {};
-  return roles[role] || roles.user || { label: 'Explorador musical', action: 'Descubrir', purpose: 'Participa en el descubrimiento musical local.' };
+  return (
+    roles[role] ||
+    roles.user || {
+      label: 'Explorador musical',
+      action: 'Descubrir',
+      purpose: 'Participa en el descubrimiento musical local.',
+    }
+  );
 }
 
 function profileCard(profile) {
@@ -77,10 +91,14 @@ function renderProfiles() {
   qs('[data-role-login]').innerHTML = DATA.roleProfiles.map(profileCard).join('');
   const created = createdProfiles();
   qs('[data-created-count]').textContent = created.length;
-  qs('[data-created-login]').innerHTML = created.length ? created.map(profile => {
-    const role = roleDefinition(profile.role);
-    return `<button class="list-item clickable" type="button" data-profile-id="${escapeHtml(profile.id)}">${avatarMarkup(profile)}<span class="list-item-content"><strong>${escapeHtml(profile.name)}</strong><span>${escapeHtml(profile.email)} · ${escapeHtml(role.label)} · ${escapeHtml(role.action)}</span></span></button>`;
-  }).join('') : '<div class="empty-state">Aún no hay usuarios creados en este navegador.</div>';
+  qs('[data-created-login]').innerHTML = created.length
+    ? created
+        .map(profile => {
+          const role = roleDefinition(profile.role);
+          return `<button class="list-item clickable" type="button" data-profile-id="${escapeHtml(profile.id)}">${avatarMarkup(profile)}<span class="list-item-content"><strong>${escapeHtml(profile.name)}</strong><span>${escapeHtml(profile.email)} · ${escapeHtml(role.label)} · ${escapeHtml(role.action)}</span></span></button>`;
+        })
+        .join('')
+    : '<div class="empty-state">Aún no hay usuarios creados en este navegador.</div>';
 }
 
 function roleLabel(role) {
@@ -100,7 +118,7 @@ function createProfileFromForm(form) {
     roleLabel: definition.label,
     city: 'Cali',
     initial: name.trim().slice(0, 1).toUpperCase(),
-    bio: definition.purpose
+    bio: definition.purpose,
   };
   const profiles = createdProfiles();
   profiles.push(profile);
@@ -116,9 +134,21 @@ function signIn(form) {
     saveProfile(found);
     return;
   }
-  const name = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
+  const name = email
+    .split('@')[0]
+    .replace(/[._-]/g, ' ')
+    .replace(/\b\w/g, letter => letter.toUpperCase());
   const definition = roleDefinition('user');
-  const profile = { id: `created-${Date.now()}`, name, email, role: 'user', roleLabel: definition.label, city: 'Cali', initial: name.slice(0, 1), bio: definition.purpose };
+  const profile = {
+    id: `created-${Date.now()}`,
+    name,
+    email,
+    role: 'user',
+    roleLabel: definition.label,
+    city: 'Cali',
+    initial: name.slice(0, 1),
+    bio: definition.purpose,
+  };
   const profiles = createdProfiles();
   profiles.push(profile);
   writeCreatedProfiles(profiles);
@@ -126,8 +156,12 @@ function signIn(form) {
 }
 
 function setAuthTab(tab) {
-  qsa('[data-auth-tab]').forEach(button => button.classList.toggle('is-active', button.dataset.authTab === tab));
-  qsa('[data-auth-form]').forEach(form => form.classList.toggle('is-active', form.dataset.authForm === tab));
+  qsa('[data-auth-tab]').forEach(button =>
+    button.classList.toggle('is-active', button.dataset.authTab === tab)
+  );
+  qsa('[data-auth-form]').forEach(form =>
+    form.classList.toggle('is-active', form.dataset.authForm === tab)
+  );
 }
 
 function bindEvents() {
@@ -135,7 +169,9 @@ function bindEvents() {
     const target = event.target.closest('button');
     if (!target) return;
     if (target.dataset.profileId) {
-      const profile = [...DATA.teamMembers, ...DATA.roleProfiles, ...createdProfiles()].find(item => item.id === target.dataset.profileId);
+      const profile = [...DATA.teamMembers, ...DATA.roleProfiles, ...createdProfiles()].find(
+        item => item.id === target.dataset.profileId
+      );
       if (profile) saveProfile(profile);
     }
     if (target.dataset.authTab) setAuthTab(target.dataset.authTab);

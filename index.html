@@ -1,265 +1,1092 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KORA</title>
-  <link rel="icon" href="rebrand/app_icon_orange.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-  <script>try{const raw=localStorage.getItem('kora-corte3-state');const state=raw?JSON.parse(raw):null;document.documentElement.dataset.theme=state?.theme==='dark'?'dark':'light'}catch(error){document.documentElement.dataset.theme='light'}</script>
-  <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body>
-  <div class="app-shell">
-    <aside class="sidebar" aria-label="Navegación principal">
-      <a class="brand-block" href="index.html" aria-label="Ir al inicio"><img src="rebrand/wordmark_kora.svg" alt="KORA"></a>
-      <button class="profile-pill" type="button" data-go-login>
-        <span class="avatar-shell"><img src="" alt="" data-profile-avatar><span data-profile-initial>L</span></span>
-        <span>
-          <strong data-profile-name>Luna Martinez</strong>
-          <small data-profile-role>Exploradora musical</small>
-        </span>
-      </button>
-      <nav class="nav-list">
-        <button class="nav-item is-active" type="button" data-view-target="discover"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 11.2 12 4l8 7.2v8.3a1.5 1.5 0 0 1-1.5 1.5h-3.7v-6h-5.6v6H5.5A1.5 1.5 0 0 1 4 19.5v-8.3Z" fill="currentColor"/></svg></span><span>Descubrir</span></button>
-        <button class="nav-item" type="button" data-view-target="player"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 5.3v13.4L18.4 12 7 5.3Z" fill="currentColor"/></svg></span><span>Player</span></button>
-        <button class="nav-item" type="button" data-view-target="interaction"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3c5 0 9 3.4 9 7.5S17 18 12 18a10 10 0 0 1-3-.4L4 20l1.5-4.2A6.8 6.8 0 0 1 3 10.5C3 6.4 7 3 12 3Z" fill="currentColor"/></svg></span><span>Comunidad</span></button>
-        <button class="nav-item role-only" type="button" data-view-target="publish" data-role-nav="artist"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4 7v5c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V7l-8-4Zm1 6v3h3v2h-3v3h-2v-3H8v-2h3V9h2Z" fill="currentColor"/></svg></span><span>Publicar</span></button>
-        <button class="nav-item" type="button" data-view-target="billing"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H18a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6.5A2.5 2.5 0 0 1 4 17.5v-11ZM6.5 8A1.5 1.5 0 0 0 5 9.5v5A1.5 1.5 0 0 0 6.5 16H20V8H6.5Zm8.5 3h3v2h-3v-2Z" fill="currentColor"/></svg></span><span>Pagos</span></button>
-        <button class="nav-item" type="button" data-view-target="profile"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12Zm0 2c-4.1 0-7.5 2.1-7.5 4.7V21h15v-2.3c0-2.6-3.4-4.7-7.5-4.7Z" fill="currentColor"/></svg></span><span>Perfil</span></button>
-      </nav>
-      <section class="sidebar-card compact-card session-card">
-        <p class="eyebrow">Tu sesión</p>
-        <strong data-account-state>Explorando Cali</strong>
-        <span data-account-meta>Datos de usuario protegidos</span>
-        <div class="session-grid">
-          <span><b data-side-saved>0</b><small>Hallazgos</small></span>
-          <span><b data-side-playlist>2</b><small>Playlist</small></span>
-        </div>
-        <div class="side-current" data-side-current></div>
-      </section>
-      <section class="sidebar-card compact-card quick-tools">
-        <p class="eyebrow">Herramientas</p>
-        <button class="tool-link" type="button" data-open-ai><span class="tool-icon" aria-hidden="true">◎</span><span>KORA AI</span></button>
-        <button class="tool-link" type="button" data-open-onboarding><span class="tool-icon" aria-hidden="true">✦</span><span>Bienvenida</span></button>
-        <button class="tool-link" type="button" data-open-notifications><span class="tool-icon" aria-hidden="true">◔</span><span>Alertas</span></button>
-        <button class="tool-link" type="button" data-open-settings><span class="tool-icon" aria-hidden="true">◌</span><span>Ajustes</span></button>
-      </section>
-      <section class="sidebar-card legal-links compact-card">
-        <p class="eyebrow">Legal</p>
-        <a href="legal.html?doc=terms">Términos y condiciones</a>
-        <a href="legal.html?doc=privacy">Datos personales</a>
-        <a href="legal.html?doc=license">Licencia musical</a>
-        <a href="legal.html?doc=payments">Pagos</a>
-      </section>
-    </aside>
+  <head>
+    <meta charset="UTF-8" />
 
-    <div class="workspace">
-      <header class="topbar">
-        <button class="icon-button" type="button" data-mobile-menu aria-label="Abrir menú">☰</button>
-        <a class="mobile-brand app-mark" href="index.html" aria-label="Ir al inicio"><img src="rebrand/logo_compacto_divider.svg" alt="KORA"></a>
-        <div class="topbar-actions">
-          <button class="top-icon" type="button" data-open-notifications aria-label="Notificaciones" title="Notificaciones"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2.6 2.6 0 0 0 2.45-1.75h-4.9A2.6 2.6 0 0 0 12 22Zm7-5-1.7-2.15V10a5.32 5.32 0 0 0-4-5.15V4a1.3 1.3 0 1 0-2.6 0v.85a5.32 5.32 0 0 0-4 5.15v4.85L5 17v1.2h14V17Z" fill="currentColor"/></svg></button>
-          <button class="top-icon" type="button" data-open-settings aria-label="Ajustes" title="Ajustes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.1-1.64-2-3.46-2.47 1a7.52 7.52 0 0 0-1.7-.98L15 3.3h-4l-.36 2.64c-.61.24-1.18.57-1.7.98l-2.47-1-2 3.46 2.1 1.64c-.04.32-.07.65-.07.98s.02.66.07.98l-2.1 1.64 2 3.46 2.47-1c.52.41 1.09.74 1.7.98L11 20.7h4l.36-2.64c.61-.24 1.18-.57 1.7-.98l2.47 1 2-3.46-2.1-1.64ZM13 15.46a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" fill="currentColor"/></svg></button>
-          <button class="top-icon help-top-icon" type="button" data-open-view-guide aria-label="Ayuda de esta sección" title="Ayuda de esta sección">?</button>
-          <button class="soft-button compact-button" type="button" data-theme-toggle>Tema</button>
-          <button class="soft-button compact-button" type="button" data-reset-state>Reset</button>
-          <button class="primary-button compact-button" type="button" data-go-login>Perfil</button>
-        </div>
-      </header>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      <main class="content-area">
-        <section class="view is-active" data-view="discover">
-          <article class="hero-panel" data-hero-panel></article>
-          <article class="panel-card discover-summary-card" data-discover-summary>
-            <div class="panel-head"><div><p class="eyebrow">Qué vas a encontrar</p><h2>Historias, hallazgos y comunidad local</h2></div><button class="soft-button" type="button" data-toggle-discover-summary aria-expanded="true"><span data-discover-summary-label>Ocultar</span></button></div>
-            <div class="discover-summary-content" data-discover-summary-content>
-              <p>En KORA cada canción llega con una historia de escena, barrio o comunidad. El usuario escucha una cápsula breve, guarda lo que quiere recordar y ve cómo otras personas participan alrededor de ese hallazgo.</p>
-              <div class="role-action-grid">
-                <article class="role-feature"><strong>Historia local</strong><span>Cada cápsula muestra por qué la canción importa en una escena, barrio o comunidad.</span></article>
-                <article class="role-feature"><strong>Memoria musical</strong><span>Los hallazgos guardados vuelven al tablero con razones, notas y recordatorios.</span></article>
-                <article class="role-feature"><strong>Descubrimiento social</strong><span>Amigos, curadores y artistas convierten la escucha en conversación y recomendación.</span></article>
-              </div>
-            </div>
-          </article>
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Cápsulas locales</p>
-              <h1>Descubre artistas emergentes con contexto cultural.</h1>
-            </div>
-            <div class="section-actions"><button class="soft-button" type="button" data-open-view-guide>¿Qué encuentro aquí?</button><button class="soft-button" type="button" data-next-artist>Siguiente cápsula</button></div>
+    <title>KORΛ</title>
+
+    <link rel="icon" href="branding/09_favicon_web.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      try {
+        const raw = localStorage.getItem('kora-corte3-state');
+        const state = raw ? JSON.parse(raw) : null;
+        document.documentElement.dataset.theme = state?.theme === 'dark' ? 'dark' : 'light';
+      } catch (error) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    </script>
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegación principal">
+        <a class="brand-block" href="index.html" aria-label="KORΛ, ir al inicio"
+          ><span class="brand-logo-pair" aria-hidden="true"
+            ><img
+              class="brand-logo-on-light"
+              src="branding/10_logotipo_korlambda_oscuro.svg"
+              alt="" /><img
+              class="brand-logo-on-dark"
+              src="branding/11_logotipo_korlambda_claro.svg"
+              alt="" /></span
+        ></a>
+
+        <button class="profile-pill" type="button" data-go-login>
+          <span class="avatar-shell"
+            ><img src="" alt="" data-profile-avatar /><span data-profile-initial>L</span></span
+          >
+
+          <span>
+            <strong data-profile-name>Luna Martinez</strong>
+
+            <small data-profile-role>Exploradora musical</small>
+          </span>
+        </button>
+
+        <nav class="nav-list">
+          <button class="nav-item is-active" type="button" data-view-target="discover">
+            <span class="nav-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M4 11.2 12 4l8 7.2v8.3a1.5 1.5 0 0 1-1.5 1.5h-3.7v-6h-5.6v6H5.5A1.5 1.5 0 0 1 4 19.5v-8.3Z"
+                  fill="currentColor"
+                /></svg></span
+            ><span>Descubrir</span>
+          </button>
+
+          <button class="nav-item" type="button" data-view-target="player">
+            <span class="nav-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <path d="M7 5.3v13.4L18.4 12 7 5.3Z" fill="currentColor" /></svg></span
+            ><span>Player</span>
+          </button>
+
+          <button class="nav-item" type="button" data-view-target="interaction">
+            <span class="nav-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M12 3c5 0 9 3.4 9 7.5S17 18 12 18a10 10 0 0 1-3-.4L4 20l1.5-4.2A6.8 6.8 0 0 1 3 10.5C3 6.4 7 3 12 3Z"
+                  fill="currentColor"
+                /></svg></span
+            ><span>Comunidad</span>
+          </button>
+
+          <button
+            class="nav-item role-only"
+            type="button"
+            data-view-target="publish"
+            data-role-nav="artist"
+          >
+            <span class="nav-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M12 3 4 7v5c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V7l-8-4Zm1 6v3h3v2h-3v3h-2v-3H8v-2h3V9h2Z"
+                  fill="currentColor"
+                /></svg></span
+            ><span>Publicar</span>
+          </button>
+
+          <button class="nav-item" type="button" data-view-target="billing">
+            <span class="nav-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M4 6.5A2.5 2.5 0 0 1 6.5 4H18a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6.5A2.5 2.5 0 0 1 4 17.5v-11ZM6.5 8A1.5 1.5 0 0 0 5 9.5v5A1.5 1.5 0 0 0 6.5 16H20V8H6.5Zm8.5 3h3v2h-3v-2Z"
+                  fill="currentColor"
+                /></svg></span
+            ><span>Pagos</span>
+          </button>
+
+          <button class="nav-item" type="button" data-view-target="profile">
+            <span class="nav-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12Zm0 2c-4.1 0-7.5 2.1-7.5 4.7V21h15v-2.3c0-2.6-3.4-4.7-7.5-4.7Z"
+                  fill="currentColor"
+                /></svg></span
+            ><span>Perfil</span>
+          </button>
+        </nav>
+
+        <section class="sidebar-card compact-card session-card">
+          <p class="eyebrow">Tu sesión</p>
+
+          <strong data-account-state>Explorando Cali</strong>
+
+          <span data-account-meta>Datos de usuario protegidos</span>
+
+          <div class="session-grid">
+            <span><b data-side-saved>0</b><small>Hallazgos</small></span>
+
+            <span><b data-side-playlist>2</b><small>Playlist</small></span>
           </div>
-          <div class="capsule-carousel" aria-label="Carrusel de cápsulas locales">
-                <button class="carousel-button" type="button" data-capsule-prev aria-label="Ver cápsulas anteriores">‹</button>
-                <div class="capsule-grid" data-capsule-grid></div>
-                <button class="carousel-button" type="button" data-capsule-next aria-label="Ver más cápsulas">›</button>
+
+          <div class="side-current" data-side-current></div>
+
+          <button class="session-logout" type="button" data-logout>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M10 5H6.5A2.5 2.5 0 0 0 4 7.5v9A2.5 2.5 0 0 0 6.5 19H10M14 8l4 4-4 4M8 12h10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span>Cerrar sesión</span>
+          </button>
+        </section>
+
+        <section class="sidebar-card compact-card quick-tools">
+          <p class="eyebrow">Herramientas</p>
+
+          <button class="tool-link" type="button" data-open-ai>
+            <span class="tool-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                />
+                <circle cx="12" cy="12" r="2.2" fill="currentColor" />
+                <path
+                  d="M12 3V1M12 23v-2M21 12h2M1 12h2"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                /></svg></span
+            ><span>KORΛ AI</span>
+          </button>
+
+          <button class="tool-link" type="button" data-open-onboarding>
+            <span class="tool-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3V4.5Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                />
+                <path
+                  d="M8 8h7M8 12h7"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                /></svg></span
+            ><span>Bienvenida</span>
+          </button>
+
+          <button class="tool-link" type="button" data-open-notifications>
+            <span class="tool-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M18 9a6 6 0 0 0-12 0v4.2L4.5 16h15L18 13.2V9Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M10 19h4"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                /></svg></span
+            ><span>Alertas</span>
+          </button>
+
+          <button class="tool-link" type="button" data-open-settings>
+            <span class="tool-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                />
+                <path
+                  d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                /></svg></span
+            ><span>Ajustes</span>
+          </button>
+        </section>
+
+        <section class="sidebar-card legal-links compact-card">
+          <p class="eyebrow">Legal</p>
+
+          <a href="legal.html?doc=terms">Términos y condiciones</a>
+
+          <a href="legal.html?doc=privacy">Datos personales</a>
+
+          <a href="legal.html?doc=license">Licencia musical</a>
+
+          <a href="legal.html?doc=payments">Pagos</a>
+        </section>
+      </aside>
+
+      <button
+        class="sidebar-scrim"
+        type="button"
+        data-close-sidebar
+        aria-label="Cerrar menú"
+        tabindex="-1"
+      ></button>
+
+      <div class="workspace">
+        <header class="topbar">
+          <button class="icon-button" type="button" data-mobile-menu aria-label="Abrir menú">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M4 7h16M4 12h16M4 17h16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+
+          <a class="mobile-brand app-mark" href="index.html" aria-label="KORΛ, ir al inicio"
+            ><img src="branding/21_icono_app_naranja.svg" alt=""
+          /></a>
+
+          <div class="topbar-actions" aria-label="Acciones de la aplicación">
+            <button
+              class="top-icon"
+              type="button"
+              data-open-notifications
+              aria-label="Notificaciones"
+              title="Notificaciones"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M18 9a6 6 0 0 0-12 0v4.2L4.5 16h15L18 13.2V9Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M10 19h4"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+            <button
+              class="top-icon"
+              type="button"
+              data-open-settings
+              aria-label="Ajustes"
+              title="Ajustes"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                />
+                <path
+                  d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+            <button
+              class="top-icon help-top-icon"
+              type="button"
+              data-open-view-guide
+              aria-label="Ayuda de esta sección"
+              title="Ayuda de esta sección"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="9"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                />
+                <path
+                  d="M9.8 9.2a2.4 2.4 0 0 1 4.6.9c0 1.8-2.4 2.1-2.4 3.7M12 17.2h.01"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+            <button
+              class="top-icon theme-control"
+              type="button"
+              data-theme-toggle
+              aria-label="Cambiar tema"
+              title="Cambiar tema"
+            >
+              <span data-theme-icon></span>
+            </button>
+          </div>
+        </header>
+
+        <main class="content-area">
+          <section class="view is-active" data-view="discover">
+            <article class="hero-panel" data-hero-panel></article>
+
+            <article class="panel-card discover-summary-card" data-discover-summary>
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Qué vas a encontrar</p>
+                  <h2>Historias, hallazgos y comunidad local</h2>
+                </div>
+                <button
+                  class="soft-button"
+                  type="button"
+                  data-toggle-discover-summary
+                  aria-expanded="true"
+                >
+                  <span data-discover-summary-label>Ocultar</span>
+                </button>
               </div>
-          <div class="two-column">
-            <article class="panel-card">
-              <div class="panel-head"><div><p class="eyebrow">Memoria musical</p><h2>Tablero de hallazgos</h2></div><span class="counter-pill" data-saved-count>0</span></div>
-              <div class="stack-list" data-saved-board></div>
+
+              <div class="discover-summary-content" data-discover-summary-content>
+                <p>
+                  En KORΛ cada canción llega con una historia de escena, barrio o comunidad. El
+                  usuario escucha una cápsula breve, guarda lo que quiere recordar y ve cómo otras
+                  personas participan alrededor de ese hallazgo.
+                </p>
+
+                <div class="role-action-grid">
+                  <article class="role-feature">
+                    <strong>Historia local</strong
+                    ><span
+                      >Cada cápsula muestra por qué la canción importa en una escena, barrio o
+                      comunidad.</span
+                    >
+                  </article>
+
+                  <article class="role-feature">
+                    <strong>Memoria musical</strong
+                    ><span
+                      >Los hallazgos guardados vuelven al tablero con razones, notas y
+                      recordatorios.</span
+                    >
+                  </article>
+
+                  <article class="role-feature">
+                    <strong>Descubrimiento social</strong
+                    ><span
+                      >Amigos, curadores y artistas convierten la escucha en conversación y
+                      recomendación.</span
+                    >
+                  </article>
+                </div>
+              </div>
             </article>
-            <article class="panel-card">
-              <div class="panel-head"><div><p class="eyebrow">Curaduría</p><h2>Señales de decisión</h2></div></div>
-              <div class="tag-cloud" data-signal-tags></div>
-              <p class="support-copy">La experiencia mantiene audio breve, lectura cultural, guardado y participación local sin mapa ni acciones físicas.</p>
-            </article>
-          </div>
-        </section>
 
-        <section class="view" data-view="player">
-          <article class="player-panel" data-player-panel></article>
-          <article class="panel-card">
-            <div class="panel-head"><div><p class="eyebrow">Escucha con decisión</p><h2>El player también cuenta el contexto</h2></div><div class="section-actions"><button class="soft-button compact-button" type="button" data-open-player-fullscreen>Expandir</button><button class="soft-button compact-button" type="button" data-open-view-guide>Guía</button></div></div>
-              <p>El player mezcla audio, historia y señales de escena para decidir rápido qué vale la pena guardar, repostear o compartir.</p>
-          </article>
-          <article class="panel-card player-control-card">
-            <div class="progress-wrap">
-              <input type="range" min="0" max="30" value="0" step="1" data-player-range>
-              <div class="time-row"><span data-player-current>0:00</span><span data-player-total>0:30</span></div>
-            </div>
-            <div class="control-row">
-              <button class="icon-button big" type="button" data-prev-artist aria-label="Anterior">‹</button>
-              <button class="primary-button play-toggle" type="button" data-toggle-play aria-label="Reproducir"></button>
-              <button class="icon-button big" type="button" data-next-artist aria-label="Siguiente">›</button>
-            </div>
-            <div class="action-row">
-              <button class="player-action" type="button" data-like-current title="Me gusta"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20.6 10.9 19.6C5.7 14.9 2.3 11.8 2.3 8A4.5 4.5 0 0 1 6.9 3.4c2 0 3.8 1.1 5.1 2.8 1.3-1.7 3.1-2.8 5.1-2.8A4.5 4.5 0 0 1 21.7 8c0 3.8-3.4 6.9-8.6 11.6L12 20.6Z" fill="currentColor"/></svg></span><b>Like</b></button>
-              <button class="player-action" type="button" data-save-current title="Guardar"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6V5Z" fill="currentColor"/></svg></span><b>Guardar</b></button>
-              <button class="player-action" type="button" data-repost-current title="Repostear"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7h9.2l-2.1-2.1L15.5 3 21 8.5 15.5 14l-1.4-1.9 2.1-2.1H7v3H5V9a2 2 0 0 1 2-2Zm10 10H7.8l2.1 2.1L8.5 21 3 15.5 8.5 10l1.4 1.9L7.8 14H17v-3h2v4a2 2 0 0 1-2 2Z" fill="currentColor"/></svg></span><b>Repost</b></button>
-              <button class="player-action" type="button" data-share-menu title="Compartir"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 16.1c-1 0-1.9.4-2.5 1.1L8.9 13.4c.1-.4.1-.6.1-.9s0-.5-.1-.9l6.5-3.8A3.4 3.4 0 1 0 14.4 6l-6.5 3.8a3.4 3.4 0 1 0 0 5.4l6.6 3.9A3.4 3.4 0 1 0 18 16.1Z" fill="currentColor"/></svg></span><b>Share</b></button>
-              <button class="soft-button compact-button" type="button" data-follow-listen>Completa</button>
-              <button class="soft-button compact-button" type="button" data-discard-artist>Pasar</button>
-              <button class="soft-button compact-button" type="button" data-toggle-preview-mode>Full</button>
-            </div>
-            <div class="audio-state" data-audio-state></div>
-          </article>
-          <div class="two-column">
-            <article class="panel-card"><div class="panel-head"><h2>Cola local</h2><span class="counter-pill">Cali</span></div><div class="stack-list" data-queue-list></div></article>
-            <article class="panel-card"><div class="panel-head"><h2>Lectura rápida</h2><span class="counter-pill">45s</span></div><div class="insight-list" data-player-insights></div></article>
-          </div>
-        </section>
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Cápsulas locales</p>
 
-        <section class="view" data-view="interaction">
-          <div class="section-heading">
-            <div><p class="eyebrow">Feed social</p><h1>Interacción con artistas, curadores y escena local.</h1></div>
-            <div class="section-actions"><button class="soft-button" type="button" data-open-view-guide>¿Qué encuentro aquí?</button><button class="primary-button" type="button" data-add-playlist>Sumar a playlist local</button></div>
-          </div>
-          <article class="panel-card">
-            <div class="panel-head"><div><p class="eyebrow">Comunidad diferencial</p><h2>La recomendación nace de personas, no solo de algoritmos</h2></div><span class="counter-pill">Feed público</span></div>
-            <p>El feed muestra lo que guardan, comentan y comparten otros usuarios para que el descubrimiento tenga criterio social, memoria local y conversación visible dentro de la plataforma.</p>
-          </article>
-          <div class="interaction-layout">
-            <div class="feed-column" data-artist-feed></div>
-            <aside class="panel-card sticky-panel">
-              <div class="panel-head"><div><p class="eyebrow">Playlist colaborativa</p><h2>KORA Cali curada por usuarios</h2></div></div>
-              <div class="stack-list" data-playlist-list></div>
-              <div class="impact-box" data-impact-box></div>
-              <div class="side-section">
-                <div class="panel-head small-head"><h3>Actividad de amigos</h3><button class="plain-link" type="button" data-open-friends>Ver todo</button></div>
-                <div class="stack-list" data-friend-activity></div>
+                <h1>Descubre artistas emergentes con contexto cultural.</h1>
               </div>
-              <div class="side-section">
-                <div class="panel-head small-head"><h3>Notificaciones</h3><button class="plain-link" type="button" data-open-notifications>Abrir</button></div>
-                <div class="stack-list" data-notification-list></div>
+
+              <div class="section-actions">
+                <button class="soft-button" type="button" data-open-view-guide>
+                  ¿Qué encuentro aquí?</button
+                ><button class="soft-button" type="button" data-next-artist>
+                  Siguiente cápsula
+                </button>
               </div>
-            </aside>
-          </div>
-        </section>
+            </div>
 
-        <section class="view" data-view="publish">
-          <div class="section-heading">
-            <div><p class="eyebrow">Workspace artista</p><h1>Publica música, contexto visual y cápsulas de 30 segundos.</h1></div>
-            <button class="soft-button" type="button" data-open-view-guide>¿Qué encuentro aquí?</button>
-          </div>
-          <article class="panel-card prototype-phase-panel" data-artist-prototype-panel></article>
-          <div class="publish-layout">
-            <form class="panel-card publish-form" data-publish-form>
-              <div class="panel-head"><div><p class="eyebrow">Nuevo lanzamiento</p><h2>Subir cápsula</h2></div><span class="counter-pill">Licencia</span></div>
-              <label>Título de la canción<input name="track" type="text" required placeholder="Ej: Río de Fuego"></label>
-              <label>Nombre artístico<input name="artist" type="text" required placeholder="Ej: Valentina Cruz"></label>
-              <label>Género o escena<input name="genre" type="text" required placeholder="R&B afrolatino, rap local, fusión pacífico"></label>
-              <label>Barrio o zona<input name="neighborhood" type="text" required placeholder="San Antonio, Siloé, Alameda"></label>
-              <label class="file-picker"><span>Archivo de audio</span><input name="audio" type="file" accept="audio/*"><strong data-file-label="audio">Seleccionar audio</strong><small>WAV, MP3 o M4A para la cápsula.</small></label>
-              <label class="file-picker"><span>Imagen o portada</span><input name="cover" type="file" accept="image/*"><strong data-file-label="cover">Seleccionar portada</strong><small>SVG, PNG o JPG con estética de lanzamiento.</small></label>
-              <label>Contexto cultural<textarea name="story" required placeholder="Cuenta la historia breve del lanzamiento, escena, idioma y por qué importa localmente."></textarea></label>
-              <label class="check-row"><input name="license" type="checkbox" required><span>Otorgo a KORA una licencia no exclusiva para reproducir, comunicar y distribuir esta cápsula dentro de la plataforma, conservando mis derechos morales.</span></label>
-              <label class="check-row"><input name="visibility" type="checkbox"><span>Autorizo que empresas CM suscriptoras vean métricas agregadas y señales de engagement de este lanzamiento.</span></label>
-              <button class="primary-button full" type="submit">Publicar cápsula</button>
-            </form>
-            <article class="panel-card">
-              <div class="panel-head"><div><p class="eyebrow">Publicaciones</p><h2>Material publicado</h2></div><span class="counter-pill" data-published-count>0</span></div>
-              <div class="stack-list" data-published-list></div>
+            <div class="capsule-carousel" aria-label="Carrusel de cápsulas locales">
+              <button
+                class="carousel-button"
+                type="button"
+                data-capsule-prev
+                aria-label="Ver cápsulas anteriores"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="m15 5-7 7 7 7"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+
+              <div class="capsule-grid" data-capsule-grid></div>
+
+              <button
+                class="carousel-button"
+                type="button"
+                data-capsule-next
+                aria-label="Ver más cápsulas"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="m9 5 7 7-7 7"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div class="two-column">
+              <article class="panel-card">
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">Memoria musical</p>
+                    <h2>Tablero de hallazgos</h2>
+                  </div>
+                  <span class="counter-pill" data-saved-count>0</span>
+                </div>
+
+                <div class="stack-list" data-saved-board></div>
+              </article>
+
+              <article class="panel-card">
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">Curaduría</p>
+                    <h2>Señales de decisión</h2>
+                  </div>
+                </div>
+
+                <div class="tag-cloud" data-signal-tags></div>
+
+                <p class="support-copy">
+                  La experiencia mantiene audio breve, lectura cultural, guardado y participación
+                  local sin mapa ni acciones físicas.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="view" data-view="player">
+            <div class="section-heading player-section-heading">
+              <div>
+                <p class="eyebrow">Escucha activa</p>
+                <h1>Escucha la cápsula. Decide qué sigue.</h1>
+              </div>
+              <div class="section-actions">
+                <button
+                  class="soft-button compact-button"
+                  type="button"
+                  data-open-player-fullscreen
+                >
+                  Expandir
+                </button>
+                <button class="soft-button compact-button" type="button" data-open-view-guide>
+                  Ayuda
+                </button>
+              </div>
+            </div>
+
+            <article class="player-panel" data-player-panel></article>
+
+            <article class="panel-card player-control-card">
+              <div class="player-transport">
+                <div class="progress-wrap">
+                  <input
+                    type="range"
+                    min="0"
+                    max="30"
+                    value="0"
+                    step="1"
+                    data-player-range
+                    aria-label="Progreso de reproducción"
+                  />
+                  <div class="time-row">
+                    <span data-player-current>0:00</span><span data-player-total>0:30</span>
+                  </div>
+                </div>
+                <div class="control-row player-main-controls">
+                  <button
+                    class="icon-button big"
+                    type="button"
+                    data-prev-artist
+                    aria-label="Anterior"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path
+                        d="m15 5-7 7 7 7"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="primary-button play-toggle"
+                    type="button"
+                    data-toggle-play
+                    aria-label="Reproducir"
+                  ></button>
+                  <button
+                    class="icon-button big"
+                    type="button"
+                    data-next-artist
+                    aria-label="Siguiente"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path
+                        d="m9 5 7 7-7 7"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="player-quick-actions">
+                <button
+                  class="player-action"
+                  type="button"
+                  data-like-current
+                  title="Me gusta"
+                ></button>
+                <button
+                  class="player-action"
+                  type="button"
+                  data-save-current
+                  title="Guardar"
+                ></button>
+                <button
+                  class="player-action"
+                  type="button"
+                  data-repost-current
+                  title="Repostear"
+                ></button>
+                <button
+                  class="player-action"
+                  type="button"
+                  data-share-menu
+                  title="Compartir"
+                ></button>
+                <button
+                  class="soft-button compact-button player-mode-action"
+                  type="button"
+                  data-follow-listen
+                >
+                  Escuchar completa
+                </button>
+                <button
+                  class="soft-button compact-button player-mode-action"
+                  type="button"
+                  data-toggle-preview-mode
+                >
+                  Full
+                </button>
+                <button
+                  class="soft-button compact-button player-mode-action"
+                  type="button"
+                  data-discard-artist
+                >
+                  Pasar
+                </button>
+              </div>
+
+              <div class="audio-state" data-audio-state></div>
             </article>
-          </div>
-        </section>
 
-        <section class="view" data-view="billing">
-          <div class="section-heading"><div><p class="eyebrow">Modelo de negocio</p><h1>Pagos, suscripciones y facturación electrónica.</h1></div><button class="soft-button" type="button" data-open-view-guide>¿Qué encuentro aquí?</button></div>
-          <article class="panel-card prototype-phase-panel" data-company-prototype-panel></article>
-          <div class="plan-grid" data-plan-grid></div>
-          <div class="billing-grid">
-            <form class="panel-card payment-form" data-payment-form>
-              <div class="panel-head"><div><p class="eyebrow">Pago seguro</p><h2>Completar suscripción</h2></div><span class="counter-pill">COP</span></div>
-              <label>Plan<select name="plan" data-plan-select></select></label>
-              <label>Nombre o razón social<input name="payer" type="text" required placeholder="Nombre completo"></label>
-              <label>Cédula o NIT<input name="document" type="text" required placeholder="Número de identificación"></label>
-              <label>Correo para factura<input name="email" type="email" required placeholder="correo@dominio.com"></label>
-              <label>Método de pago<select name="method" required><option>Tarjeta débito/crédito</option><option>PSE</option><option>Billetera digital</option></select></label>
-              <div class="legal-note">Los precios están en pesos colombianos e incluyen impuestos aplicables. El flujo registra factura electrónica, retracto y reversión del pago.</div>
-              <button class="primary-button full" type="submit">Pagar y generar factura</button>
-            </form>
-            <article class="panel-card"><div class="panel-head"><div><p class="eyebrow">Facturación</p><h2>Historial</h2></div><span class="counter-pill" data-invoice-count>0</span></div><div class="stack-list" data-invoice-list></div></article>
-          </div>
-          <article class="panel-card" data-company-access-panel></article>
-        </section>
+            <div class="two-column player-secondary-grid">
+              <article class="panel-card">
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">A continuación</p>
+                    <h2>Cola local</h2>
+                  </div>
+                  <span class="counter-pill">Cali</span>
+                </div>
+                <div class="stack-list" data-queue-list></div>
+              </article>
+              <article class="panel-card">
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">Contexto</p>
+                    <h2>Lectura rápida</h2>
+                  </div>
+                  <span class="counter-pill">45 s</span>
+                </div>
+                <div class="insight-list" data-player-insights></div>
+              </article>
+            </div>
+          </section>
 
-        <section class="view" data-view="profile">
-          <div class="section-heading"><div><p class="eyebrow">Perfil activo</p><h1>Tu memoria, actividad y espacio dentro de KORA.</h1></div><button class="soft-button" type="button" data-open-view-guide>¿Qué encuentro aquí?</button></div>
-          <article class="panel-card profile-active-card" data-profile-overview></article>
-          <article class="panel-card" data-role-workspace></article>
-          <div class="two-column">
-            <article class="panel-card"><div class="panel-head"><h2>Gestión de cuenta</h2><span class="counter-pill">Control</span></div><div class="settings-list"><button class="soft-button full" type="button" data-go-login>Cambiar perfil activo</button><button class="soft-button full" type="button" data-open-legal-gate>Revisar términos y condiciones</button><button class="danger-button full" type="button" data-delete-account>Bajar cuenta</button></div></article>
-            <article class="panel-card compact-permissions-card"><div class="panel-head"><h2>Rol y permisos</h2><span class="counter-pill">Resumen</span></div><div class="settings-list compact-permissions-list" data-privacy-list></div></article>
-          </div>
-        </section>
-      </main>
+          <section class="view" data-view="interaction">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Feed social</p>
+                <h1>Interacción con artistas, curadores y escena local.</h1>
+              </div>
+
+              <div class="section-actions">
+                <button class="soft-button" type="button" data-open-view-guide>
+                  ¿Qué encuentro aquí?</button
+                ><button class="primary-button" type="button" data-add-playlist>
+                  Sumar a playlist local
+                </button>
+              </div>
+            </div>
+
+            <article class="panel-card">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Comunidad diferencial</p>
+                  <h2>La recomendación nace de personas, no solo de algoritmos</h2>
+                </div>
+                <span class="counter-pill">Feed público</span>
+              </div>
+
+              <p>
+                El feed muestra lo que guardan, comentan y comparten otros usuarios para que el
+                descubrimiento tenga criterio social, memoria local y conversación visible dentro de
+                la plataforma.
+              </p>
+            </article>
+
+            <div class="interaction-layout">
+              <div class="feed-column" data-artist-feed></div>
+
+              <aside class="panel-card sticky-panel">
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">Playlist colaborativa</p>
+                    <h2>KORΛ Cali curada por usuarios</h2>
+                  </div>
+                </div>
+
+                <div class="stack-list" data-playlist-list></div>
+
+                <div class="impact-box" data-impact-box></div>
+
+                <div class="side-section">
+                  <div class="panel-head small-head">
+                    <h3>Actividad de amigos</h3>
+                    <button class="plain-link" type="button" data-open-friends>Ver todo</button>
+                  </div>
+
+                  <div class="stack-list" data-friend-activity></div>
+                </div>
+
+                <div class="side-section">
+                  <div class="panel-head small-head">
+                    <h3>Notificaciones</h3>
+                    <button class="plain-link" type="button" data-open-notifications>Abrir</button>
+                  </div>
+
+                  <div class="stack-list" data-notification-list></div>
+                </div>
+              </aside>
+            </div>
+          </section>
+
+          <section class="view" data-view="publish">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Workspace artista</p>
+                <h1>Publica música, contexto visual y cápsulas de 30 segundos.</h1>
+              </div>
+
+              <button class="soft-button" type="button" data-open-view-guide>
+                ¿Qué encuentro aquí?
+              </button>
+            </div>
+
+            <article class="panel-card prototype-phase-panel" data-artist-prototype-panel></article>
+
+            <div class="publish-layout">
+              <form class="panel-card publish-form" data-publish-form>
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">Nuevo lanzamiento</p>
+                    <h2>Subir cápsula</h2>
+                  </div>
+                  <span class="counter-pill">Licencia</span>
+                </div>
+
+                <label
+                  >Título de la canción<input
+                    name="track"
+                    type="text"
+                    required
+                    placeholder="Ej: Río de Fuego"
+                /></label>
+
+                <label
+                  >Nombre artístico<input
+                    name="artist"
+                    type="text"
+                    required
+                    placeholder="Ej: Valentina Cruz"
+                /></label>
+
+                <label
+                  >Género o escena<input
+                    name="genre"
+                    type="text"
+                    required
+                    placeholder="R&B afrolatino, rap local, fusión pacífico"
+                /></label>
+
+                <label
+                  >Barrio o zona<input
+                    name="neighborhood"
+                    type="text"
+                    required
+                    placeholder="San Antonio, Siloé, Alameda"
+                /></label>
+
+                <label class="file-picker"
+                  ><span>Archivo de audio</span
+                  ><input name="audio" type="file" accept="audio/*" /><strong
+                    data-file-label="audio"
+                    >Seleccionar audio</strong
+                  ><small>WAV, MP3 o M4A para la cápsula.</small></label
+                >
+
+                <label class="file-picker"
+                  ><span>Imagen o portada</span
+                  ><input name="cover" type="file" accept="image/*" /><strong
+                    data-file-label="cover"
+                    >Seleccionar portada</strong
+                  ><small>SVG, PNG o JPG con estética de lanzamiento.</small></label
+                >
+
+                <label
+                  >Contexto cultural<textarea
+                    name="story"
+                    required
+                    placeholder="Cuenta la historia breve del lanzamiento, escena, idioma y por qué importa localmente."
+                  ></textarea>
+                </label>
+
+                <label class="check-row"
+                  ><input name="license" type="checkbox" required /><span
+                    >Otorgo a KORΛ una licencia no exclusiva para reproducir, comunicar y distribuir
+                    esta cápsula dentro de la plataforma, conservando mis derechos morales.</span
+                  ></label
+                >
+
+                <label class="check-row"
+                  ><input name="visibility" type="checkbox" /><span
+                    >Autorizo que empresas CM suscriptoras vean métricas agregadas y señales de
+                    engagement de este lanzamiento.</span
+                  ></label
+                >
+
+                <button class="primary-button full" type="submit">Publicar cápsula</button>
+              </form>
+
+              <article class="panel-card">
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">Publicaciones</p>
+                    <h2>Material publicado</h2>
+                  </div>
+                  <span class="counter-pill" data-published-count>0</span>
+                </div>
+
+                <div class="stack-list" data-published-list></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="view" data-view="billing">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Modelo de negocio</p>
+                <h1>Pagos, suscripciones y facturación electrónica.</h1>
+              </div>
+              <button class="soft-button" type="button" data-open-view-guide>
+                ¿Qué encuentro aquí?
+              </button>
+            </div>
+
+            <article
+              class="panel-card prototype-phase-panel"
+              data-company-prototype-panel
+            ></article>
+
+            <div class="plan-grid" data-plan-grid></div>
+
+            <div class="billing-grid">
+              <form class="panel-card payment-form" data-payment-form>
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">Pago seguro</p>
+                    <h2>Completar suscripción</h2>
+                  </div>
+                  <span class="counter-pill">COP</span>
+                </div>
+
+                <label>Plan<select name="plan" data-plan-select></select></label>
+
+                <label
+                  >Nombre o razón social<input
+                    name="payer"
+                    type="text"
+                    required
+                    placeholder="Nombre completo"
+                /></label>
+
+                <label
+                  >Cédula o NIT<input
+                    name="document"
+                    type="text"
+                    required
+                    placeholder="Número de identificación"
+                /></label>
+
+                <label
+                  >Correo para factura<input
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="correo@dominio.com"
+                /></label>
+
+                <label
+                  >Método de pago<select name="method" required>
+                    <option>Tarjeta débito/crédito</option>
+                    <option>PSE</option>
+                    <option>Billetera digital</option>
+                  </select></label
+                >
+
+                <div class="legal-note">
+                  Los precios están en pesos colombianos e incluyen impuestos aplicables. El flujo
+                  registra factura electrónica, retracto y reversión del pago.
+                </div>
+
+                <button class="primary-button full" type="submit">Pagar y generar factura</button>
+              </form>
+
+              <article class="panel-card">
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">Facturación</p>
+                    <h2>Historial</h2>
+                  </div>
+                  <span class="counter-pill" data-invoice-count>0</span>
+                </div>
+                <div class="stack-list" data-invoice-list></div>
+              </article>
+            </div>
+
+            <article class="panel-card" data-company-access-panel></article>
+          </section>
+
+          <section class="view" data-view="profile">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Perfil activo</p>
+                <h1>Tu memoria, actividad y espacio dentro de KORΛ.</h1>
+              </div>
+              <button class="soft-button" type="button" data-open-view-guide>
+                ¿Qué encuentro aquí?
+              </button>
+            </div>
+
+            <article class="panel-card profile-active-card" data-profile-overview></article>
+
+            <article class="panel-card" data-role-workspace></article>
+
+            <div class="two-column">
+              <article class="panel-card">
+                <div class="panel-head">
+                  <h2>Gestión de cuenta</h2>
+                  <span class="counter-pill">Control</span>
+                </div>
+                <div class="settings-list">
+                  <button class="soft-button full" type="button" data-go-login>
+                    Cambiar perfil activo</button
+                  ><button class="soft-button full" type="button" data-open-legal-gate>
+                    Revisar términos y condiciones</button
+                  ><button class="danger-button full" type="button" data-delete-account>
+                    Bajar cuenta
+                  </button>
+                </div>
+              </article>
+
+              <article class="panel-card compact-permissions-card">
+                <div class="panel-head">
+                  <h2>Rol y permisos</h2>
+                  <span class="counter-pill">Resumen</span>
+                </div>
+                <div class="settings-list compact-permissions-list" data-privacy-list></div>
+              </article>
+            </div>
+          </section>
+        </main>
+      </div>
     </div>
-  </div>
 
-  <nav class="bottom-nav" aria-label="Navegación móvil">
-    <button class="is-active" type="button" data-view-target="discover"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 11.2 12 4l8 7.2v8.3a1.5 1.5 0 0 1-1.5 1.5h-3.7v-6h-5.6v6H5.5A1.5 1.5 0 0 1 4 19.5v-8.3Z" fill="currentColor"/></svg></span><span>Inicio</span></button>
-    <button type="button" data-view-target="player"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 5.3v13.4L18.4 12 7 5.3Z" fill="currentColor"/></svg></span><span>Player</span></button>
-    <button type="button" data-view-target="interaction"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3c5 0 9 3.4 9 7.5S17 18 12 18a10 10 0 0 1-3-.4L4 20l1.5-4.2A6.8 6.8 0 0 1 3 10.5C3 6.4 7 3 12 3Z" fill="currentColor"/></svg></span><span>Feed</span></button>
-    <button class="role-only" type="button" data-view-target="publish" data-role-nav="artist"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4 7v5c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V7l-8-4Zm1 6v3h3v2h-3v3h-2v-3H8v-2h3V9h2Z" fill="currentColor"/></svg></span><span>Publicar</span></button>
-    <button type="button" data-view-target="billing"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H18a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6.5A2.5 2.5 0 0 1 4 17.5v-11ZM6.5 8A1.5 1.5 0 0 0 5 9.5v5A1.5 1.5 0 0 0 6.5 16H20V8H6.5Zm8.5 3h3v2h-3v-2Z" fill="currentColor"/></svg></span><span>Pagos</span></button>
-    <button type="button" data-view-target="profile"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12Zm0 2c-4.1 0-7.5 2.1-7.5 4.7V21h15v-2.3c0-2.6-3.4-4.7-7.5-4.7Z" fill="currentColor"/></svg></span><span>Perfil</span></button>
-  </nav>
+    <nav class="bottom-nav" aria-label="Navegación móvil">
+      <button class="is-active" type="button" data-view-target="discover">
+        <span class="nav-icon" aria-hidden="true"
+          ><svg viewBox="0 0 24 24">
+            <path
+              d="M4 11.2 12 4l8 7.2v8.3a1.5 1.5 0 0 1-1.5 1.5h-3.7v-6h-5.6v6H5.5A1.5 1.5 0 0 1 4 19.5v-8.3Z"
+              fill="currentColor"
+            /></svg></span
+        ><span>Inicio</span>
+      </button>
 
-  <div class="consent-overlay" data-consent-overlay hidden>
-    <section class="consent-card" role="dialog" aria-modal="true" aria-labelledby="consent-title">
-      <div class="consent-brand"><img src="rebrand/wordmark_kora.svg" alt="KORA"></div>
-      <h2 id="consent-title">Términos y condiciones</h2>
-      <p class="consent-role-lead" data-consent-role-lead>Estas autorizaciones se ajustan al rol activo.</p>
-      <div class="consent-visual" aria-hidden="true"><span>♪</span><span>✓</span><span>↗</span></div>
-      <form class="consent-form" data-consent-form>
-        <label class="check-row"><input type="checkbox" name="terms"><span data-legal-copy="terms">He leído y acepto los <a href="legal.html?doc=terms" target="_blank" rel="noopener">Términos y Condiciones</a> de KORA.</span></label>
-        <label class="check-row"><input type="checkbox" name="privacy"><span data-legal-copy="privacy">Acepto la <a href="legal.html?doc=privacy" target="_blank" rel="noopener">Autorización de Tratamiento de Datos Personales</a> según mi rol.</span></label>
-        <label class="check-row"><input type="checkbox" name="roleData"><span data-legal-copy="roleData">Acepto los permisos y datos asociados a mi categoría dentro de KORA. <a href="legal.html?doc=terms" target="_blank" rel="noopener">Ver más información</a>.</span></label>
-        <button class="consent-submit" type="submit" disabled>Aceptar</button>
-      </form>
-    </section>
-  </div>
+      <button type="button" data-view-target="player">
+        <span class="nav-icon" aria-hidden="true"
+          ><svg viewBox="0 0 24 24">
+            <path d="M7 5.3v13.4L18.4 12 7 5.3Z" fill="currentColor" /></svg></span
+        ><span>Player</span>
+      </button>
 
-  <div class="modal-layer" data-modal-layer hidden></div>
-  <section class="now-playing-bar" data-now-playing-bar hidden></section>
-  <div class="toast" data-toast aria-live="polite"></div>
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
-</body>
+      <button type="button" data-view-target="interaction">
+        <span class="nav-icon" aria-hidden="true"
+          ><svg viewBox="0 0 24 24">
+            <path
+              d="M12 3c5 0 9 3.4 9 7.5S17 18 12 18a10 10 0 0 1-3-.4L4 20l1.5-4.2A6.8 6.8 0 0 1 3 10.5C3 6.4 7 3 12 3Z"
+              fill="currentColor"
+            /></svg></span
+        ><span>Feed</span>
+      </button>
+
+      <button class="role-only" type="button" data-view-target="publish" data-role-nav="artist">
+        <span class="nav-icon" aria-hidden="true"
+          ><svg viewBox="0 0 24 24">
+            <path
+              d="M12 3 4 7v5c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V7l-8-4Zm1 6v3h3v2h-3v3h-2v-3H8v-2h3V9h2Z"
+              fill="currentColor"
+            /></svg></span
+        ><span>Publicar</span>
+      </button>
+
+      <button type="button" data-view-target="billing">
+        <span class="nav-icon" aria-hidden="true"
+          ><svg viewBox="0 0 24 24">
+            <path
+              d="M4 6.5A2.5 2.5 0 0 1 6.5 4H18a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6.5A2.5 2.5 0 0 1 4 17.5v-11ZM6.5 8A1.5 1.5 0 0 0 5 9.5v5A1.5 1.5 0 0 0 6.5 16H20V8H6.5Zm8.5 3h3v2h-3v-2Z"
+              fill="currentColor"
+            /></svg></span
+        ><span>Pagos</span>
+      </button>
+
+      <button type="button" data-view-target="profile">
+        <span class="nav-icon" aria-hidden="true"
+          ><svg viewBox="0 0 24 24">
+            <path
+              d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12Zm0 2c-4.1 0-7.5 2.1-7.5 4.7V21h15v-2.3c0-2.6-3.4-4.7-7.5-4.7Z"
+              fill="currentColor"
+            /></svg></span
+        ><span>Perfil</span>
+      </button>
+    </nav>
+
+    <div class="consent-overlay" data-consent-overlay hidden>
+      <section class="consent-card" role="dialog" aria-modal="true" aria-labelledby="consent-title">
+        <div class="consent-brand" aria-label="KORΛ">
+          <span class="brand-logo-pair" aria-hidden="true"
+            ><img
+              class="brand-logo-on-light"
+              src="branding/10_logotipo_korlambda_oscuro.svg"
+              alt="" /><img
+              class="brand-logo-on-dark"
+              src="branding/11_logotipo_korlambda_claro.svg"
+              alt=""
+          /></span>
+        </div>
+
+        <h2 id="consent-title">Términos y condiciones</h2>
+
+        <p class="consent-role-lead" data-consent-role-lead>
+          Estas autorizaciones se ajustan al rol activo.
+        </p>
+
+        <form class="consent-form" data-consent-form>
+          <label class="check-row"
+            ><input type="checkbox" name="terms" /><span data-legal-copy="terms"
+              >He leído y acepto los
+              <a href="legal.html?doc=terms" target="_blank" rel="noopener"
+                >Términos y Condiciones</a
+              >
+              de KORΛ.</span
+            ></label
+          >
+
+          <label class="check-row"
+            ><input type="checkbox" name="privacy" /><span data-legal-copy="privacy"
+              >Acepto la
+              <a href="legal.html?doc=privacy" target="_blank" rel="noopener"
+                >Autorización de Tratamiento de Datos Personales</a
+              >
+              según mi rol.</span
+            ></label
+          >
+
+          <label class="check-row"
+            ><input type="checkbox" name="roleData" /><span data-legal-copy="roleData"
+              >Acepto los permisos y datos asociados a mi categoría dentro de KORΛ.
+              <a href="legal.html?doc=terms" target="_blank" rel="noopener">Ver más información</a
+              >.</span
+            ></label
+          >
+
+          <button class="consent-submit" type="submit" disabled>Aceptar y continuar</button>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal-layer" data-modal-layer hidden></div>
+
+    <section class="now-playing-bar" data-now-playing-bar hidden></section>
+
+    <div class="toast" data-toast aria-live="polite"></div>
+
+    <script src="js/data.js"></script>
+
+    <script src="js/app.js"></script>
+  </body>
 </html>
-
-
-
