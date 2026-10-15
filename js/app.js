@@ -1,4 +1,4 @@
-/* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, activeProfileNameParts, addCommunityEvent, allProfiles, ambassadorDashboard, applyInterfacePreferences, applyQuickComment, applyVoiceComment, artistAuthorizationCards, artistById, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, audioContext, audioPlayer, avatarMarkup, capsuleLoopTimer, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, createdProfiles, curatorDashboard, currentView, defaultState, dismissNotification, ecosystemConfig, escapeHtml, explorerDashboard, fallbackNodes, formatCommunityTime, formatMemoryDate, formatTime, generateInvoice, getAudioPlayer, iconActionMarkup, imgMarkup, lastRoleSignal, legalConsentCopy, legalDocLink, loadState, memoryArtistCard, memoryReminderItems, money, notificationBelongsToActiveProfile, nowPlayingHideTimer, personalizeBaseNotification, ecosystemOverviewPanel, playTimer, playerFullscreenContent, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishedProfileCard, qs, qsa, registerResponsibleScout, removeSaved, renderBilling, renderCapsules, renderDiscoverSummary, renderHero, renderInteraction, renderNotificationBadge, renderNowPlaying, renderPlayer, renderProfile, renderProfileChrome, renderEcosystemPanels, renderPublished, renderSaved, renderSidebarSession, replaySaved, repostArtist, repostCurrent, roleActionButtons, roleDashboard, roleDefinition, roleFeatureCards, roleLegalCopy, roleMetricItems, roleWorkspace, runAiAction, runtimeArtists, saveArtist, saveState, savedReason, sessionMedia, setCurrentArtist, setView, settingEnabled, settingsToggleRow, shareCurrent, showAiAssistant, showCommentComposer, showFriendsPanel, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, startClock, startFallbackAudio, startPlayback, statPill, state, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, svgIcon, syncViewChrome, toast, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, viewChromeCopy, viewGuideCopy, viewGuideKey */
+/* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, activeProfileNameParts, addCommunityEvent, allProfiles, ambassadorDashboard, applyInterfacePreferences, applyQuickComment, applyVoiceComment, artistAuthorizationCards, artistById, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, audioContext, audioPlayer, avatarMarkup, capsuleLoopTimer, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, createdProfiles, curatorDashboard, currentView, downloadEarlyAccessReceipt, defaultState, dismissNotification, ecosystemConfig, escapeHtml, explorerDashboard, fallbackNodes, formatCommunityTime, formatMemoryDate, formatTime, prepareEarlyAccessRequest, getAudioPlayer, iconActionMarkup, imgMarkup, lastRoleSignal, legalConsentCopy, legalDocLink, loadState, memoryArtistCard, memoryReminderItems, money, notificationBelongsToActiveProfile, nowPlayingHideTimer, personalizeBaseNotification, ecosystemOverviewPanel, playTimer, playerFullscreenContent, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishedProfileCard, qs, qsa, registerResponsibleScout, removeSaved, renderBilling, renderCapsules, renderDiscoverSummary, renderHero, renderInteraction, renderNotificationBadge, renderNowPlaying, renderPlayer, renderProfile, renderProfileChrome, renderEcosystemPanels, renderPublished, renderSaved, renderSidebarSession, replaySaved, repostArtist, repostCurrent, roleActionButtons, roleDashboard, roleDefinition, roleFeatureCards, roleLegalCopy, roleMetricItems, roleWorkspace, runAiAction, selectBillingPlan, sendEarlyAccessWhatsApp, runtimeArtists, saveArtist, saveState, savedReason, sessionMedia, setCurrentArtist, setView, settingEnabled, settingsToggleRow, shareCurrent, showAiAssistant, showCommentComposer, showFriendsPanel, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, startClock, startFallbackAudio, startPlayback, statPill, state, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, svgIcon, syncViewChrome, toast, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, updateBillingMethod, updateBillingSelection, viewChromeCopy, viewGuideCopy, viewGuideKey */
 /* exported bindEvents, capsuleSequenceWidth, closeModal, completeViewGuide, finishOnboarding, handleConsentForm, handleGlobalClick, logoutSession, lowerAccount, maybeShowViewGuide, normalizeCapsuleLoop, publishTrack, remindOnboardingLater, remindViewGuideLater, renderAll, resetEverything, scrollActiveCapsuleIntoView, scrollCapsules, showActionGuide, showLegalGate, showModal, showWelcomeOnboarding, updateFileLabel */
 
 function renderAll() {
@@ -579,13 +579,11 @@ function handleGlobalClick(event) {
 
   if (target.dataset.scoutResponsible) registerResponsibleScout(target.dataset.scoutResponsible);
 
-  if (target.dataset.selectPlan) {
-    qs('[data-plan-select]').value = target.dataset.selectPlan;
+  if (target.dataset.selectPlan) selectBillingPlan(target.dataset.selectPlan);
 
-    setView('billing');
+  if (target.dataset.sendEarlyAccess !== undefined) sendEarlyAccessWhatsApp();
 
-    toast('Plan seleccionado. Completa los datos de facturación.');
-  }
+  if (target.dataset.downloadEarlyAccess !== undefined) downloadEarlyAccessReceipt();
 
   if (target.dataset.openLegalGate !== undefined) showLegalGate(true);
 
@@ -761,9 +759,11 @@ function bindEvents() {
 
   qs('[data-payment-form]').addEventListener('submit', event => {
     event.preventDefault();
-
-    generateInvoice(event.currentTarget);
+    prepareEarlyAccessRequest(event.currentTarget);
   });
+
+  qs('[data-plan-select]').addEventListener('change', updateBillingSelection);
+  qs('[data-payment-method]').addEventListener('change', updateBillingMethod);
 
   qs('[data-publish-form]').addEventListener('submit', event => {
     event.preventDefault();

@@ -1,4 +1,4 @@
-/* global activeProfileNameParts, ambassadorDashboard, applyQuickComment, applyVoiceComment, artistAuthorizationCards, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, bindEvents, capsuleSequenceWidth, closeModal, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, completeViewGuide, curatorDashboard, dismissNotification, ecosystemConfig, explorerDashboard, finishOnboarding, formatTime, generateInvoice, getAudioPlayer, handleConsentForm, handleGlobalClick, lastRoleSignal, logoutSession, lowerAccount, maybeShowViewGuide, memoryArtistCard, normalizeCapsuleLoop, notificationBelongsToActiveProfile, personalizeBaseNotification, ecosystemOverviewPanel, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishTrack, publishedProfileCard, registerResponsibleScout, remindOnboardingLater, remindViewGuideLater, removeSaved, renderAll, renderBilling, renderCapsules, renderDiscoverSummary, renderHero, renderInteraction, renderNotificationBadge, renderNowPlaying, renderPlayer, renderProfile, renderEcosystemPanels, renderPublished, renderSaved, replaySaved, repostArtist, repostCurrent, resetEverything, roleDashboard, roleMetricItems, roleWorkspace, runAiAction, saveArtist, scrollActiveCapsuleIntoView, scrollCapsules, setCurrentArtist, settingEnabled, settingsToggleRow, shareCurrent, showActionGuide, showAiAssistant, showCommentComposer, showFriendsPanel, showLegalGate, showModal, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, showWelcomeOnboarding, startClock, startFallbackAudio, startPlayback, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, updateFileLabel */
+/* global activeProfileNameParts, ambassadorDashboard, applyQuickComment, applyVoiceComment, artistAuthorizationCards, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, bindEvents, capsuleSequenceWidth, closeModal, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, completeViewGuide, curatorDashboard, dismissNotification, ecosystemConfig, explorerDashboard, finishOnboarding, formatTime, prepareEarlyAccessRequest, getAudioPlayer, handleConsentForm, handleGlobalClick, lastRoleSignal, logoutSession, lowerAccount, maybeShowViewGuide, memoryArtistCard, normalizeCapsuleLoop, notificationBelongsToActiveProfile, personalizeBaseNotification, ecosystemOverviewPanel, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishTrack, publishedProfileCard, registerResponsibleScout, remindOnboardingLater, remindViewGuideLater, removeSaved, renderAll, renderBilling, renderCapsules, renderDiscoverSummary, renderHero, renderInteraction, renderNotificationBadge, renderNowPlaying, renderPlayer, renderProfile, renderEcosystemPanels, renderPublished, renderSaved, replaySaved, repostArtist, repostCurrent, resetEverything, roleDashboard, roleMetricItems, roleWorkspace, runAiAction, saveArtist, scrollActiveCapsuleIntoView, scrollCapsules, setCurrentArtist, settingEnabled, settingsToggleRow, shareCurrent, showActionGuide, showAiAssistant, showCommentComposer, showFriendsPanel, showLegalGate, showModal, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, showWelcomeOnboarding, startClock, startFallbackAudio, startPlayback, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, updateFileLabel */
 /* exported CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, addCommunityEvent, allProfiles, applyInterfacePreferences, artistById, audioContext, audioPlayer, avatarMarkup, capsuleLoopTimer, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, createdProfiles, currentView, defaultState, escapeHtml, fallbackNodes, formatCommunityTime, formatMemoryDate, iconActionMarkup, imgMarkup, legalConsentCopy, legalDocLink, loadState, memoryReminderItems, money, nowPlayingHideTimer, playTimer, playerFullscreenContent, qs, qsa, renderProfileChrome, renderSidebarSession, roleActionButtons, roleDefinition, roleFeatureCards, roleLegalCopy, runtimeArtists, saveState, savedReason, sessionMedia, setView, statPill, state, svgIcon, syncViewChrome, toast, viewChromeCopy, viewGuideCopy, viewGuideKey */
 
 const DATA = window.KORA_DATA;
@@ -8,7 +8,7 @@ const STORAGE_KEY = 'kora-corte3-state';
 const CREATED_KEY = 'kora-created-profiles';
 
 const defaultState = {
-  uiVersion: 11,
+  uiVersion: 12,
 
   profileId: 'luna',
 
@@ -71,7 +71,7 @@ const defaultState = {
 
   theme: 'light',
 
-  invoices: [],
+  earlyAccessRequests: [],
 
   accountHidden: false,
 
@@ -123,11 +123,15 @@ function loadState() {
 
     const parsed = { ...defaultState, ...JSON.parse(raw) };
 
-    if (parsed.uiVersion !== 11) {
-      parsed.uiVersion = 11;
+    if (parsed.uiVersion !== 12) {
+      parsed.uiVersion = 12;
 
       parsed.currentArtist = Math.floor(Math.random() * DATA.artists.length);
     }
+
+    // Los comprobantes de la versión anterior no representan cobros reales.
+    delete parsed.invoices;
+    if (!Array.isArray(parsed.earlyAccessRequests)) parsed.earlyAccessRequests = [];
 
     return parsed;
   } catch {

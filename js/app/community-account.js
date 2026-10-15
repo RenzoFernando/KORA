@@ -1,5 +1,5 @@
 /* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, activeProfileNameParts, addCommunityEvent, allProfiles, applyInterfacePreferences, applyQuickComment, applyVoiceComment, artistById, audioContext, audioPlayer, avatarMarkup, bindEvents, capsuleLoopTimer, capsuleSequenceWidth, closeModal, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, completeViewGuide, createdProfiles, currentView, defaultState, dismissNotification, escapeHtml, fallbackNodes, finishOnboarding, formatCommunityTime, formatMemoryDate, formatTime, getAudioPlayer, handleConsentForm, handleGlobalClick, iconActionMarkup, imgMarkup, legalConsentCopy, legalDocLink, loadState, logoutSession, lowerAccount, maybeShowViewGuide, memoryReminderItems, money, normalizeCapsuleLoop, notificationBelongsToActiveProfile, nowPlayingHideTimer, personalizeBaseNotification, playTimer, playerFullscreenContent, publishTrack, qs, qsa, remindOnboardingLater, remindViewGuideLater, removeSaved, renderAll, renderCapsules, renderHero, renderNotificationBadge, renderPlayer, renderProfileChrome, renderSaved, renderSidebarSession, replaySaved, repostArtist, repostCurrent, resetEverything, roleActionButtons, roleDefinition, roleFeatureCards, roleLegalCopy, runAiAction, runtimeArtists, saveArtist, saveState, savedReason, scrollActiveCapsuleIntoView, scrollCapsules, sessionMedia, setCurrentArtist, setView, settingEnabled, settingsToggleRow, shareCurrent, showActionGuide, showAiAssistant, showCommentComposer, showFriendsPanel, showLegalGate, showModal, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, showWelcomeOnboarding, startClock, startFallbackAudio, startPlayback, statPill, state, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, svgIcon, syncViewChrome, toast, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, updateFileLabel, viewChromeCopy, viewGuideCopy, viewGuideKey */
-/* exported ambassadorDashboard, artistAuthorizationCards, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, curatorDashboard, ecosystemConfig, explorerDashboard, generateInvoice, lastRoleSignal, memoryArtistCard, ecosystemOverviewPanel, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishedProfileCard, registerResponsibleScout, renderBilling, renderDiscoverSummary, renderInteraction, renderNowPlaying, renderProfile, renderEcosystemPanels, renderPublished, roleDashboard, roleMetricItems, roleWorkspace */
+/* exported ambassadorDashboard, artistAuthorizationCards, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, curatorDashboard, ecosystemConfig, explorerDashboard, downloadEarlyAccessReceipt, prepareEarlyAccessRequest, lastRoleSignal, memoryArtistCard, ecosystemOverviewPanel, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishedProfileCard, registerResponsibleScout, renderBilling, renderDiscoverSummary, renderInteraction, renderNowPlaying, renderProfile, renderEcosystemPanels, renderPublished, roleDashboard, roleMetricItems, roleWorkspace, selectBillingPlan, sendEarlyAccessWhatsApp, updateBillingMethod, updateBillingSelection */
 
 function renderInteraction() {
   const profile = activeProfile();
@@ -292,150 +292,273 @@ function renderPublished() {
   qsa('input, textarea, button', form).forEach(node => (node.disabled = profile.role !== 'artist'));
 }
 
-function profilePlanId(profile = activeProfile()) {
-  if (profile.planId) return profile.planId;
-
-  const roleMap = {
-    user: 'free',
-    curator: 'premium',
-    ambassador: 'premium',
-    artist: 'artist',
-    company: 'company',
-  };
-
-  return roleMap[profile.role] || 'free';
+function profilePlanId() {
+  // Los planes pagos todavía no se activan automáticamente en esta versión.
+  return 'free';
 }
 
 function profilePlan(profile = activeProfile()) {
   return DATA.plans.find(plan => plan.id === profilePlanId(profile)) || DATA.plans[0];
 }
 
+let lastEarlyAccessRequest = null;
+
+const KORA_WHATSAPP = '573112476840';
+
+const paymentMethodLabels = {
+  transfer: 'Transferencia o billetera digital (comprobante por WhatsApp)',
+  cash: 'Efectivo (coordinar con KORΛ)',
+  card: 'Tarjeta (registro simulado; sin cargo)',
+};
+
 function renderBilling() {
   const profile = activeProfile();
-
   const activePlan = profilePlan(profile);
+  const previousSelection = qs('[data-plan-select]').value || 'free';
 
   qs('[data-plan-grid]').innerHTML = DATA.plans
     .map(plan => {
       const isCurrent = plan.id === activePlan.id;
 
       return `
-
     <article class="plan-card ${isCurrent ? 'is-current-plan' : ''}">
-
       <p class="eyebrow">${escapeHtml(plan.audience)}</p>
-
       <h2>${escapeHtml(plan.name)}</h2>
-
-      <div class="tag-row"><span class="status-chip">${escapeHtml(plan.badge)}</span>${isCurrent ? '<span class="status-chip">Plan activo</span>' : ''}</div>
-
+      <div class="tag-row"><span class="status-chip">${escapeHtml(plan.badge)}</span>${isCurrent ? '<span class="status-chip">Plan activo</span>' : '<span class="status-chip">Acceso anticipado</span>'}</div>
       <div class="plan-price">${plan.price ? money(plan.price) : 'Sin costo'}</div>
-
       <ul class="plan-feature-list">${plan.features.map(feature => `<li>${escapeHtml(feature)}</li>`).join('')}</ul>
-
       ${plan.note ? `<p class="support-copy">${escapeHtml(plan.note)}</p>` : ''}
-
-      <button class="soft-button full" type="button" data-select-plan="${escapeHtml(plan.id)}">${isCurrent ? 'Usar este plan' : 'Elegir plan'}</button>
-
+      <button class="soft-button full" type="button" ${isCurrent ? 'disabled' : `data-select-plan="${escapeHtml(plan.id)}"`}>${isCurrent ? 'Tu plan actual' : 'Solicitar acceso'}</button>
     </article>
-
   `;
     })
     .join('');
 
-  const paidPlans = DATA.plans.filter(plan => plan.price > 0);
-
-  qs('[data-plan-select]').innerHTML = paidPlans
-    .map(
-      plan =>
-        `<option value="${escapeHtml(plan.id)}">${escapeHtml(plan.name)} · ${money(plan.price)}</option>`
-    )
+  const select = qs('[data-plan-select]');
+  select.innerHTML = DATA.plans
+    .map(plan => `<option value="${escapeHtml(plan.id)}">${escapeHtml(plan.name)} · ${plan.price ? money(plan.price) : 'Gratis'}</option>`)
     .join('');
+  select.value = DATA.plans.some(plan => plan.id === previousSelection) ? previousSelection : 'free';
+  updateBillingSelection();
 
-  if (activePlan.price > 0) qs('[data-plan-select]').value = activePlan.id;
-
-  qs('[data-invoice-count]').textContent = state.invoices.length;
-
-  qs('[data-invoice-list]').innerHTML = state.invoices.length
-    ? state.invoices
+  const requests = (state.earlyAccessRequests || []).filter(item => item.profileId === profile.id);
+  qs('[data-invoice-count]').textContent = requests.length;
+  qs('[data-invoice-list]').innerHTML = requests.length
+    ? requests
         .slice()
         .reverse()
-        .map(
-          invoice => `
-
-    <article class="invoice-card"><strong>${escapeHtml(invoice.number)}</strong><p>${escapeHtml(invoice.planName)} · ${money(invoice.total)} · ${escapeHtml(invoice.paidAt)}</p><span class="status-chip">Factura electrónica generada</span></article>
-
-  `
-        )
+        .map(request => `
+    <article class="invoice-card">
+      <strong>${escapeHtml(request.id)}</strong>
+      <p>${escapeHtml(request.planName)} · ${money(request.total)} · ${escapeHtml(request.createdAt)}</p>
+      <span class="status-chip">Solicitud preparada · confirmación pendiente</span>
+    </article>`)
         .join('')
-    : '<div class="empty-state">Aún no hay facturas registradas.</div>';
+    : '<div class="empty-state">Todavía no has preparado solicitudes de acceso anticipado.</div>';
 
   qs('[data-company-access-panel]').innerHTML =
     profile.role === 'company'
       ? `
-
-    <div class="panel-head"><div><p class="eyebrow">Acceso empresas CM</p><h2>Datos disponibles por autorización</h2></div><span class="counter-pill">${escapeHtml(activePlan.name)}</span></div>
-
+    <div class="panel-head"><div><p class="eyebrow">Acceso empresas CM</p><h2>Datos disponibles por autorización</h2></div><span class="counter-pill">Acceso anticipado</span></div>
     <div class="tag-cloud"><span class="tag">Métricas agregadas</span><span class="tag">Artistas visibles</span><span class="tag">Límites de uso</span><span class="tag">Acceso controlado</span></div>
-
     <p>El acceso empresarial se limita a artistas que autorizaron visibilidad o análisis de perfil. La información se presenta para evaluación responsable, no para contacto automático ni cesión irrestricta de datos.</p>
-
     <div class="phase-mini-grid"><article class="mini-card"><strong>Qué puede ver</strong><span>Afinidad cultural, escena, guardados agregados y señales comunitarias.</span></article><article class="mini-card"><strong>Qué no puede ver</strong><span>Datos privados, contacto directo o información no autorizada por artistas.</span></article></div>
-
   `
       : `
-
-    <div class="panel-head"><div><p class="eyebrow">Plan asociado</p><h2>${escapeHtml(activePlan.name)} para ${escapeHtml(profile.name)}</h2></div><span class="counter-pill">${activePlan.price ? money(activePlan.price) : 'Sin costo'}</span></div>
-
-    <p>Este perfil tiene un plan sugerido según su rol. Puedes cambiarlo en el selector de pago para generar una factura o probar otro modelo de suscripción.</p>
-
-    <div class="phase-mini-grid"><article class="mini-card"><strong>Beneficio principal</strong><span>${escapeHtml(activePlan.features[0] || 'Acceso a KORΛ')}</span></article><article class="mini-card"><strong>Alcance comercial</strong><span>${escapeHtml(activePlan.note || 'Condiciones visibles antes del pago.')}</span></article></div>
-
+    <div class="panel-head"><div><p class="eyebrow">Plan actual</p><h2>${escapeHtml(activePlan.name)} para ${escapeHtml(profile.name)}</h2></div><span class="counter-pill">Sin costo</span></div>
+    <p>Puedes seguir descubriendo gratis. Los otros planes están en preventa y requieren confirmación de KORΛ antes de activarse.</p>
+    <div class="phase-mini-grid"><article class="mini-card"><strong>Incluido</strong><span>${escapeHtml(activePlan.features[0] || 'Acceso a KORΛ')}</span></article><article class="mini-card"><strong>Próximo paso</strong><span>Elige un plan pago y envía tu solicitud por WhatsApp.</span></article></div>
   `;
 }
 
-function generateInvoice(form) {
-  const formData = new FormData(form);
+function updateBillingSelection() {
+  const select = qs('[data-plan-select]');
+  const plan = DATA.plans.find(item => item.id === select.value) || DATA.plans[0];
+  qs('[data-selected-price]').textContent = plan.price
+    ? `${money(plan.price)} COP / mes · acceso sujeto a confirmación`
+    : 'KORΛ Base está activo. Elige un plan pago para solicitar acceso anticipado.';
+  qs('[data-payment-submit]').disabled = !plan.price;
+}
 
-  const plan = DATA.plans.find(item => item.id === formData.get('plan')) || DATA.plans[1];
+function updateBillingMethod() {
+  const isCard = qs('[data-payment-method]').value === 'card';
+  const box = qs('[data-card-simulation]');
+  box.hidden = !isCard;
+  qsa('input, select', box).forEach(field => {
+    field.disabled = !isCard;
+    field.required = isCard;
+    if (!isCard) field.value = '';
+  });
+}
+
+function selectBillingPlan(planId) {
+  const plan = DATA.plans.find(item => item.id === planId);
+  if (!plan || !plan.price) return;
+  qs('[data-plan-select]').value = plan.id;
+  updateBillingSelection();
+  setView('billing');
+  qs('[data-payment-form]').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  toast('Completa la solicitud de acceso anticipado.');
+}
+
+function normalizeContactPhone(value) {
+  const digits = String(value).replace(/\D/g, '');
+  return digits.length === 12 && digits.startsWith('57') ? digits.slice(2) : digits;
+}
+
+function earlyAccessMessage(request) {
+  return [
+    'KORΛ DISCOVER · SOLICITUD DE ACCESO ANTICIPADO',
+    `Referencia: ${request.id}`,
+    `Perfil en KORΛ: ${request.profileName} (${request.profileId})`,
+    `Nombre: ${request.payer}`,
+    `WhatsApp: +57 ${request.phone}`,
+    `Correo: ${request.email}`,
+    `Plan: ${request.planName}`,
+    `Valor de referencia: ${money(request.total)} COP/mes`,
+    `Forma de pago preferida: ${paymentMethodLabels[request.method]}`,
+    'Estado: pendiente de confirmación y coordinación de pago.',
+    'No se ha realizado ningún cobro ni emitido factura.',
+  ].join('\n');
+}
+
+function prepareEarlyAccessRequest(form) {
+  const fields = new FormData(form);
+  const plan = DATA.plans.find(item => item.id === fields.get('plan'));
+  const payer = String(fields.get('payer') || '').trim();
+  const email = String(fields.get('email') || '').trim();
+  const phone = normalizeContactPhone(fields.get('phone'));
+  const method = String(fields.get('method') || '');
+
+  if (!plan || !plan.price || !payer || !email || !paymentMethodLabels[method] || !/^3\d{9}$/.test(phone)) {
+    toast('Revisa el plan y escribe un celular colombiano válido de 10 dígitos.');
+    return;
+  }
+  if (!fields.get('contactConsent')) {
+    toast('Autoriza el envío de tus datos para continuar.');
+    return;
+  }
+  if (method === 'card' && (!fields.get('cardBrand') || !/^\d{4}$/.test(String(fields.get('cardLast4') || '')))) {
+    toast('Completa los datos de la simulación de tarjeta.');
+    return;
+  }
 
   const now = new Date();
-
-  const invoice = {
-    number: `KORA-${now.getFullYear()}-${String(state.invoices.length + 1).padStart(4, '0')}`,
-
-    planId: plan.id,
-
+  const profile = activeProfile();
+  const request = {
+    id: `KORA-${now.getTime().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
     planName: plan.name,
-
-    subtotal: Math.round(plan.price / 1.19),
-
-    tax: plan.price - Math.round(plan.price / 1.19),
-
     total: plan.price,
-
-    payer: formData.get('payer'),
-
-    document: formData.get('document'),
-
-    email: formData.get('email'),
-
-    method: formData.get('method'),
-
-    paidAt: now.toLocaleString('es-CO'),
+    payer,
+    phone,
+    email,
+    method,
+    profileName: profile.name,
+    profileId: profile.id,
+    createdAt: now.toLocaleString('es-CO'),
   };
 
-  state.invoices.push(invoice);
-
+  lastEarlyAccessRequest = request;
+  // Se guarda solo el resumen comercial; los datos de contacto no quedan en el historial local.
+  state.earlyAccessRequests = state.earlyAccessRequests || [];
+  state.earlyAccessRequests.push({
+    id: request.id,
+    profileId: request.profileId,
+    planName: request.planName,
+    total: request.total,
+    createdAt: request.createdAt,
+  });
   saveState();
-
   renderBilling();
 
   showModal(
-    `<h2>Pago registrado</h2><div class="invoice-card"><strong>${escapeHtml(invoice.number)}</strong><p>${escapeHtml(invoice.planName)}</p><p>Subtotal: ${money(invoice.subtotal)}<br>IVA incluido: ${money(invoice.tax)}<br>Total: ${money(invoice.total)}</p><span class="status-chip">Enviada a ${escapeHtml(invoice.email)}</span></div><div class="legal-note">Comprobante generado en la aplicación. Las condiciones comerciales, retracto, reversión y alcance por rol están documentados en la sección legal.</div><button class="primary-button full" type="button" data-close-modal>Entendido</button>`
+    `<div class="preorder-confirmation">
+      <p class="eyebrow">Solicitud preparada correctamente</p>
+      <h2>Tu acceso anticipado está listo</h2>
+      <p>Abre WhatsApp para enviar la solicitud a KORΛ. El equipo confirmará el pago y la activación. Todavía no hay ningún cobro.</p>
+      <article class="invoice-card"><strong>${escapeHtml(request.id)}</strong><p>${escapeHtml(request.planName)} · ${money(request.total)} COP/mes</p><span class="status-chip">Pendiente de envío por WhatsApp</span></article>
+      <div class="preorder-actions">
+        <button class="primary-button full" type="button" data-send-early-access>Abrir WhatsApp y enviar solicitud</button>
+        <button class="soft-button full" type="button" data-download-early-access>Descargar comprobante PNG</button>
+        <button class="soft-button full" type="button" data-close-modal>Cerrar</button>
+      </div>
+      <p class="support-copy">WhatsApp abrirá el mensaje listo para que presiones Enviar. Si descargas la imagen, puedes adjuntarla manualmente al chat.</p>
+    </div>`,
+    'preorder-modal'
   );
 
   form.reset();
+  qs('[data-plan-select]').value = 'free';
+  updateBillingSelection();
+  updateBillingMethod();
+}
+
+function sendEarlyAccessWhatsApp() {
+  if (!lastEarlyAccessRequest) return;
+  const url = `https://wa.me/${KORA_WHATSAPP}?text=${encodeURIComponent(earlyAccessMessage(lastEarlyAccessRequest))}`;
+  // WhatsApp exige que la persona pulse Enviar; abrir el enlace no demuestra que se haya recibido.
+  window.location.assign(url);
+}
+
+function downloadEarlyAccessReceipt() {
+  if (!lastEarlyAccessRequest) return;
+  const request = lastEarlyAccessRequest;
+  const canvas = document.createElement('canvas');
+  canvas.width = 960;
+  canvas.height = 1080;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  ctx.fillStyle = '#fdf8f2';
+  ctx.fillRect(0, 0, 960, 1080);
+  ctx.fillStyle = '#f1871c';
+  ctx.fillRect(0, 0, 960, 18);
+  ctx.fillStyle = '#171515';
+  ctx.font = 'bold 66px Arial, sans-serif';
+  ctx.fillText('KORΛ DISCOVER', 70, 127);
+  ctx.font = 'bold 33px Arial, sans-serif';
+  ctx.fillText('SOLICITUD DE ACCESO ANTICIPADO', 70, 211);
+  ctx.font = '27px Arial, sans-serif';
+  ctx.fillStyle = '#665d57';
+  ctx.fillText('No es factura ni comprobante de pago.', 70, 265);
+  ctx.strokeStyle = '#d9cec3';
+  ctx.beginPath();
+  ctx.moveTo(70, 301);
+  ctx.lineTo(890, 301);
+  ctx.stroke();
+
+  const rows = [
+    ['Referencia', request.id],
+    ['Fecha', request.createdAt],
+    ['Plan', request.planName],
+    ['Valor estimado', `${money(request.total)} COP/mes`],
+    ['Nombre', request.payer],
+    ['Contacto', `+57 ${request.phone}`],
+    ['Correo', request.email],
+    ['Método', paymentMethodLabels[request.method]],
+  ];
+  const fit = (value, max = 45) => String(value).length > max ? `${String(value).slice(0, max - 1)}…` : String(value);
+  rows.forEach(([label, value], i) => {
+    const y = 365 + i * 76;
+    ctx.fillStyle = '#7b6d62';
+    ctx.font = '22px Arial, sans-serif';
+    ctx.fillText(label.toUpperCase(), 70, y);
+    ctx.fillStyle = '#171515';
+    ctx.font = 'bold 27px Arial, sans-serif';
+    ctx.fillText(fit(value), 70, y + 31);
+  });
+  ctx.fillStyle = '#fff0de';
+  ctx.fillRect(60, 979, 840, 70);
+  ctx.font = 'bold 23px Arial, sans-serif';
+  ctx.fillStyle = '#9a4c09';
+  ctx.fillText('PENDIENTE DE CONFIRMACIÓN POR WHATSAPP', 83, 1023);
+
+  const link = document.createElement('a');
+  link.href = canvas.toDataURL('image/png');
+  link.download = `${request.id}.png`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
 }
 
 function renderProfile() {
@@ -607,7 +730,7 @@ function roleMetricItems(profile) {
 
       [state.saved.length, 'En radar'],
 
-      [state.invoices.length, 'Facturas'],
+      [(state.earlyAccessRequests || []).filter(item => item.profileId === profile.id).length, 'Solicitudes'],
     ],
   };
 

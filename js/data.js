@@ -587,11 +587,11 @@ window.KORA_DATA = {
     },
 
     billing: {
-      eyebrow: 'Planes y facturación',
+      eyebrow: 'Planes y preventa',
 
       title: 'Qué vas a encontrar en Pagos',
 
-      body: 'Aquí se muestran planes, beneficios, suscripción, facturación y acceso comercial según tipo de usuario.',
+      body: 'Aquí puedes consultar planes y enviar una solicitud de acceso anticipado por WhatsApp. No se realiza un cobro desde la aplicación.',
 
       roleNotes: {
         user: 'Como explorador, puedes revisar opciones para ampliar descubrimiento y listas de reproducción.',
@@ -1370,7 +1370,7 @@ window.KORA_DATA = {
     payments: {
       title: 'Pagos, Facturación y Comercio Electrónico',
 
-      lead: 'Esta sección informa las condiciones comerciales de las suscripciones de KORΛ.',
+      lead: 'Los planes pagos están en validación. Las solicitudes de acceso anticipado se coordinan por WhatsApp y no generan cobros automáticos.',
 
       sections: [
         [
@@ -1385,7 +1385,7 @@ window.KORA_DATA = {
 
         [
           'Pasarela de pago',
-          'El proveedor de pagos deberá cumplir estándares de seguridad para proteger la información financiera, incluyendo controles equivalentes a PCI-DSS para datos de tarjetas.',
+          'La aplicación todavía no dispone de pasarela de pago. La simulación de tarjeta no realiza cobros ni requiere número completo, vencimiento o CVV.',
         ],
 
         [

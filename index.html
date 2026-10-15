@@ -217,20 +217,14 @@
           <button class="tool-link" type="button" data-open-settings>
             <span class="tool-icon" aria-hidden="true"
               ><svg viewBox="0 0 24 24">
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="3"
+                <path
+                  d="M9.7 3.5h4.6l.6 2.1c.5.2 1 .5 1.4.8l2.1-.6 2.3 4-1.6 1.5a7 7 0 0 1 0 1.4l1.6 1.5-2.3 4-2.1-.6c-.4.3-.9.6-1.4.8l-.6 2.1H9.7l-.6-2.1c-.5-.2-1-.5-1.4-.8l-2.1.6-2.3-4 1.6-1.5a7 7 0 0 1 0-1.4L3.3 9.8l2.3-4 2.1.6c.4-.3.9-.6 1.4-.8l.6-2.1Z"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="1.8"
+                  stroke-width="1.7"
+                  stroke-linejoin="round"
                 />
-                <path
-                  d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                /></svg></span
+                <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7" /></svg></span
             ><span>Ajustes</span>
           </button>
         </section>
@@ -311,20 +305,14 @@
               title="Ajustes"
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="3"
+                <path
+                  d="M9.7 3.5h4.6l.6 2.1c.5.2 1 .5 1.4.8l2.1-.6 2.3 4-1.6 1.5a7 7 0 0 1 0 1.4l1.6 1.5-2.3 4-2.1-.6c-.4.3-.9.6-1.4.8l-.6 2.1H9.7l-.6-2.1c-.5-.2-1-.5-1.4-.8l-2.1.6-2.3-4 1.6-1.5a7 7 0 0 1 0-1.4L3.3 9.8l2.3-4 2.1.6c.4-.3.9-.6 1.4-.8l.6-2.1Z"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="1.8"
+                  stroke-width="1.7"
+                  stroke-linejoin="round"
                 />
-                <path
-                  d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                />
+                <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7" />
               </svg>
             </button>
             <button
@@ -833,18 +821,16 @@
           <section class="view" data-view="billing">
             <div class="section-heading">
               <div>
-                <p class="eyebrow">Modelo de negocio</p>
-                <h2>Pagos, suscripciones y facturación electrónica.</h2>
+                <p class="eyebrow">Acceso anticipado</p>
+                <h2>Elige cómo quieres crecer con KORΛ.</h2>
+                <p>Explora gratis o solicita un plan para la próxima etapa.</p>
               </div>
               <button class="soft-button" type="button" data-open-view-guide>
                 ¿Qué encuentro aquí?
               </button>
             </div>
 
-            <article
-              class="panel-card ecosystem-overview-panel"
-              data-company-ecosystem-panel
-            ></article>
+            <article class="panel-card ecosystem-overview-panel" data-company-ecosystem-panel></article>
 
             <div class="plan-grid" data-plan-grid></div>
 
@@ -852,63 +838,73 @@
               <form class="panel-card payment-form" data-payment-form>
                 <div class="panel-head">
                   <div>
-                    <p class="eyebrow">Suscripción</p>
-                    <h2>Completar suscripción</h2>
+                    <p class="eyebrow">Preventa</p>
+                    <h2>Solicita acceso anticipado</h2>
                   </div>
-                  <span class="counter-pill">COP</span>
+                  <span class="counter-pill">COP / mes</span>
                 </div>
 
-                <label>Plan<select name="plan" data-plan-select></select></label>
+                <label>Plan<select name="plan" data-plan-select required></select></label>
+                <p class="billing-selected-price" data-selected-price aria-live="polite"></p>
 
-                <label
-                  >Nombre o razón social<input
-                    name="payer"
-                    type="text"
-                    required
-                    placeholder="Nombre completo"
-                /></label>
+                <label>Nombre o razón social
+                  <input name="payer" type="text" required maxlength="90" autocomplete="name" placeholder="Nombre completo" />
+                </label>
 
-                <label
-                  >Cédula o NIT<input
-                    name="document"
-                    type="text"
-                    required
-                    placeholder="Número de identificación"
-                /></label>
+                <label>WhatsApp de contacto (Colombia)
+                  <input name="phone" type="tel" required autocomplete="tel" inputmode="tel" maxlength="20" placeholder="311 123 4567" />
+                </label>
 
-                <label
-                  >Correo para factura<input
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="correo@dominio.com"
-                /></label>
+                <label>Correo electrónico
+                  <input name="email" type="email" required maxlength="120" autocomplete="email" placeholder="correo@dominio.com" />
+                </label>
 
-                <label
-                  >Método de pago<select name="method" required>
-                    <option>Tarjeta débito/crédito</option>
-                    <option>PSE</option>
-                    <option>Billetera digital</option>
-                  </select></label
-                >
+                <label>¿Cómo prefieres pagar?
+                  <select name="method" data-payment-method required>
+                    <option value="transfer">Transferencia o billetera digital (enviar comprobante)</option>
+                    <option value="cash">Efectivo (coordinar por WhatsApp)</option>
+                    <option value="card">Tarjeta (registro simulado, sin cobro)</option>
+                  </select>
+                </label>
+
+                <div class="card-simulation" data-card-simulation hidden>
+                  <p class="support-copy">Registro de tarjeta de demostración. No se realizará ningún cargo.</p>
+                  <label>Tipo de tarjeta
+                    <select name="cardBrand" data-card-brand disabled>
+                      <option value="">Selecciona una opción</option>
+                      <option value="Visa">Visa</option>
+                      <option value="Mastercard">Mastercard</option>
+                      <option value="Otra">Otra</option>
+                    </select>
+                  </label>
+                  <label>Últimos 4 dígitos (solo simulación)
+                    <input name="cardLast4" data-card-last4 inputmode="numeric" type="text" pattern="[0-9]{4}" maxlength="4" placeholder="1234" disabled />
+                  </label>
+                  <small>No ingreses el número completo de tu tarjeta, fecha de vencimiento ni CVV.</small>
+                </div>
+
+                <label class="billing-consent">
+                  <input type="checkbox" name="contactConsent" required />
+                  <span>Autorizo compartir mis datos de contacto con KORΛ por WhatsApp para gestionar esta solicitud. <a href="legal/privacidad/" target="_blank" rel="noopener noreferrer">Privacidad</a>.</span>
+                </label>
 
                 <div class="legal-note">
-                  Los precios están en pesos colombianos e incluyen impuestos aplicables. El flujo
-                  registra factura electrónica, retracto y reversión del pago.
+                  No se cobra aquí ni se emite factura. Prepararemos tu solicitud para enviarla por WhatsApp; KORΛ confirmará disponibilidad y forma de pago.
                 </div>
 
-                <button class="primary-button full" type="submit">Pagar y generar factura</button>
+                <button class="primary-button full" type="submit" data-payment-submit disabled>Continuar con la solicitud</button>
               </form>
 
               <article class="panel-card">
                 <div class="panel-head">
                   <div>
-                    <p class="eyebrow">Facturación</p>
-                    <h2>Historial</h2>
+                    <p class="eyebrow">Seguimiento local</p>
+                    <h2>Mis solicitudes</h2>
                   </div>
                   <span class="counter-pill" data-invoice-count>0</span>
                 </div>
                 <div class="stack-list" data-invoice-list></div>
+                <p class="support-copy">El envío y el pago deben confirmarse directamente en WhatsApp.</p>
               </article>
             </div>
 
