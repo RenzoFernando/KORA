@@ -823,7 +823,7 @@
               <div>
                 <p class="eyebrow">Acceso anticipado</p>
                 <h2>Elige cómo quieres crecer con KORΛ.</h2>
-                <p>Explora gratis o solicita un plan para la próxima etapa.</p>
+                <p>Explora gratis o reserva tu lugar. Activación estimada a mediados de noviembre de 2026, sujeta a confirmación.</p>
               </div>
               <button class="soft-button" type="button" data-open-view-guide>
                 ¿Qué encuentro aquí?
@@ -852,7 +852,8 @@
                 </label>
 
                 <label>WhatsApp de contacto (Colombia)
-                  <input name="phone" type="tel" required autocomplete="tel" inputmode="tel" maxlength="20" placeholder="311 123 4567" />
+                  <input name="phone" type="tel" required autocomplete="tel-national" inputmode="numeric" maxlength="14" placeholder="3XX XXX XXXX" aria-describedby="phone-hint" />
+                  <small id="phone-hint">Escribe solo los 10 dígitos de tu celular colombiano.</small>
                 </label>
 
                 <label>Correo electrónico
@@ -861,27 +862,10 @@
 
                 <label>¿Cómo prefieres pagar?
                   <select name="method" data-payment-method required>
-                    <option value="transfer">Transferencia o billetera digital (enviar comprobante)</option>
+                    <option value="transfer">Transferencia (enviar evidencia por WhatsApp)</option>
                     <option value="cash">Efectivo (coordinar por WhatsApp)</option>
-                    <option value="card">Tarjeta (registro simulado, sin cobro)</option>
                   </select>
                 </label>
-
-                <div class="card-simulation" data-card-simulation hidden>
-                  <p class="support-copy">Registro de tarjeta de demostración. No se realizará ningún cargo.</p>
-                  <label>Tipo de tarjeta
-                    <select name="cardBrand" data-card-brand disabled>
-                      <option value="">Selecciona una opción</option>
-                      <option value="Visa">Visa</option>
-                      <option value="Mastercard">Mastercard</option>
-                      <option value="Otra">Otra</option>
-                    </select>
-                  </label>
-                  <label>Últimos 4 dígitos (solo simulación)
-                    <input name="cardLast4" data-card-last4 inputmode="numeric" type="text" pattern="[0-9]{4}" maxlength="4" placeholder="1234" disabled />
-                  </label>
-                  <small>No ingreses el número completo de tu tarjeta, fecha de vencimiento ni CVV.</small>
-                </div>
 
                 <label class="billing-consent">
                   <input type="checkbox" name="contactConsent" required />
@@ -889,7 +873,7 @@
                 </label>
 
                 <div class="legal-note">
-                  No se cobra aquí ni se emite factura. Prepararemos tu solicitud para enviarla por WhatsApp; KORΛ confirmará disponibilidad y forma de pago.
+                  Esta es una preventa sin cobro automático. En WhatsApp coordinaremos el pago y, si eliges transferencia, podrás adjuntar su evidencia. Acceso estimado para mediados de noviembre de 2026.
                 </div>
 
                 <button class="primary-button full" type="submit" data-payment-submit disabled>Continuar con la solicitud</button>
@@ -899,12 +883,48 @@
                 <div class="panel-head">
                   <div>
                     <p class="eyebrow">Seguimiento local</p>
-                    <h2>Mis solicitudes</h2>
+                    <h2>Solicitudes de preventa</h2>
                   </div>
                   <span class="counter-pill" data-invoice-count>0</span>
                 </div>
                 <div class="stack-list" data-invoice-list></div>
                 <p class="support-copy">El envío y el pago deben confirmarse directamente en WhatsApp.</p>
+              </article>
+            </div>
+
+            <div class="billing-grid future-interest-section">
+              <form class="panel-card payment-form" data-interest-form>
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">Para más adelante</p>
+                    <h2>Me interesa KORΛ, pero prefiero esperar</h2>
+                  </div>
+                  <span class="counter-pill">Sin compromiso</span>
+                </div>
+                <p>Déjanos tu interés para que podamos contactarte cuando la plataforma esté más estable, desde mediados de noviembre de 2026 (fecha estimada).</p>
+                <label>Tu nombre
+                  <input name="name" type="text" required maxlength="90" autocomplete="name" placeholder="Nombre completo" />
+                </label>
+                <label>Tu correo
+                  <input name="email" type="email" required maxlength="120" autocomplete="email" placeholder="correo@dominio.com" />
+                </label>
+                <label class="billing-consent">
+                  <input type="checkbox" name="interestConsent" required />
+                  <span>Autorizo enviar estos datos a KORΛ por WhatsApp para recibir información futura. <a href="legal/privacidad/" target="_blank" rel="noopener noreferrer">Privacidad</a>.</span>
+                </label>
+                <button class="primary-button full" type="submit">Avisar que estoy interesado</button>
+                <small>Sin pago ni reserva de suscripción.</small>
+              </form>
+              <article class="panel-card">
+                <div class="panel-head">
+                  <div>
+                    <p class="eyebrow">Seguimiento local</p>
+                    <h2>Interés futuro</h2>
+                  </div>
+                  <span class="counter-pill" data-interest-count>0</span>
+                </div>
+                <div class="stack-list" data-interest-list></div>
+                <p class="support-copy">Registros preparados en este navegador. WhatsApp requiere que pulses Enviar para hacerlos llegar a KORΛ.</p>
               </article>
             </div>
 

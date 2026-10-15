@@ -10,7 +10,7 @@ const CREATED_KEY = 'kora-created-profiles';
 const defaultState = {
   uiVersion: 12,
 
-  profileId: 'luna',
+  profileId: 'guest',
 
   acceptedLegal: false,
 
@@ -73,6 +73,8 @@ const defaultState = {
 
   earlyAccessRequests: [],
 
+  futureInterestRequests: [],
+
   accountHidden: false,
 
   published: [],
@@ -132,6 +134,7 @@ function loadState() {
     // Los comprobantes de la versión anterior no representan cobros reales.
     delete parsed.invoices;
     if (!Array.isArray(parsed.earlyAccessRequests)) parsed.earlyAccessRequests = [];
+    if (!Array.isArray(parsed.futureInterestRequests)) parsed.futureInterestRequests = [];
 
     return parsed;
   } catch {
@@ -154,7 +157,7 @@ function createdProfiles() {
 }
 
 function allProfiles() {
-  return [...DATA.teamMembers, ...DATA.roleProfiles, ...createdProfiles()];
+  return [DATA.guestProfile, ...DATA.teamMembers, ...DATA.roleProfiles, ...createdProfiles()];
 }
 
 function money(value) {
@@ -166,7 +169,7 @@ function money(value) {
 }
 
 function activeProfile() {
-  return allProfiles().find(item => item.id === state.profileId) || DATA.teamMembers[0];
+  return allProfiles().find(item => item.id === state.profileId) || DATA.guestProfile;
 }
 
 function runtimeArtists() {
@@ -839,7 +842,9 @@ function renderProfileChrome() {
     ? 'Perfil oculto'
     : role.accountState;
 
-  qs('[data-account-meta]').textContent = role.accountMeta;
+  qs('[data-account-meta]').textContent = profile.id === 'guest'
+    ? 'Acceso sin registro · datos guardados solo en este dispositivo.'
+    : role.accountMeta;
 
   applyInterfacePreferences();
   syncViewChrome();

@@ -1,5 +1,5 @@
 /* global CREATED_KEY, DATA, STORAGE_KEY, activeArtist, activeProfile, activeProfileNameParts, addCommunityEvent, allProfiles, applyInterfacePreferences, applyQuickComment, applyVoiceComment, artistById, audioContext, audioPlayer, avatarMarkup, bindEvents, capsuleLoopTimer, capsuleSequenceWidth, closeModal, communityActivityCards, communityNotificationItems, communitySignalPanel, communityTypeLabel, completeViewGuide, createdProfiles, currentView, defaultState, dismissNotification, escapeHtml, fallbackNodes, finishOnboarding, formatCommunityTime, formatMemoryDate, formatTime, getAudioPlayer, handleConsentForm, handleGlobalClick, iconActionMarkup, imgMarkup, legalConsentCopy, legalDocLink, loadState, logoutSession, lowerAccount, maybeShowViewGuide, memoryReminderItems, money, normalizeCapsuleLoop, notificationBelongsToActiveProfile, nowPlayingHideTimer, personalizeBaseNotification, playTimer, playerFullscreenContent, publishTrack, qs, qsa, remindOnboardingLater, remindViewGuideLater, removeSaved, renderAll, renderCapsules, renderHero, renderNotificationBadge, renderPlayer, renderProfileChrome, renderSaved, renderSidebarSession, replaySaved, repostArtist, repostCurrent, resetEverything, roleActionButtons, roleDefinition, roleFeatureCards, roleLegalCopy, runAiAction, runtimeArtists, saveArtist, saveState, savedReason, scrollActiveCapsuleIntoView, scrollCapsules, sessionMedia, setCurrentArtist, setView, settingEnabled, settingsToggleRow, shareCurrent, showActionGuide, showAiAssistant, showCommentComposer, showFriendsPanel, showLegalGate, showModal, showNotificationsPanel, showPlayerFullscreen, showSaveNote, showSettingsPanel, showSharePanel, showWelcomeOnboarding, startClock, startFallbackAudio, startPlayback, statPill, state, stopFallbackAudio, stopPlayback, submitComment, submitFriendMessage, submitSaveNote, svgIcon, syncViewChrome, toast, toggleLikeArtist, toggleLikeCurrent, togglePlay, toggleSetting, unreadNotifications, updateFileLabel, viewChromeCopy, viewGuideCopy, viewGuideKey */
-/* exported ambassadorDashboard, artistAuthorizationCards, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, curatorDashboard, ecosystemConfig, explorerDashboard, downloadEarlyAccessReceipt, prepareEarlyAccessRequest, lastRoleSignal, memoryArtistCard, ecosystemOverviewPanel, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishedProfileCard, registerResponsibleScout, renderBilling, renderDiscoverSummary, renderInteraction, renderNowPlaying, renderProfile, renderEcosystemPanels, renderPublished, roleDashboard, roleMetricItems, roleWorkspace, selectBillingPlan, sendEarlyAccessWhatsApp, updateBillingMethod, updateBillingSelection */
+/* exported ambassadorDashboard, artistAuthorizationCards, artistChecklistCards, artistDashboard, artistHasCompanyAuthorization, artistMetricCards, artistReceptionCount, compactArtistCard, companyDashboard, companyMetricCards, companyRadarCard, companySceneCards, companySceneSummary, companyScoutingCards, curatorDashboard, ecosystemConfig, explorerDashboard, downloadEarlyAccessReceipt, prepareEarlyAccessRequest, lastRoleSignal, memoryArtistCard, ecosystemOverviewPanel, privacyCards, profileComments, profileCommunityEvents, profileMetricTiles, profileNeighborhoods, profilePlan, profilePlanId, profileRoleSummary, profileScenes, profileSummaryCards, publishedProfileCard, registerResponsibleScout, renderBilling, renderDiscoverSummary, renderInteraction, renderNowPlaying, renderProfile, renderEcosystemPanels, renderPublished, roleDashboard, roleMetricItems, roleWorkspace, selectBillingPlan, sendEarlyAccessWhatsApp, sendFutureInterestWhatsApp, prepareFutureInterest, updateBillingSelection */
 
 function renderInteraction() {
   const profile = activeProfile();
@@ -306,10 +306,12 @@ let lastEarlyAccessRequest = null;
 const KORA_WHATSAPP = '573112476840';
 
 const paymentMethodLabels = {
-  transfer: 'Transferencia o billetera digital (comprobante por WhatsApp)',
-  cash: 'Efectivo (coordinar con KORΛ)',
-  card: 'Tarjeta (registro simulado; sin cargo)',
+  transfer: 'Transferencia (evidencia por WhatsApp)',
+  cash: 'Efectivo (coordinar por WhatsApp)',
 };
+
+const KORA_ESTIMATED_LAUNCH = 'mediados de noviembre de 2026 (estimado)';
+let lastFutureInterestRequest = null;
 
 function renderBilling() {
   const profile = activeProfile();
@@ -324,7 +326,7 @@ function renderBilling() {
     <article class="plan-card ${isCurrent ? 'is-current-plan' : ''}">
       <p class="eyebrow">${escapeHtml(plan.audience)}</p>
       <h2>${escapeHtml(plan.name)}</h2>
-      <div class="tag-row"><span class="status-chip">${escapeHtml(plan.badge)}</span>${isCurrent ? '<span class="status-chip">Plan activo</span>' : '<span class="status-chip">Acceso anticipado</span>'}</div>
+      <div class="tag-row"><span class="status-chip">${escapeHtml(plan.badge)}</span>${isCurrent ? '<span class="status-chip">Plan activo</span>' : '<span class="status-chip">Preventa · nov. 2026</span>'}</div>
       <div class="plan-price">${plan.price ? money(plan.price) : 'Sin costo'}</div>
       <ul class="plan-feature-list">${plan.features.map(feature => `<li>${escapeHtml(feature)}</li>`).join('')}</ul>
       ${plan.note ? `<p class="support-copy">${escapeHtml(plan.note)}</p>` : ''}
@@ -351,10 +353,21 @@ function renderBilling() {
     <article class="invoice-card">
       <strong>${escapeHtml(request.id)}</strong>
       <p>${escapeHtml(request.planName)} · ${money(request.total)} · ${escapeHtml(request.createdAt)}</p>
-      <span class="status-chip">Solicitud preparada · confirmación pendiente</span>
+      <span class="status-chip">Preventa · envío y pago pendientes de confirmar</span>
     </article>`)
         .join('')
     : '<div class="empty-state">Todavía no has preparado solicitudes de acceso anticipado.</div>';
+
+  const interests = (state.futureInterestRequests || []).filter(item => item.profileId === profile.id);
+  qs('[data-interest-count]').textContent = interests.length;
+  qs('[data-interest-list]').innerHTML = interests.length
+    ? interests.slice().reverse().map(item => `
+    <article class="invoice-card">
+      <strong>${escapeHtml(item.id)}</strong>
+      <p>Interés futuro · ${escapeHtml(item.createdAt)}</p>
+      <span class="status-chip">Preparado · envío por WhatsApp pendiente</span>
+    </article>`).join('')
+    : '<div class="empty-state">Aún no tienes registros de interés futuro.</div>';
 
   qs('[data-company-access-panel]').innerHTML =
     profile.role === 'company'
@@ -378,17 +391,6 @@ function updateBillingSelection() {
     ? `${money(plan.price)} COP / mes · acceso sujeto a confirmación`
     : 'KORΛ Base está activo. Elige un plan pago para solicitar acceso anticipado.';
   qs('[data-payment-submit]').disabled = !plan.price;
-}
-
-function updateBillingMethod() {
-  const isCard = qs('[data-payment-method]').value === 'card';
-  const box = qs('[data-card-simulation]');
-  box.hidden = !isCard;
-  qsa('input, select', box).forEach(field => {
-    field.disabled = !isCard;
-    field.required = isCard;
-    if (!isCard) field.value = '';
-  });
 }
 
 function selectBillingPlan(planId) {
@@ -417,7 +419,11 @@ function earlyAccessMessage(request) {
     `Plan: ${request.planName}`,
     `Valor de referencia: ${money(request.total)} COP/mes`,
     `Forma de pago preferida: ${paymentMethodLabels[request.method]}`,
-    'Estado: pendiente de confirmación y coordinación de pago.',
+    `Activación estimada: ${KORA_ESTIMATED_LAUNCH}.`,
+    request.method === 'transfer'
+      ? 'Enviar evidencia de transferencia por este chat cuando KORΛ facilite los datos de pago.'
+      : 'Coordinar el pago en efectivo con KORΛ por este chat.',
+    'Estado: envío de solicitud y verificación del pago pendientes.',
     'No se ha realizado ningún cobro ni emitido factura.',
   ].join('\n');
 }
@@ -430,7 +436,7 @@ function prepareEarlyAccessRequest(form) {
   const phone = normalizeContactPhone(fields.get('phone'));
   const method = String(fields.get('method') || '');
 
-  if (!plan || !plan.price || !payer || !email || !paymentMethodLabels[method] || !/^3\d{9}$/.test(phone)) {
+  if (!plan || !plan.price || !payer || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !Object.hasOwn(paymentMethodLabels, method) || !/^3\d{9}$/.test(phone)) {
     toast('Revisa el plan y escribe un celular colombiano válido de 10 dígitos.');
     return;
   }
@@ -438,11 +444,6 @@ function prepareEarlyAccessRequest(form) {
     toast('Autoriza el envío de tus datos para continuar.');
     return;
   }
-  if (method === 'card' && (!fields.get('cardBrand') || !/^\d{4}$/.test(String(fields.get('cardLast4') || '')))) {
-    toast('Completa los datos de la simulación de tarjeta.');
-    return;
-  }
-
   const now = new Date();
   const profile = activeProfile();
   const request = {
@@ -475,7 +476,7 @@ function prepareEarlyAccessRequest(form) {
     `<div class="preorder-confirmation">
       <p class="eyebrow">Solicitud preparada correctamente</p>
       <h2>Tu acceso anticipado está listo</h2>
-      <p>Abre WhatsApp para enviar la solicitud a KORΛ. El equipo confirmará el pago y la activación. Todavía no hay ningún cobro.</p>
+      <p>Solicitud preparada. Abre WhatsApp y pulsa Enviar para solicitar la preventa. La activación está prevista para ${escapeHtml(KORA_ESTIMATED_LAUNCH)} y depende de la confirmación de KORΛ. Todavía no hay ningún cobro.</p>
       <article class="invoice-card"><strong>${escapeHtml(request.id)}</strong><p>${escapeHtml(request.planName)} · ${money(request.total)} COP/mes</p><span class="status-chip">Pendiente de envío por WhatsApp</span></article>
       <div class="preorder-actions">
         <button class="primary-button full" type="button" data-send-early-access>Abrir WhatsApp y enviar solicitud</button>
@@ -490,7 +491,74 @@ function prepareEarlyAccessRequest(form) {
   form.reset();
   qs('[data-plan-select]').value = 'free';
   updateBillingSelection();
-  updateBillingMethod();
+}
+
+function futureInterestMessage(request) {
+  return [
+    'KORΛ DISCOVER · INTERÉS PARA EL FUTURO',
+    `Referencia: ${request.id}`,
+    `Nombre: ${request.name}`,
+    `Correo: ${request.email}`,
+    `Perfil de prueba: ${request.profileName} (${request.profileId})`,
+    `Lanzamiento estimado: ${KORA_ESTIMATED_LAUNCH}.`,
+    'Quiero que me contacten más adelante cuando KORΛ esté más estable.',
+    'No estoy solicitando un plan ni he realizado un pago.',
+  ].join('\n');
+}
+
+function prepareFutureInterest(form) {
+  const fields = new FormData(form);
+  const name = String(fields.get('name') || '').trim();
+  const email = String(fields.get('email') || '').trim();
+  if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    toast('Escribe tu nombre y un correo electrónico válido.');
+    return;
+  }
+  if (!fields.get('interestConsent')) {
+    toast('Autoriza el envío de tus datos para continuar.');
+    return;
+  }
+
+  const now = new Date();
+  const profile = activeProfile();
+  const request = {
+    id: `KORA-INTERES-${now.getTime().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+    name,
+    email,
+    profileName: profile.name,
+    profileId: profile.id,
+    createdAt: now.toLocaleString('es-CO'),
+  };
+  lastFutureInterestRequest = request;
+  // El historial local no almacena los nombres ni los correos de contacto.
+  state.futureInterestRequests = state.futureInterestRequests || [];
+  state.futureInterestRequests.push({
+    id: request.id,
+    profileId: request.profileId,
+    createdAt: request.createdAt,
+  });
+  saveState();
+  renderBilling();
+  form.reset();
+  showModal(
+    `<div class="preorder-confirmation">
+      <p class="eyebrow">Interés futuro preparado</p>
+      <h2>Te esperamos en la próxima etapa</h2>
+      <p>Abre WhatsApp y pulsa Enviar para avisar a KORΛ que deseas recibir información más adelante. No implica pagos ni suscripciones.</p>
+      <article class="invoice-card"><strong>${escapeHtml(request.id)}</strong><p>${escapeHtml(request.name)} · Lanzamiento estimado: ${escapeHtml(KORA_ESTIMATED_LAUNCH)}</p><span class="status-chip">Pendiente de envío por WhatsApp</span></article>
+      <div class="preorder-actions">
+        <button class="primary-button full" type="button" data-send-future-interest>Abrir WhatsApp y enviar interés</button>
+        <button class="soft-button full" type="button" data-close-modal>Cerrar</button>
+      </div>
+    </div>`,
+    'preorder-modal'
+  );
+}
+
+function sendFutureInterestWhatsApp() {
+  if (!lastFutureInterestRequest) return;
+  const url = `https://wa.me/${KORA_WHATSAPP}?text=${encodeURIComponent(futureInterestMessage(lastFutureInterestRequest))}`;
+  window.location.assign(url);
 }
 
 function sendEarlyAccessWhatsApp() {
@@ -505,12 +573,12 @@ function downloadEarlyAccessReceipt() {
   const request = lastEarlyAccessRequest;
   const canvas = document.createElement('canvas');
   canvas.width = 960;
-  canvas.height = 1080;
+  canvas.height = 1200;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
   ctx.fillStyle = '#fdf8f2';
-  ctx.fillRect(0, 0, 960, 1080);
+  ctx.fillRect(0, 0, 960, 1200);
   ctx.fillStyle = '#f1871c';
   ctx.fillRect(0, 0, 960, 18);
   ctx.fillStyle = '#171515';
@@ -536,6 +604,7 @@ function downloadEarlyAccessReceipt() {
     ['Contacto', `+57 ${request.phone}`],
     ['Correo', request.email],
     ['Método', paymentMethodLabels[request.method]],
+    ['Activación', KORA_ESTIMATED_LAUNCH],
   ];
   const fit = (value, max = 45) => String(value).length > max ? `${String(value).slice(0, max - 1)}…` : String(value);
   rows.forEach(([label, value], i) => {
@@ -548,10 +617,10 @@ function downloadEarlyAccessReceipt() {
     ctx.fillText(fit(value), 70, y + 31);
   });
   ctx.fillStyle = '#fff0de';
-  ctx.fillRect(60, 979, 840, 70);
+  ctx.fillRect(60, 1090, 840, 70);
   ctx.font = 'bold 23px Arial, sans-serif';
   ctx.fillStyle = '#9a4c09';
-  ctx.fillText('PENDIENTE DE CONFIRMACIÓN POR WHATSAPP', 83, 1023);
+  ctx.fillText('PENDIENTE DE CONFIRMACIÓN POR WHATSAPP', 83, 1134);
 
   const link = document.createElement('a');
   link.href = canvas.toDataURL('image/png');

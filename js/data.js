@@ -1,4 +1,15 @@
 window.KORA_DATA = {
+  guestProfile: {
+    id: 'guest',
+    name: 'Usuario invitado',
+    role: 'user',
+    roleLabel: 'Explorador musical',
+    city: 'Cali',
+    initial: 'U',
+    avatar: '',
+    bio: 'Explora KORΛ sin crear una cuenta. Tus acciones son locales a este navegador.',
+    planId: 'free',
+  },
   teamMembers: [
     {
       id: 'johan',
@@ -1303,6 +1314,11 @@ window.KORA_DATA = {
         ],
 
         [
+          'Preventa y lista de interés',
+          'Al solicitar acceso anticipado se comparten nombre, celular, correo, plan elegido y modalidad de pago por WhatsApp. Si solo desea recibir noticias futuras, se comparte nombre y correo. El envío lo confirma cada persona en WhatsApp; el historial del navegador conserva únicamente referencias sin esos datos de contacto.',
+        ],
+
+        [
           'Datos de artistas',
           'KORΛ puede tratar métricas de contenido, interacción, publicaciones, rendimiento de cápsulas, perfil artístico y señales de curaduría.',
         ],
@@ -1370,7 +1386,7 @@ window.KORA_DATA = {
     payments: {
       title: 'Pagos, Facturación y Comercio Electrónico',
 
-      lead: 'Los planes pagos están en validación. Las solicitudes de acceso anticipado se coordinan por WhatsApp y no generan cobros automáticos.',
+      lead: 'Preventa en validación: solicitudes y registros de interés futuro por WhatsApp. Activación estimada a mediados de noviembre de 2026, sujeta a confirmación. No hay cobros automáticos.',
 
       sections: [
         [
@@ -1385,7 +1401,7 @@ window.KORA_DATA = {
 
         [
           'Pasarela de pago',
-          'La aplicación todavía no dispone de pasarela de pago. La simulación de tarjeta no realiza cobros ni requiere número completo, vencimiento o CVV.',
+          'Todavía no existe pasarela de pagos. La preventa se coordina por WhatsApp y admite únicamente efectivo o transferencia con evidencia enviada por ese canal. No se reciben datos de tarjeta.',
         ],
 
         [

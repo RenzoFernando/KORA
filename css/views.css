@@ -1368,23 +1368,23 @@
   color: var(--muted);
 }
 
-.card-simulation {
-  display: grid;
-  gap: 12px;
-  padding: 15px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: var(--surface-muted);
+.future-interest-section {
+  margin-top: 22px;
 }
 
-.card-simulation p {
-  margin: 0;
+.future-interest-section .panel-card {
+  min-width: 0;
 }
 
-.card-simulation small {
+.future-interest-section p,
+.future-interest-section small,
+.payment-form small {
   color: var(--muted);
-  line-height: 1.5;
+  line-height: 1.55;
 }
+
+.future-interest-section p { margin: 0; }
+.future-interest-section .panel-head p { margin: 0; }
 
 .billing-consent {
   display: flex;

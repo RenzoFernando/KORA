@@ -44,6 +44,15 @@ function saveProfile(profile) {
     viewGuidesSeen: sameRole ? previous.viewGuidesSeen || {} : {},
     viewGuideSnoozed: sameRole ? previous.viewGuideSnoozed || {} : {},
   };
+  if (profile.id === 'guest') {
+    Object.assign(next, {
+      saved: [], savedMeta: {}, liked: [], playlist: [], shared: [], discarded: [],
+      interactions: {}, comments: {}, published: [], reposted: [],
+      friendMessages: [], communityEvents: [], scoutingLog: [],
+      earlyAccessRequests: [], futureInterestRequests: [],
+      accountHidden: false,
+    });
+  }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   toast(`Entrando como ${profile.name}.`);
   setTimeout(() => {
@@ -172,6 +181,7 @@ function bindEvents() {
       if (profile) saveProfile(profile);
     }
     if (target.dataset.authTab) setAuthTab(target.dataset.authTab);
+    if (target.dataset.enterGuest !== undefined) saveProfile(DATA.guestProfile);
   });
   qs('[data-auth-form="signin"]').addEventListener('submit', event => {
     event.preventDefault();

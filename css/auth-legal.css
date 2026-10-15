@@ -285,3 +285,18 @@
 .consent-form .check-row { align-items: flex-start; }
 .consent-form .check-row input { margin-top: 3px; }
 .consent-role-lead { margin-top: 12px; color: var(--muted); line-height: 1.55; }
+
+/* Entrada de invitado: acceso independiente de las cuentas y perfiles de prueba. */
+.guest-entry {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0 18px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-muted);
+}
+
+.guest-entry .eyebrow { margin: 0; }
+.guest-entry small { color: var(--muted); line-height: 1.5; }
+.guest-entry .primary-button { white-space: normal; min-height: 48px; }
