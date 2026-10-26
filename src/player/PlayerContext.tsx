@@ -1,3 +1,4 @@
+import { capsuleDuration, capsulePosition } from './capsule';
 import { Context } from './usePlayer';
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
@@ -71,6 +72,18 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       setIframeSrc('');
     }
   }, [catalog, current, store.releases, store.sessionId]);
+  useEffect(() => {
+    if (!playing || current?.playback !== 'file' || !duration) return;
+    const timer = window.setInterval(() => {
+      const element = audio.current;
+      if (element && element.currentTime >= duration) {
+        element.pause();
+        element.currentTime = duration;
+        setElapsed(duration);
+      }
+    }, 40);
+    return () => window.clearInterval(timer);
+  }, [playing, current?.playback, duration]);
   function select(r: Release) {
     if (current?.id === r.id) {
       if (r.playback === 'file' && !loading) void toggle();
@@ -92,6 +105,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       return;
     }
     try {
+      if (duration > 0 && element.currentTime >= duration) element.currentTime = 0;
       await element.play();
       setError('');
     } catch {
@@ -100,7 +114,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }
   function seek(value: number) {
     if (audio.current && Number.isFinite(duration) && duration > 0) {
-      audio.current.currentTime = Math.min(Math.max(value, 0), duration);
+      audio.current.currentTime = capsulePosition(value, duration);
       setElapsed(audio.current.currentTime);
     }
   }
@@ -159,10 +173,19 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
           }
         }}
         onPause={() => setPlaying(false)}
-        onTimeUpdate={() => setElapsed(audio.current?.currentTime || 0)}
+        onTimeUpdate={() => {
+          const element = audio.current;
+          if (!element) return;
+          const end = capsuleDuration(element.duration);
+          if (end && element.currentTime >= end) {
+            element.pause();
+            if (element.currentTime > end) element.currentTime = end;
+          }
+          setElapsed(capsulePosition(element.currentTime, element.duration));
+        }}
         onLoadedMetadata={() => {
           const value = audio.current?.duration || 0;
-          setDuration(Number.isFinite(value) ? value : 0);
+          setDuration(capsuleDuration(value));
           setLoading(false);
         }}
         onCanPlay={() => {
@@ -175,7 +198,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         }}
         onEnded={() => {
           setPlaying(false);
-          notify('Terminó la canción. Elige tu próximo hallazgo.');
+          notify('Terminó la cápsula. Descubre otro lanzamiento o visita su fuente oficial.');
         }}
         onError={() => {
           if (mediaUrl) {

@@ -25,7 +25,7 @@ export const publicPages: Record<string, { title: string; description: string }>
     title: 'Privacidad | KORΛ',
     description: 'Información sobre datos personales, servicios externos y privacidad en KORΛ.',
   },
-  '/legal/derechos': {
+  '/legal/licencia-musical': {
     title: 'Derechos musicales | KORΛ',
     description: 'Condiciones para compartir música y respetar los derechos de sus creadores.',
   },

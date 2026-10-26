@@ -1,5 +1,5 @@
 import type { Store, Shelf } from './types';
-export const STORAGE_KEY = 'korlambda-2-v1';
+export const STORAGE_KEY = 'korlambda-v1';
 export const emptyShelf = (): Shelf => ({
   saved: [],
   notes: {},
@@ -20,7 +20,9 @@ export const freshStore = (): Store => ({
 });
 export function loadStore(): { data: Store; warning: string } {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const legacyKey = Object.keys(localStorage).find((key) => /^korlambda-\d+-v1$/.test(key));
+    const raw =
+      localStorage.getItem(STORAGE_KEY) ?? (legacyKey ? localStorage.getItem(legacyKey) : null);
     if (!raw) return { data: freshStore(), warning: '' };
     const data = JSON.parse(raw);
     if (

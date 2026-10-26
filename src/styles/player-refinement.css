@@ -5,7 +5,7 @@
   gap: 24px;
 }
 .shared-player.provider-file {
-  height: 145px;
+  height: 165px;
 }
 .shared-player .dock-controls {
   max-width: 720px;
@@ -258,7 +258,7 @@
     padding-bottom: 212px;
   }
   .shared-player.provider-file {
-    height: 215px;
+    height: 235px;
   }
   .shared-player .seek {
     display: flex !important;
@@ -322,4 +322,21 @@
 }
 .shared-player .player-options[open] summary {
   background: var(--soft);
+}
+
+.capsule-label {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.has-player:has(.provider-file) {
+  padding-bottom: 173px;
+}
+@media (max-width: 760px) {
+  .has-player:has(.provider-file) {
+    padding-bottom: 243px;
+  }
 }

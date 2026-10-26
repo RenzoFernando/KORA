@@ -1,5 +1,5 @@
 import { cloudCall, blobBase64 } from './cloud';
-const DB = 'korlambda-2-media';
+const DB = 'korlambda-media';
 async function database() {
   return new Promise<IDBDatabase>((resolve, reject) => {
     const request = indexedDB.open(DB, 1);
@@ -9,7 +9,16 @@ async function database() {
   });
 }
 async function localRead(key: string) {
-  const db = await database();
+  const names = typeof indexedDB.databases === 'function' ? await indexedDB.databases() : [];
+  const legacy = names.find((db) => /^korlambda-\d+-media$/.test(db.name || ''));
+  const legacyName = legacy?.name;
+  const db = legacyName
+    ? await new Promise<IDBDatabase>((resolve, reject) => {
+        const request = indexedDB.open(legacyName);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      })
+    : await database();
   try {
     return await new Promise<Blob | undefined>((resolve, reject) => {
       const req = db.transaction('files').objectStore('files').get(key);

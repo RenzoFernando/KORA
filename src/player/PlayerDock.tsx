@@ -100,6 +100,7 @@ export function PlayerDock() {
         <div className="dock-controls">
           {r.playback === 'file' ? (
             <>
+              <span className="capsule-label">Cápsula · hasta 30 segundos</span>
               <div className="transport">
                 <button className="icon-button" aria-label="Anterior" onClick={() => p.step(-1)}>
                   <Icon name="previous" />

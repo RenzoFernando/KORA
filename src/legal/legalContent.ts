@@ -7,6 +7,10 @@ export const legalDocs: Record<
     lead: 'KORΛ es una prueba académica compartida de descubrimiento musical y herramientas para artistas, coordinada por Renzo Fernando. Contacto del proyecto: renzofernando.md@gmail.com o el WhatsApp de activación.',
     sections: [
       [
+        'Reproducción y cápsulas',
+        'KORΛ adapta la presentación de la escucha a su interfaz. El audio aportado con autorización utiliza controles propios y cápsulas de hasta 30 segundos. Los reproductores integrados como Bandcamp conservan sus controles, duración y condiciones. La duración de una cápsula no sustituye la autorización del titular.',
+      ],
+      [
         'Qué puedes hacer',
         'Discover ofrece fichas editoriales y fuentes oficiales. Studio permite crear borradores privados y compartir lanzamientos, enlaces, QR y páginas de artista. Al activar un lanzamiento, su historia, enlaces y archivos autorizados pasan a ser consultables por quienes accedan a la prueba. El alojamiento puede cambiar o finalizar al terminar el ejercicio académico.',
       ],
@@ -73,6 +77,10 @@ export const legalDocs: Record<
       [
         'Catálogo editorial',
         'Las entradas iniciales enlazan páginas oficiales y usan reproductores integrados. Cada ficha conserva fuente, fecha y alcance de revisión. Las composiciones de tarjetas son arte editorial KORΛ, no portadas originales atribuidas al artista. No se descargaron audios de esas plataformas.',
+      ],
+      [
+        'Reproductores y adaptación',
+        'La interfaz KORΛ acompaña a los reproductores oficiales sin extraer sus streams ni ocultar su procedencia. Los controles propios de pausa, posición y volumen corresponden al audio autorizado alojado por el proyecto. Las cápsulas limitan la escucha dentro de la aplicación, no son un mecanismo de protección del archivo ni modifican la duración de embeds externos.',
       ],
       [
         'Archivos aportados',
