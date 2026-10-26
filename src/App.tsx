@@ -1,3 +1,4 @@
+import { RouteMetadata } from './components/RouteMetadata';
 import { useEffect, Component } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
@@ -26,13 +27,6 @@ function RouteFocus() {
   useEffect(() => {
     window.scrollTo(0, 0);
     document.querySelector<HTMLElement>('#contenido')?.focus({ preventScroll: true });
-    document.title =
-      'KORΛ · ' +
-      (pathname.startsWith('/studio')
-        ? 'Studio'
-        : pathname.startsWith('/legal')
-          ? 'Legal y privacidad'
-          : 'La música está cerca');
   }, [pathname]);
   return null;
 }
@@ -65,6 +59,7 @@ export default function App() {
         <AppProvider>
           <PlayerProvider>
             <RouteFocus />
+            <RouteMetadata />
             <Routes>
               <Route element={<Layout />}>
                 <Route index element={<Navigate to="/discover" replace />} />

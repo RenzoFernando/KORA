@@ -39,7 +39,9 @@ export function loadStore(): { data: Store; warning: string } {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) localStorage.setItem(STORAGE_KEY + '-recovery-' + Date.now(), raw);
-    } catch {}
+    } catch {
+      // Storage may be unavailable; return the recovery warning below.
+    }
     return {
       data: freshStore(),
       warning:

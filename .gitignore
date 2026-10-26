@@ -5,3 +5,8 @@ dist/
 .idea/
 work/
 *.tsbuildinfo
+
+# Private working notes and local publishing metadata
+/docs/
+/.openai/
+/outputs/

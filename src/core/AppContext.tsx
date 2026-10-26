@@ -44,7 +44,9 @@ function initialStore() {
   try {
     const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || 'null');
     data.settings = prefs || loadStore().data.settings;
-  } catch {}
+  } catch {
+    // Keep safe defaults when saved preferences cannot be read.
+  }
   return data;
 }
 export function AppProvider({ children }: { children: ReactNode }) {
@@ -223,8 +225,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
           setSyncState('saved');
           return true;
         } catch (error) {
-          if (getToken() === token)
-            state.current === next && replace({ ...before, settings: state.current.settings });
+          if (getToken() === token && state.current === next)
+            replace({ ...before, settings: state.current.settings });
           setSyncState('error');
           notify(error instanceof Error ? error.message : 'No se pudo guardar en tu cuenta.');
           return false;
@@ -293,7 +295,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       notify('No se pudo marcar el aviso. Puedes reintentarlo.'),
     );
   }
-  function simulatePlan(_plan: Plan) {
+  function simulatePlan() {
     notify('Los planes se activan desde la hoja privada después de la revisión del equipo.');
   }
   function exportData() {
