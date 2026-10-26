@@ -9,8 +9,18 @@ import { Artwork } from '../components/Artwork';
 import { StudioGate } from './StudioGate';
 import { Icon } from '../components/Icon';
 export function ReleaseEditor() {
+  const { connection, account } = useApp();
+  if (connection === 'loading')
+    return (
+      <div className="page">
+        <p role="status">Abriendo tu espacio…</p>
+      </div>
+    );
+  return <ReleaseEditorForm key={account?.id || 'guest'} />;
+}
+function ReleaseEditorForm() {
   const { id } = useParams();
-  const { account, store, update, notify } = useApp();
+  const { account, store, shelf, update, notify } = useApp();
   const existing = store.releases.find((r) => r.id === id && r.ownerId === account?.id);
   const [title, setTitle] = useState(existing?.title || '');
   const [artist, setArtist] = useState(existing?.artist || account?.name || '');
@@ -116,6 +126,15 @@ export function ReleaseEditor() {
                     !['image/jpeg', 'image/png', 'image/webp'].includes(cover.type))
                 )
                   throw Error('La portada debe ser JPG, PNG o WebP de máximo 2 MB.');
+                if (
+                  publish &&
+                  account.plan === 'kit' &&
+                  shelf.kitReleaseId &&
+                  existing?.id !== shelf.kitReleaseId
+                )
+                  throw Error(
+                    'Este Launch Kit ya tiene su lanzamiento. Edita esa página o solicita otro kit.',
+                  );
                 const allowance = releaseAllowance(account, store.releases);
                 if (publish && existing?.status !== 'active' && !allowance.canActivate)
                   throw Error(

@@ -28,9 +28,20 @@ export function ArtistPage() {
         <div>
           <p className="eyebrow">DESDE {artist.city.toUpperCase()}, COLOMBIA</p>
           <h1>{artist.artist}</h1>
-          <p>{artist.story}</p>
+          <p>{artist.artistBio || artist.story}</p>
           <div className="action-row">
             <span className="tag">{artist.genre}</span>
+            {artist.artistLinks?.map((l) => (
+              <a
+                className="button secondary small"
+                key={l.url}
+                href={safeUrl(l.url)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {l.label} ↗
+              </a>
+            ))}
             {safeUrl(artist.officialUrl) && (
               <a
                 className="text-link"

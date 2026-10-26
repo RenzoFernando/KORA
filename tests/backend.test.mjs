@@ -163,7 +163,7 @@ check('aceptación versionada registra consentimiento', () => {
 check('el catálogo público no devuelve contraseñas ni sesiones', () => {
   const r = call('public.catalog');
   const raw = JSON.stringify(r);
-  assert.equal(r.data.catalog.length, 26);
+  assert.equal(r.data.catalog.length, catalog.length);
   assert.ok(!raw.includes('password_hash'));
   assert.ok(!raw.includes('token_hash'));
   assert.ok(!raw.includes(explorer.hash));
@@ -308,6 +308,97 @@ check('una clave de archivo ajena o inexistente no autoriza audio nativo', () =>
       otherArtist.token,
     ).error.code,
     'FORBIDDEN',
+  );
+});
+
+check('una bio privada no sale en el catálogo público', () => {
+  const r = call(
+    'bundle.save',
+    {
+      shelf: { publicProfile: { bio: 'Biografía privada', links: [], published: false } },
+      releases: [{ ...makeRelease(), id: five[0].id }],
+    },
+    testArtist.token,
+  );
+  assert.equal(r.ok, true);
+  const publicRelease = call('public.catalog').data.catalog.find(
+    (r) => r.ownerId === testArtist.user.id,
+  );
+  assert.equal(publicRelease.artistBio, undefined);
+});
+check('la bio publicada comparte solo texto y enlaces seguros', () => {
+  assert.equal(
+    call(
+      'bundle.save',
+      {
+        shelf: {
+          publicProfile: {
+            bio: 'Historia pública de QA',
+            links: [
+              { label: 'Sitio', url: 'https://example.com/artist' },
+              { label: 'Malo', url: 'javascript:alert(1)' },
+            ],
+            published: true,
+          },
+        },
+        releases: [{ ...makeRelease(), id: five[0].id }],
+      },
+      testArtist.token,
+    ).ok,
+    true,
+  );
+  const result = call('public.catalog');
+  const r = result.data.catalog.find((r) => r.ownerId === testArtist.user.id);
+  assert.equal(result.data.capabilities.publicArtistProfiles, true);
+  assert.equal(r.artistBio, 'Historia pública de QA');
+  assert.equal(r.artistLinks.length, 1);
+  assert.ok(!JSON.stringify(r).includes(testArtist.email));
+});
+check('al retirar una bio desaparece del contenido público', () => {
+  call(
+    'bundle.save',
+    {
+      shelf: { publicProfile: { bio: 'Historia pública de QA', links: [], published: false } },
+      releases: [{ ...makeRelease(), id: five[0].id }],
+    },
+    testArtist.token,
+  );
+  assert.equal(
+    call('public.catalog').data.catalog.find((r) => r.ownerId === testArtist.user.id).artistBio,
+    undefined,
+  );
+});
+check('Scout accede solo a métricas autorizadas por el artista', () => {
+  const scout = register('scout-qa@example.test', 'scout');
+  call('consent.accept', { version: '2026-10-25.2', terms: true, privacy: true }, scout.token);
+  const scoutRow = tables.Usuarios.find((r) => r[0] === scout.email);
+  scoutRow[4] = true;
+  scoutRow[5] = 'scout';
+  const own = { ...makeRelease(), id: five[0].id, allowScout: true };
+  call('bundle.save', { shelf: {}, releases: [own] }, testArtist.token);
+  assert.equal(
+    call('metric.record', { releaseId: own.id, type: 'page_view', consent: true }, explorer.token)
+      .ok,
+    true,
+  );
+  assert.ok(call('bootstrap', {}, scout.token).data.events.some((e) => e.releaseId === own.id));
+  call('bundle.save', { shelf: {}, releases: [{ ...own, allowScout: false }] }, testArtist.token);
+  assert.ok(!call('bootstrap', {}, scout.token).data.events.some((e) => e.releaseId === own.id));
+});
+check('Launch Kit no se recicla activando otra página tras archivar la original', () => {
+  const before = call('bootstrap', {}, testArtist.token).data;
+  const archived = before.releases.map((r) => ({ ...r, status: 'archived' }));
+  assert.equal(
+    call('bundle.save', { shelf: before.shelf, releases: archived }, testArtist.token).ok,
+    true,
+  );
+  assert.equal(
+    call(
+      'bundle.save',
+      { shelf: before.shelf, releases: [...archived, makeRelease()] },
+      testArtist.token,
+    ).error.code,
+    'KIT_RELEASE_BOUND',
   );
 });
 console.log('TOTAL ' + checks + ' verificaciones correctas.');

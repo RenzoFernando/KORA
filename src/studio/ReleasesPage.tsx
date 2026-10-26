@@ -7,7 +7,7 @@ import { Icon } from '../components/Icon';
 import { releaseAllowance } from '../core/plans';
 import { exportKit } from './kit';
 export function ReleasesPage() {
-  const { account, store, update, notify } = useApp();
+  const { account, store, shelf, update, notify } = useApp();
   const [filter, setFilter] = useState('all');
   const [exporting, setExporting] = useState('');
   const [exported, setExported] = useState('');
@@ -103,6 +103,16 @@ export function ReleasesPage() {
                     className="text-link"
                     onClick={async () => {
                       if (!account) return;
+                      if (
+                        account.plan === 'kit' &&
+                        shelf.kitReleaseId &&
+                        r.id !== shelf.kitReleaseId
+                      ) {
+                        notify(
+                          'Este kit pertenece a otro lanzamiento. Edita la página incluida o solicita otro kit.',
+                        );
+                        return;
+                      }
                       const allowance = releaseAllowance(account, store.releases);
                       if (r.status !== 'active' && !allowance.canActivate) {
                         notify(
@@ -133,8 +143,11 @@ export function ReleasesPage() {
                 </div>
                 {exported === r.id && (
                   <p className="notice" role="status">
-                    Kit HTML con audio autorizado y QR preparado. Revisa las descargas del
-                    navegador.
+                    Kit HTML con página, enlaces y QR preparado.{' '}
+                    {r.playback === 'file'
+                      ? 'Incluye el audio autorizado.'
+                      : 'La escucha abre tus enlaces oficiales.'}{' '}
+                    Revisa las descargas del navegador.
                   </p>
                 )}
                 <small className="micro">

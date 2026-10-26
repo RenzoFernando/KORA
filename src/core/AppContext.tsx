@@ -1,3 +1,4 @@
+import { playableCatalog } from './catalogPlayback';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Context } from './useApp';
@@ -27,6 +28,7 @@ import {
 } from './cloud';
 type Bootstrap = {
   account: Account | null;
+  capabilities?: { publicArtistProfiles?: boolean };
   catalog: Release[];
   shelf: Shelf | null;
   releases: Release[];
@@ -52,6 +54,7 @@ function initialStore() {
 export function AppProvider({ children }: { children: ReactNode }) {
   const [store, setStore] = useState(initialStore);
   const state = useRef(store);
+  const [publicProfilesEnabled, setPublicProfilesEnabled] = useState(false);
   const [catalog, setCatalog] = useState<Release[]>(seedCatalog);
   const [notice, notify] = useState('');
   const [storageWarning, setWarning] = useState('');
@@ -86,7 +89,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       const data = await cloudCall<Bootstrap>('bootstrap', {}, token);
       if (getToken() !== token) return;
-      setCatalog(data.catalog || seedCatalog);
+      setCatalog(playableCatalog(data.catalog || seedCatalog));
+      setPublicProfilesEnabled(data.capabilities?.publicArtistProfiles === true);
       setPosts(data.communityPosts || []);
       setLegalVersion(data.legalVersion || '2026-10-25.2');
       setWhatsapp(data.whatsapp || '573112476840');
@@ -129,8 +133,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     void refresh();
     const timer = setInterval(() => {
       if (document.visibilityState === 'visible') void refresh();
-    }, 30000);
-    const focus = () => void refresh();
+    }, 60000);
+    const focus = () => {
+      if (document.visibilityState === 'visible') void refresh();
+    };
     const offline = () => setConnection('offline');
     window.addEventListener('online', focus);
     window.addEventListener('focus', focus);
@@ -235,7 +241,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
         }
       });
     queue.current = operation;
-    return operation;
+    return operation.then(async (saved) => {
+      if (saved && pending.current === 0) await refresh();
+      return saved;
+    });
   }
   async function register(name: string, email: string, password: string, role: Role) {
     if (!name.trim() || !/^\S+@\S+\.\S+$/.test(email.trim()) || password.length < 8)
@@ -348,6 +357,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         store,
         account,
         catalog,
+        publicProfilesEnabled,
         shelf,
         notice,
         storageWarning,

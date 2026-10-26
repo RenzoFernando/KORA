@@ -1,5 +1,7 @@
+import { licensedCatalog } from './licensedCatalog.ts';
 import type { Release } from './types';
 export const seedCatalog: Release[] = [
+  ...licensedCatalog,
   {
     id: 'zalama-dejalo',
     artistId: 'zalama-crew',

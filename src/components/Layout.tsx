@@ -1,3 +1,4 @@
+import { PaymentFollowup } from './PaymentFollowup';
 import { CityPicker } from './CityPicker';
 import { TermsGate } from './TermsGate';
 import { Notifications } from './Notifications';
@@ -184,6 +185,7 @@ export function Layout() {
           </div>
         )}
         <main id="contenido" tabIndex={-1}>
+          <PaymentFollowup />
           <Outlet />
         </main>
         <footer className="app-footer">

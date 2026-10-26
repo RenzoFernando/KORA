@@ -1,3 +1,4 @@
+import { paymentWhatsApp } from '../core/payments';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../core/useApp';
@@ -23,24 +24,13 @@ export function PlansPage() {
         ? ['free', 'scout']
         : ['free', 'curator'];
   const choices = account ? plans.filter((p) => allowed.includes(p.id)) : plans;
-  function whatsappUrl(r: RequestItem) {
-    const name = plans.find((p) => p.id === r.plan)?.name || r.plan;
-    return (
-      'https://wa.me/' +
-      whatsapp +
-      '?text=' +
-      encodeURIComponent(
-        'Hola, equipo KORΛ. Solicité ' +
-          name +
-          '. Referencia: ' +
-          r.reference +
-          '. Cuenta: ' +
-          account?.email +
-          '. Medio propuesto: ' +
-          (r.method === 'cash' ? 'efectivo' : 'transferencia') +
-          '. Quiero confirmar las condiciones y la activación.' +
-          (r.isTest ? ' Es una solicitud de prueba.' : ''),
-      )
+  function whatsappUrl(r: RequestItem, receipt = false) {
+    return paymentWhatsApp(
+      whatsapp,
+      r,
+      account?.email || '',
+      plans.find((p) => p.id === r.plan)?.name || r.plan,
+      receipt,
     );
   }
   function summary(r: RequestItem) {
@@ -194,13 +184,23 @@ export function PlansPage() {
                     {r.isTest ? ' · Prueba' : ''}
                   </p>
                   <div className="action-row">
+                    {r.status === 'pending' && (
+                      <a
+                        className="text-link"
+                        href={whatsappUrl(r, true)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Ya pagué: enviar comprobante ↗
+                      </a>
+                    )}
                     <a
                       className="text-link"
                       href={whatsappUrl(r)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Consultar por WhatsApp ↗
+                      Coordinar pago por WhatsApp ↗
                     </a>
                     <button className="text-link" onClick={() => summary(r)}>
                       Descargar resumen
@@ -273,8 +273,9 @@ export function PlansPage() {
                 {request.isTest ? ' · cuenta de prueba' : ''}.
               </p>
               <p>
-                Ahora puedes hablar con el equipo para confirmar el alcance y el pago. La solicitud
-                no activa tu cuenta por sí sola.
+                Confirma el alcance y los datos de pago por WhatsApp. Después de pagar, envía allí
+                el comprobante con tu referencia. Al volver verás tu solicitud pendiente hasta que
+                el equipo active el plan.
               </p>
               <a
                 className="button full"

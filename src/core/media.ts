@@ -1,3 +1,4 @@
+import { licensedAudio } from './licensedCatalog';
 import { cloudCall, blobBase64 } from './cloud';
 const DB = 'korlambda-media';
 async function database() {
@@ -49,6 +50,14 @@ export async function storeFile(_key: string, file: File) {
   return result.key;
 }
 export async function readFile(key: string) {
+  if (key.startsWith('licensed:')) {
+    const url = licensedAudio[key];
+    if (!url) throw new Error('Audio no registrado en el catálogo autorizado.');
+    const response = await fetch(url);
+    if (!response.ok || !response.headers.get('content-type')?.startsWith('audio/'))
+      throw new Error('No se pudo cargar la cápsula.');
+    return response.blob();
+  }
   if (!key.startsWith('drive:')) return localRead(key);
   const result = await cloudCall<{ mime: string; base64: string }>('media.get', { key });
   return new Blob([Uint8Array.from(atob(result.base64), (c) => c.charCodeAt(0))], {

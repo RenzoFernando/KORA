@@ -77,7 +77,7 @@ function allReleases_(){
   const base=rows_('Catalogo').filter(r=>bool_(r.publicApproved)).map(r=>{const full=parse_(r.data_json,{});for(const key of ['id','artistId','artist','title','city','genre','story','officialUrl','sourceUrl','verifiedAt','rightsEvidence','embedType','embedId'])if(r[key]!==undefined)full[key]=String(r[key]);return publicRelease_(full);});
   return [...base,...rows_('Lanzamientos').map(row=>({...parse_(row.data_json,{}),ownerId:row.owner_id,status:row.status}))];
 }
-function publicData_(){const hidden=rows_('Moderacion').filter(r=>bool_(r.hidden)).map(r=>r.release_id);const catalog=allReleases_().filter(r=>r.status==='active'&&!hidden.includes(r.id)&&(!r.ownerId||rows_('Usuarios').some(u=>u.id===r.ownerId&&u.status==='active')));const posts=[];for(const profile of rows_('Perfiles')){const user=rows_('Usuarios').find(u=>u.id===profile.user_id&&u.status==='active');if(!user||effectivePlan_(user)!=='curator')continue;const shelf=parse_(profile.data_json,{});for(const post of shelf.recommendations||[])if(catalog.some(r=>r.id===post.releaseId))posts.push({...post,author:user.name,isTest:bool_(user.is_test)});}return {catalog,communityPosts:posts.slice(-200),legalVersion:legalVersion_(),whatsapp:config_('whatsapp_number',KORA_CONFIG.whatsapp)};}
+function publicData_(){const hidden=rows_('Moderacion').filter(r=>bool_(r.hidden)).map(r=>r.release_id);const catalog=allReleases_().filter(r=>r.status==='active'&&!hidden.includes(r.id)&&(!r.ownerId||rows_('Usuarios').some(u=>u.id===r.ownerId&&u.status==='active')));for(const release of catalog){if(!release.ownerId)continue;const profile=rows_('Perfiles').find(p=>p.user_id===release.ownerId);const pub=parse_(profile&&profile.data_json,{}).publicProfile;if(pub&&pub.published){release.artistBio=text_(pub.bio,700);release.artistLinks=(pub.links||[]).filter(l=>safeUrl_(l.url)).slice(0,6);}}const posts=[];for(const profile of rows_('Perfiles')){const user=rows_('Usuarios').find(u=>u.id===profile.user_id&&u.status==='active');if(!user||effectivePlan_(user)!=='curator')continue;const shelf=parse_(profile.data_json,{});for(const post of shelf.recommendations||[])if(catalog.some(r=>r.id===post.releaseId))posts.push({...post,author:user.name,isTest:bool_(user.is_test)});}return {capabilities:{publicArtistProfiles:true},catalog,communityPosts:posts.slice(-200),legalVersion:legalVersion_(),whatsapp:config_('whatsapp_number',KORA_CONFIG.whatsapp)};}
 function bootstrap_(token){
   const publicData=publicData_();if(!token)return {...publicData,account:null};const {user,session}=session_(token,true);const account=account_(user);if(session.last_plan!==account.plan){addNotice_(user.id,'Tu acceso cambió','El equipo actualizó tu plan a '+account.plan+'.','plan','/cuenta');session.last_plan=account.plan;put_('Sesiones',session);}
   const own=rows_('Lanzamientos').filter(r=>r.owner_id===user.id).map(r=>({...parse_(r.data_json,{}),ownerId:r.owner_id,status:r.status}));
@@ -94,7 +94,7 @@ function cleanShelf_(input,old,user){
   const recommendations=(input.recommendations||[]).slice(0,100).map(p=>({id:text_(p.id,100),releaseId:text_(p.releaseId,100),text:text_(p.text,700),createdAt:text_(p.createdAt,40)}));
   if(effectivePlan_(user)!=='curator'&&recommendations.some(p=>!(old.recommendations||[]).some(o=>o.id===p.id&&o.text===p.text&&o.releaseId===p.releaseId)))throw apiError_('PLAN_REQUIRED','Curador Pro es necesario para publicar recomendaciones.');
   const shortlist=(input.shortlist||[]).filter(x=>typeof x==='string').slice(0,300);if(user.role!=='scout'&&shortlist.length)throw apiError_('ROLE_REQUIRED','La selección de talento corresponde a Scout.');
-  return {saved:[...new Set(saved)],notes,collections,recommendations,shortlist};
+  const pub=input.publicProfile||{};const publicProfile=user.role==='artist'?{bio:text_(pub.bio,700),published:pub.published===true,links:(pub.links||[]).slice(0,6).filter(l=>safeUrl_(l.url)&&text_(l.label,40)).map(l=>({label:text_(l.label,40),url:safeUrl_(l.url)}))}:undefined;return {saved:[...new Set(saved)],notes,collections,recommendations,shortlist,...(publicProfile?{publicProfile}:{})};
 }
 function cleanRelease_(r,user){
   if(user.role!=='artist')throw apiError_('ROLE_REQUIRED','Esta cuenta no es de artista.');const id=text_(r.id,100);if(!/^[a-zA-Z0-9-]{10,100}$/.test(id))throw apiError_('VALIDATION','Identificador de lanzamiento inválido.');const existing=rows_('Lanzamientos').find(x=>x.id===id);if(existing&&existing.owner_id!==user.id)throw apiError_('FORBIDDEN','No puedes editar otro lanzamiento.');
@@ -111,6 +111,12 @@ function saveBundle_(token,args){
   const incoming=(args.releases||[]).slice(0,30).map(r=>cleanRelease_(r,user));const active=incoming.filter(r=>r.status==='active').length;const limit=effectivePlan_(user)==='kit'?1:5;const access=['artist','kit'].includes(effectivePlan_(user))||(user.trial_started_at&&Date.parse(user.trial_started_at)+7*86400000>Date.now());
   const previousActive=rows_('Lanzamientos').filter(r=>r.owner_id===user.id&&r.status==='active').map(r=>r.id);
   if(active>limit)throw apiError_('LIMIT_REACHED','Tu plan permite '+limit+' lanzamientos activos.');if(!access&&incoming.some(r=>r.status==='active'&&!previousActive.includes(r.id)))throw apiError_('PLAN_REQUIRED','La prueba terminó. Guarda un borrador o solicita activación.');
+  if(effectivePlan_(user)==='kit'){
+    const prior=parse_(previous&&previous.data_json,{});
+    const bound=prior.kitReleaseId||previousActive[0]||(incoming.find(r=>r.status==='active')||{}).id;
+    if(bound&&incoming.some(r=>r.status==='active'&&r.id!==bound))throw apiError_('KIT_RELEASE_BOUND','Este Launch Kit pertenece a otro lanzamiento. Edita esa página o solicita otro kit.');
+    if(bound)shelf.kitReleaseId=bound;
+  }else{const prior=parse_(previous&&previous.data_json,{});if(prior.kitReleaseId)shelf.kitReleaseId=prior.kitReleaseId;}
   if(args.profile){user.name=text_(args.profile.name,80)||user.name;user.bio=text_(args.profile.bio,700);put_('Usuarios',user);}
   put_('Perfiles',{...(previous||{}),user_id:user.id,data_json:JSON.stringify(shelf),updated_at:now_()});
   for(const release of incoming){const old=rows_('Lanzamientos').find(r=>r.id===release.id);put_('Lanzamientos',{...(old||{}),id:release.id,owner_id:user.id,data_json:JSON.stringify(release),status:release.status,updated_at:now_()});}
@@ -126,7 +132,7 @@ function handleKora_(payload){
     const cache=CacheService.getScriptCache();const cacheKey=requestId?'request:'+sha_(action+token+requestId):'';if(cacheKey){const cached=cache.get(cacheKey);if(cached){if(token&&!action.startsWith('auth.'))session_(token,true);return parse_(cached,{});}}
     let result;
     switch(action){
-      case 'health':result={version:'2.0.0',environment:'shared-test',storage:'google-sheets',legalVersion:legalVersion_()};break;
+      case 'health':result={version:'2.1.0',environment:'shared-test',storage:'google-sheets',legalVersion:legalVersion_()};break;
       case 'public.catalog':result=publicData_();break;
       case 'auth.challenge':{
         const email=email_(args.email);rate_('challenge:'+email,10,300);const user=rows_('Usuarios').find(u=>u.email===email);const challengeId=id_();const nonce=id_()+id_();cache.put('challenge:'+challengeId,JSON.stringify({email,nonce}),120);result={challengeId,nonce,salt:user?user.password_salt:sha_(id_()).slice(0,32),iterations:210000};break;

@@ -1,3 +1,4 @@
+import { Attribution } from '../components/Attribution';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useApp } from '../core/useApp';
@@ -81,6 +82,7 @@ export function ReleasePage() {
           </Link>
           <p className="release-story">{r.story}</p>
           <span className="tag">{r.genre}</span>
+          <Attribution release={r} />
           <div className="action-row">
             <button className="button" onClick={() => player.select(r)}>
               <Icon name="play" />

@@ -8,6 +8,7 @@ const walk = (dir) =>
 const files = walk('dist')
   .filter(
     (f) =>
+      !f.replaceAll('\\', '/').includes('/audio/') &&
       !f.endsWith('sw.js') &&
       !f.endsWith('runtime-config.json') &&
       !['_headers', '_redirects'].includes(path.basename(f)),

@@ -1,3 +1,4 @@
+import { CapsuleShelf } from '../components/CapsuleShelf';
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useApp } from '../core/useApp';
@@ -14,12 +15,13 @@ export function DiscoverPage() {
   const city = store.settings.city;
   const cityCatalog = filterCatalog(catalog, city, 'Todos', '');
   const filtered = filterCatalog(catalog, city, genre, query);
-  const spotlight = cityCatalog.find((r) => r.id === 'zalama-dejalo') || cityCatalog[0];
+  const spotlight = cityCatalog.find((r) => r.playback === 'file') || cityCatalog[0];
   const starters = cityCatalog
     .filter((r, i, all) => all.findIndex((other) => other.artistId === r.artistId) === i)
     .slice(0, 3);
   return (
     <div className="page discover-page">
+      {!query && genre === 'Todos' && <CapsuleShelf />}
       {!query && genre === 'Todos' && spotlight && (
         <section className="discovery-hero scene-hero">
           <div className="hero-copy">

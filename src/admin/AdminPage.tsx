@@ -41,7 +41,7 @@ export function AdminPage() {
           En «Usuarios», cambia premium a TRUE para habilitar el plan del perfil, o a FALSE para
           volver al gratuito. plan permite curator, artist, scout o kit. status: inactive suspende
           el acceso. plan_until es opcional y admite fecha ISO. La app comprueba cambios al volver a
-          la ventana y cada 30 segundos mientras está abierta.
+          la ventana y cada 60 segundos mientras está abierta.
         </p>
         <p>
           Revisar una solicitud y activar premium son decisiones separadas. Marcar una solicitud no

@@ -19,9 +19,12 @@ export function ReleaseCard({ release }: { release: Release }) {
         <button
           className="card-play"
           onClick={() => player.select(release)}
-          aria-label={'Escuchar ' + release.title}
+          aria-label={
+            (player.current?.id === release.id && player.playing ? 'Pausar ' : 'Escuchar ') +
+            release.title
+          }
         >
-          <Icon name="play" />
+          <Icon name={player.current?.id === release.id && player.playing ? 'pause' : 'play'} />
         </button>
       </div>
       <div className="card-info">
@@ -44,6 +47,7 @@ export function ReleaseCard({ release }: { release: Release }) {
       </div>
       <p className="card-genre">
         {release.city} <span>·</span> {release.genre}
+        {release.playback === 'file' && <span> · Cápsula 30 s</span>}
       </p>
     </article>
   );

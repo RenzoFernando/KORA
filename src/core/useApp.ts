@@ -16,6 +16,7 @@ export type ContextValue = {
   store: Store;
   account: Account | undefined;
   catalog: Release[];
+  publicProfilesEnabled: boolean;
   shelf: Shelf;
   notice: string;
   storageWarning: string;

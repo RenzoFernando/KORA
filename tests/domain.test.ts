@@ -62,7 +62,7 @@ test('las cuentas y los archivados no consumen cupos ajenos', () => {
 });
 test('filtra ciudades y normaliza tildes sin inventar resultados', () => {
   assert.equal(filterCatalog(seedCatalog, 'Cali', 'Todos', 'punta talon').length, 1);
-  assert.equal(filterCatalog(seedCatalog, 'Bogotá', 'Todos', '').length, 0);
+  assert.ok(filterCatalog(seedCatalog, 'Bogotá', 'Todos', '').every((r) => r.city === 'Bogotá'));
   const rock = filterCatalog(seedCatalog, 'Colombia', 'Rock', '');
   assert.ok(rock.length >= 5);
   assert.ok(rock.every((r) => r.genre === 'Rock'));
@@ -75,16 +75,20 @@ test('URLs ejecutables, HTTP y credenciales se rechazan', () => {
 });
 test('los embeds solo apuntan a Bandcamp con IDs numéricos', () => {
   assert.ok(
-    embedUrl(seedCatalog[0]).startsWith('https://bandcamp.com/EmbeddedPlayer/track=481549181/'),
+    embedUrl(seedCatalog.find((r) => r.id === 'zalama-dejalo')!).startsWith(
+      'https://bandcamp.com/EmbeddedPlayer/track=481549181/',
+    ),
   );
-  assert.equal(embedUrl({ ...seedCatalog[0], embedId: '<script>' }), '');
+  assert.equal(
+    embedUrl({ ...seedCatalog.find((r) => r.id === 'zalama-dejalo')!, embedId: '<script>' }),
+    '',
+  );
   assert.equal(embedUrl({ ...seedCatalog[0], playback: 'file' }), '');
 });
 test('el catálogo editorial no concede permisos para analítica Scout', () => {
-  assert.equal(seedCatalog.length, 26);
-  assert.ok(
-    seedCatalog.every((r) => r.rights === 'official-embed' && !r.allowScout && !r.audioKey),
-  );
+  const editorial = seedCatalog.filter((r) => r.playback === 'bandcamp');
+  assert.equal(editorial.length, 26);
+  assert.ok(editorial.every((r) => r.rights === 'official-embed' && !r.allowScout && !r.audioKey));
   assert.equal(new Set(seedCatalog.map((r) => r.id)).size, seedCatalog.length);
 });
 test('contraseñas con sal distinta generan hashes distintos sin texto plano', async () => {

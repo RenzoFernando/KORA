@@ -1,3 +1,4 @@
+import { Attribution } from '../components/Attribution';
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { usePlayer, formatTime } from './usePlayer';
@@ -223,6 +224,7 @@ export function PlayerDock() {
               {r.artist} ↗
             </Link>
             <p>{r.story}</p>
+            <Attribution release={r} />
             <div className="action-row">
               <button className="button secondary small" onClick={() => void share()}>
                 <Icon name="share" size={16} />
@@ -236,19 +238,6 @@ export function PlayerDock() {
                 Historia, enlaces y QR ↗
               </Link>
             </div>
-            {r.playback === 'file' && (
-              <label className="volume">
-                Volumen
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={p.volume}
-                  onChange={(e) => p.setVolume(Number(e.target.value))}
-                />
-              </label>
-            )}
             <Link
               className="text-link player-legal"
               to="/legal/privacidad"

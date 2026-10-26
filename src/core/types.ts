@@ -43,8 +43,10 @@ export type Release = {
   audioKey?: string;
   coverKey?: string;
   ownerId?: string;
+  artistBio?: string;
+  artistLinks?: LinkItem[];
   status: 'draft' | 'active' | 'archived';
-  rights: 'official-embed' | 'artist-declaration';
+  rights: 'official-embed' | 'artist-declaration' | 'open-license';
   rightsEvidence: string;
   sourceUrl: string;
   verifiedAt: string;
@@ -52,6 +54,8 @@ export type Release = {
   createdAt: string;
 };
 export type Shelf = {
+  kitReleaseId?: string;
+  publicProfile?: { bio: string; links: LinkItem[]; published: boolean };
   saved: string[];
   notes: Record<string, string>;
   collections: { id: string; name: string; releaseIds: string[] }[];

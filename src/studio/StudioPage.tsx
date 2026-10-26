@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useApp } from '../core/useApp';
-import { releaseAllowance, trialRemaining } from '../core/plans';
+import { releaseAllowance, trialRemaining, plans } from '../core/plans';
 import { StudioGate } from './StudioGate';
 import { Artwork } from '../components/Artwork';
 import { Icon } from '../components/Icon';
 export function StudioPage() {
-  const { account, store } = useApp();
+  const { account, store, shelf } = useApp();
   const own = store.releases.filter((r) => r.ownerId === account?.id);
+  const kitRelease =
+    account?.plan === 'kit'
+      ? own.find((r) => r.id === shelf.kitReleaseId) || own.find((r) => r.status === 'active')
+      : undefined;
   const allowance = account ? releaseAllowance(account, own) : { active: 0, limit: 5 };
   return (
     <StudioGate>
@@ -17,16 +21,19 @@ export function StudioPage() {
             <h1>Hagamos que llegue.</h1>
             <p className="lead">Un lanzamiento empieza con una historia. Continúa con un enlace.</p>
           </div>
-          <Link className="button" to="/studio/nuevo">
+          <Link
+            className="button"
+            to={kitRelease ? '/studio/editar/' + kitRelease.id : '/studio/nuevo'}
+          >
             <Icon name="plus" size={18} />
-            Nuevo lanzamiento
+            {kitRelease ? 'Editar mi lanzamiento' : 'Nuevo lanzamiento'}
           </Link>
         </div>
         <div className="status-strip">
           <span>
             <i className="status-dot" />
-            {account?.simulated
-              ? 'Plan ' + account.plan + ' · Simulado'
+            {account && account.plan !== 'free'
+              ? (plans.find((p) => p.id === account.plan)?.name || account.plan) + ' · Activo'
               : 'Prueba Artist · ' + (account ? trialRemaining(account) : 0) + ' días restantes'}
           </span>
           <span>

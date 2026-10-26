@@ -1,3 +1,4 @@
+import { Attribution } from '../components/Attribution';
 import { useApp } from '../core/useApp';
 import { safeUrl } from '../core/catalog';
 import { Icon } from '../components/Icon';
@@ -22,10 +23,14 @@ export function SourcesPage() {
               {r.artist} · {r.city}
             </p>
             <p className="micro">
-              {r.rights === 'official-embed' ? 'Fuente verificada' : 'Autorización declarada'} ·{' '}
-              {r.verifiedAt.slice(0, 10)}
+              {r.rights === 'open-license'
+                ? 'Licencia abierta verificada'
+                : r.rights === 'official-embed'
+                  ? 'Fuente verificada'
+                  : 'Autorización declarada'}{' '}
+              · {r.verifiedAt.slice(0, 10)}
             </p>
-            <p>{r.rightsEvidence}</p>
+            {r.rights === 'open-license' ? <Attribution release={r} /> : <p>{r.rightsEvidence}</p>}
             {safeUrl(r.sourceUrl) && (
               <a
                 className="text-link"
@@ -56,8 +61,9 @@ export function SourcesPage() {
           Catálogo de Artes Escénicas · MinCultura ↗
         </a>
         <p>
-          Los controles externos y la disponibilidad son responsabilidad de Bandcamp. KORΛ no
-          promete que su catálogo sea música libre ni permite descargarlo desde aquí.
+          Las fichas de Bandcamp conservan sus condiciones originales. Las cápsulas con licencia
+          abierta indican autoría, fuente, licencia y cambios; sus permisos de reutilización se
+          conservan.
         </p>
         <a
           className="text-link"

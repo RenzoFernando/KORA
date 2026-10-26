@@ -3,94 +3,160 @@ import { Link } from 'react-router-dom';
 import { useApp } from '../core/useApp';
 import { StudioGate } from './StudioGate';
 import { ReleaseCard } from '../components/ReleaseCard';
-import { Icon } from '../components/Icon';
-import { download } from '../core/storage';
+import { safeUrl } from '../core/catalog';
+import type { LinkItem } from '../core/types';
 export function BioPage() {
-  const { account, store, update, notify } = useApp();
-  const [bio, setBio] = useState(account?.bio || '');
+  const { connection, account } = useApp();
+  if (connection === 'loading')
+    return (
+      <div className="page">
+        <p role="status">Abriendo tu espacio…</p>
+      </div>
+    );
+  return <BioPageForm key={account?.id || 'guest'} />;
+}
+function BioPageForm() {
+  const { account, store, shelf, setShelf, notify, publicProfilesEnabled } = useApp();
+  const [bio, setBio] = useState(shelf.publicProfile?.bio || '');
+  const [links, setLinks] = useState<LinkItem[]>(shelf.publicProfile?.links || []);
+  const [published, setPublished] = useState(shelf.publicProfile?.published || false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
   const releases = store.releases.filter((r) => r.ownerId === account?.id && r.status === 'active');
   return (
     <StudioGate>
       <div className="page">
-        <p className="eyebrow">MÁS QUE UNA CANCIÓN</p>
-        <div className="intro-line">
-          <h1>Tu historia, en un lugar.</h1>
-          {releases.length > 0 && (
-            <Link className="button secondary" to={'/artista/a-' + account?.id}>
-              Ver mi bio page <Icon name="external" size={17} />
-            </Link>
-          )}
-        </div>
+        <p className="eyebrow">TU HISTORIA TIENE SU PROPIO ENLACE</p>
+        <h1>Tu nombre. Tu sonido. Tu lugar.</h1>
+        <p className="lead">Una presentación para quien acaba de descubrirte.</p>
+        {!publicProfilesEnabled && (
+          <p className="notice">
+            La publicación de biografías necesita actualizar el backend de esta instalación. Tus
+            lanzamientos y enlaces compartidos siguen disponibles.
+          </p>
+        )}
         <div className="bio-layout">
           <form
             className="panel"
             onSubmit={async (e) => {
               e.preventDefault();
-              const saved = await update((s) => ({
-                ...s,
-                accounts: s.accounts.map((a) =>
-                  a.id === account?.id ? { ...a, bio: bio.trim() } : a,
-                ),
-              }));
-              if (saved) notify('Bio guardada en tu perfil.');
+              setError('');
+              if (!publicProfilesEnabled) return;
+              if (links.some((l) => !l.label.trim() || !safeUrl(l.url))) {
+                setError('Cada enlace necesita un nombre y una URL HTTPS.');
+                return;
+              }
+              setBusy(true);
+              try {
+                const saved = await setShelf((s) => ({
+                  ...s,
+                  publicProfile: {
+                    bio: bio.trim(),
+                    links: links.map((l) => ({ label: l.label.trim(), url: safeUrl(l.url) })),
+                    published,
+                  },
+                }));
+                if (saved)
+                  notify(published ? 'Bio pública actualizada.' : 'Bio guardada como privada.');
+              } finally {
+                setBusy(false);
+              }
             }}
           >
-            <h2>Preséntate a tu manera.</h2>
             <label>
-              Biografía de tu perfil privado
+              Biografía pública
               <textarea
-                rows={7}
+                rows={6}
                 maxLength={700}
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
-                placeholder="Qué te mueve, de dónde vienes, a dónde suena tu música…"
+                placeholder="De dónde viene tu música. Qué te mueve. Qué quieres compartir."
               />
             </label>
-            <p className="micro">
-              Tu nombre viene del perfil. La página pública reúne los lanzamientos activos y usa la
-              historia del primero como presentación. Esta biografía se conserva en tu cuenta.
-            </p>
-            <button className="button" type="submit">
-              Guardar biografía
+            <h2>Tus enlaces</h2>
+            {links.map((link, i) => (
+              <div className="field-pair" key={i}>
+                <label>
+                  Nombre
+                  <input
+                    value={link.label}
+                    maxLength={40}
+                    onChange={(e) =>
+                      setLinks(links.map((l, n) => (n === i ? { ...l, label: e.target.value } : l)))
+                    }
+                  />
+                </label>
+                <label>
+                  URL HTTPS
+                  <input
+                    type="url"
+                    value={link.url}
+                    onChange={(e) =>
+                      setLinks(links.map((l, n) => (n === i ? { ...l, url: e.target.value } : l)))
+                    }
+                  />
+                </label>
+                <button
+                  type="button"
+                  className="text-link"
+                  onClick={() => setLinks(links.filter((_, n) => n !== i))}
+                >
+                  Quitar enlace {i + 1}
+                </button>
+              </div>
+            ))}
+            {links.length < 6 && (
+              <button
+                className="button secondary small"
+                type="button"
+                onClick={() => setLinks([...links, { label: '', url: '' }])}
+              >
+                Añadir enlace
+              </button>
+            )}
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={published}
+                onChange={(e) => setPublished(e.target.checked)}
+              />
+              <span>
+                Publicar esta biografía y sus enlaces en mi página de artista. Mi correo y mis notas
+                de cuenta siguen privados.
+              </span>
+            </label>
+            {error && (
+              <p role="alert" className="error">
+                {error}
+              </p>
+            )}
+            <button className="button" disabled={busy || !publicProfilesEnabled}>
+              {busy ? 'Guardando…' : 'Guardar mi página'}
             </button>
-            <button
-              className="text-link"
-              type="button"
-              onClick={() =>
-                download(
-                  'KORΛ-mi-bio.json',
-                  JSON.stringify(
-                    {
-                      artist: account?.name,
-                      bio,
-                      releases: releases.map((r) => ({
-                        title: r.title,
-                        url: location.origin + '/lanzamiento/' + r.slug,
-                        links: r.links,
-                      })),
-                      scope: 'Enlaces de esta instalación de KORΛ.',
-                    },
-                    null,
-                    2,
-                  ),
-                )
-              }
-            >
-              <Icon name="download" size={16} />
-              Exportar ficha de artista
-            </button>
+            {releases.length > 0 && (
+              <Link className="text-link" to={'/artista/a-' + account?.id}>
+                Abrir mi página pública ↗
+              </Link>
+            )}
           </form>
           <div className="panel bio-preview">
             <div className="bio-monogram">{account?.name[0]}</div>
             <span className="eyebrow">KORΛ · ARTISTA</span>
             <h2>{account?.name}</h2>
             <p>{bio || 'Tu historia empieza aquí.'}</p>
-            <p className="micro">{releases.length} lanzamientos activos · Página de artista</p>
+            {links.map((l, i) => (
+              <span className="tag" key={i}>
+                {l.label || 'Tu enlace'}
+              </span>
+            ))}
+            <p>
+              {published
+                ? 'Se comparte al guardar con al menos un lanzamiento activo.'
+                : 'Vista previa privada.'}
+            </p>
           </div>
         </div>
-        <div className="section-heading">
-          <h2>En tu página</h2>
-        </div>
+        <h2>En tu página</h2>
         {releases.length ? (
           <div className="release-grid">
             {releases.map((r) => (
@@ -98,7 +164,7 @@ export function BioPage() {
             ))}
           </div>
         ) : (
-          <p className="empty-state">Activa un lanzamiento para habilitar tu página de artista.</p>
+          <p className="empty-state">Activa tu primer lanzamiento para abrir tu página pública.</p>
         )}
       </div>
     </StudioGate>
