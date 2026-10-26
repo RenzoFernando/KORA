@@ -1,0 +1,132 @@
+[
+  {
+    "file": "01_isotipo_positivo.svg",
+    "sha256": "a8045eb3fe64d4a2da35a82f16c3ff2da13ed4476994ff9ffbeff79d191a39eb",
+    "matchesOriginal": true
+  },
+  {
+    "file": "02_isotipo_negativo.svg",
+    "sha256": "5faa9a0ff0abb3a580d1e6368f6801e2137660e67d53430c88b0614400e00fd0",
+    "matchesOriginal": true
+  },
+  {
+    "file": "03_isotipo_gradiente.svg",
+    "sha256": "cfc248fa13b99357db5b9d4246896429624c12672914ac79c39b89bd75c6e48e",
+    "matchesOriginal": true
+  },
+  {
+    "file": "04_isotipo_monocromo_oscuro.svg",
+    "sha256": "630719786d6f590aa13cd0fa2438468a7bd28f98506756a0401509741b092762",
+    "matchesOriginal": true
+  },
+  {
+    "file": "05_isotipo_monocromo_claro.svg",
+    "sha256": "ab61a462032c8dd42787af505bc6721d2cf4b8f7ee3f880df4cd3137dcfe0195",
+    "matchesOriginal": true
+  },
+  {
+    "file": "06_avatar_social_oscuro.svg",
+    "sha256": "4417a83fac59e41b3ca9acbd5baf4f1a092df01ab8ec27bdf91837c4a5aabace",
+    "matchesOriginal": true
+  },
+  {
+    "file": "07_avatar_social_claro.svg",
+    "sha256": "b5987166fb987517c668966c8956ca5ece646645528d4152f9d19276a8eeadb6",
+    "matchesOriginal": true
+  },
+  {
+    "file": "08_icono_app.svg",
+    "sha256": "66012c629c8eaba72a15ebacb0f93314951e791e598e696294120121bc5c4ad5",
+    "matchesOriginal": true
+  },
+  {
+    "file": "09_favicon_web.svg",
+    "sha256": "15bed75de2c16d2e00e51498de14a1b03ebcd1d546a1dd20193ade578f259620",
+    "matchesOriginal": true
+  },
+  {
+    "file": "10_logotipo_korlambda_oscuro.svg",
+    "sha256": "3007cde3ca3e59c392087e48908efe4186eaf87ca46ae4c894151adf0ce4a923",
+    "matchesOriginal": true
+  },
+  {
+    "file": "11_logotipo_korlambda_claro.svg",
+    "sha256": "d2bcff2524193a21865a62ee53b1ad67aef4b65228c1c80ae6d1a44400a1f64d",
+    "matchesOriginal": true
+  },
+  {
+    "file": "12_logotipo_korlambda_discover_positivo.svg",
+    "sha256": "a6e7446d9429b259b3e9a86482252085ecc8e3bf59b6a90b916cf325a49e66de",
+    "matchesOriginal": true
+  },
+  {
+    "file": "13_logotipo_korlambda_discover_negativo.svg",
+    "sha256": "f2b15cd5b0fd9d496dc9b5b8d38660020db82c2e2148a4e4c994e48d370d5180",
+    "matchesOriginal": true
+  },
+  {
+    "file": "14_imagotipo_horizontal_positivo.svg",
+    "sha256": "1f754addb23e67db9081dedbc73611b42babe7dc7acfd869fb5617a6c8033107",
+    "matchesOriginal": true
+  },
+  {
+    "file": "15_imagotipo_horizontal_negativo.svg",
+    "sha256": "80f26b88adbb8a5e485f29b62730d0d4a3eb9160e4581eac0c2f689203d18d06",
+    "matchesOriginal": true
+  },
+  {
+    "file": "16_imagotipo_vertical_social.svg",
+    "sha256": "18e9c4ec1b7fe2a4516ca240eab89d5b3a3fe94f7d7733044d10d006d8515b22",
+    "matchesOriginal": true
+  },
+  {
+    "file": "17_isotipo_naranja_bicolor.svg",
+    "sha256": "9ff2aedbe839f180e7dd7984176d2a2a60271fd6f03c902881065cb8ec7969e8",
+    "matchesOriginal": true
+  },
+  {
+    "file": "18_isotipo_naranja_negativo.svg",
+    "sha256": "952f0f566fcb75de2c3120f23bdade427bc6ac5195bb29ca80f811a95007fd01",
+    "matchesOriginal": true
+  },
+  {
+    "file": "19_avatar_social_naranja.svg",
+    "sha256": "83756f0c89e91e40006b3ad0f7e4ddf80df56cbc6aba710c263b07d106b5b11c",
+    "matchesOriginal": true
+  },
+  {
+    "file": "20_icono_app_crema.svg",
+    "sha256": "844b4190344b954d72de95aee80dbdb781abec4b5b16c15adb5520423eb79ad7",
+    "matchesOriginal": true
+  },
+  {
+    "file": "21_icono_app_naranja.svg",
+    "sha256": "84b256bd715528e835e57b637fe4aa6e3635f71032eda4ab905d1eb480c58d1e",
+    "matchesOriginal": true
+  },
+  {
+    "file": "22_favicon_crema.svg",
+    "sha256": "1a291da44fe16e5399f51b8593eb92b51cfae0edc5f2dcdefd347395d466503a",
+    "matchesOriginal": true
+  },
+  {
+    "file": "23_favicon_negro.svg",
+    "sha256": "b7a1cdac8f9ae487f837cbaf27836b7059a17dd701b849df43d5ab1b89085a9e",
+    "matchesOriginal": true
+  },
+  {
+    "file": "24_imagotipo_horizontal_naranja.svg",
+    "sha256": "40f526b8ec665b5d25df08f6a5df218989605acee668c960476dd2154b8e887a",
+    "matchesOriginal": true
+  },
+  {
+    "file": "25_imagotipo_vertical_naranja.svg",
+    "sha256": "a43f3670a592068c557aab227860717e2acfd4ebd428413302dcff027185ee13",
+    "matchesOriginal": true
+  },
+  {
+    "file": "26_imagotipo_vertical_crema.svg",
+    "sha256": "a240827ae1c1147d2731f1aa6823c9d20fce6a213d62c6b896d6fe640ab4e851",
+    "matchesOriginal": true
+  }
+]

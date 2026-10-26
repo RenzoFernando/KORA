@@ -1,8 +1,4 @@
 node_modules/
-Branding/
-branding/
-audio/
-img/
 dist/
-build/
-coverage/
+public/branding/
+docs/originales/

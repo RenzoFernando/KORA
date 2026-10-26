@@ -1,0 +1,33 @@
+{
+  "id": "/",
+  "name": "KORΛ · Música que conecta",
+  "short_name": "KORΛ",
+  "description": "Tu escena musical: descubre, guarda y comparte desde Cali.",
+  "lang": "es-CO",
+  "start_url": "/discover",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#171613",
+  "theme_color": "#F1871C",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

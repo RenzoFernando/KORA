@@ -1,0 +1,6 @@
+/sw.js
+  Cache-Control: no-cache
+/runtime-config.json
+  Cache-Control: no-store
+/manifest.webmanifest
+  Cache-Control: no-cache

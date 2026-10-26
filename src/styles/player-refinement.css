@@ -1,0 +1,325 @@
+.shared-player {
+  grid-template-columns: minmax(160px, 0.8fr) minmax(280px, 1.6fr) auto;
+  height: 144px;
+  padding: 12px 25px;
+  gap: 24px;
+}
+.shared-player.provider-file {
+  height: 145px;
+}
+.shared-player .dock-controls {
+  max-width: 720px;
+}
+.shared-player .dock-official-frame {
+  height: 120px;
+  min-width: 240px;
+  width: 100%;
+  border: 0;
+  background: var(--surface);
+  border-radius: 5px;
+}
+.shared-player .dock-track strong {
+  font-size: 16px;
+  line-height: 1.35;
+}
+.shared-player .dock-track small {
+  font-size: 13px;
+}
+.shared-player .dock-track .artwork {
+  width: 58px;
+  height: 58px;
+  aspect-ratio: 1;
+}
+.shared-player .dock-track .art-small,
+.shared-player .dock-track .art-title {
+  display: none;
+}
+.shared-player .dock-actions {
+  gap: 8px;
+  align-items: center;
+}
+.has-player {
+  padding-bottom: 152px;
+}
+.player-options {
+  position: relative;
+}
+.player-options summary {
+  cursor: pointer;
+  list-style: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 40px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+.player-options summary::-webkit-details-marker {
+  display: none;
+}
+.player-options summary:hover {
+  background: var(--soft);
+}
+.player-options summary:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.player-options > button {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  width: 240px;
+  padding: 15px;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  z-index: 4;
+}
+.player-options > button:hover {
+  background: var(--soft);
+}
+.shared-player .seek {
+  font-size: 12px;
+  gap: 12px;
+  margin-top: 3px;
+}
+.shared-player .seek input {
+  height: 24px;
+}
+.shared-player .transport {
+  gap: 13px;
+  height: 36px !important;
+}
+.shared-player .dock-controls .transport .play-button {
+  width: 36px;
+  height: 36px;
+}
+.native-extras {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 7px;
+}
+.compact-volume {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.compact-volume input {
+  max-width: 100px;
+}
+.seek-step {
+  position: relative;
+  width: 36px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+}
+.seek-step > span {
+  position: absolute;
+  font-size: 9px;
+  font-weight: 700;
+  top: 8px;
+  left: 14px;
+}
+.shared-player.expanded {
+  inset: 5vh max(24px, calc((100vw - 1050px) / 2));
+  height: max-content;
+  max-height: 90vh;
+  grid-template-columns: minmax(150px, 1fr) auto;
+  align-content: start;
+  gap: 22px;
+  padding: 26px;
+}
+.shared-player.expanded .dock-track {
+  grid-column: 1;
+  grid-row: 1;
+}
+.shared-player.expanded .dock-actions {
+  grid-column: 2;
+  grid-row: 1;
+}
+.shared-player.expanded .dock-controls {
+  grid-column: 1/-1;
+  grid-row: 2;
+  max-width: none;
+}
+.shared-player.expanded .expanded-story {
+  grid-row: 3;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(200px, 1fr);
+  gap: 28px;
+}
+.expanded-story > .artwork {
+  aspect-ratio: 1;
+}
+.expanded-story .volume {
+  font-size: 14px;
+  margin-top: 22px;
+}
+.expanded-story .volume input {
+  max-width: 200px;
+}
+.shared-player .player-legal {
+  display: block;
+  margin-top: 22px;
+  font-size: 13px;
+}
+.shared-player.expanded .player-options > button {
+  bottom: auto;
+  top: calc(100% + 10px);
+}
+.expanded-story h2 {
+  font-size: clamp(32px, 4vw, 54px);
+}
+.shared-player .player-error {
+  font-size: 13px;
+}
+.shared-player.compact:has(.player-error) {
+  height: 167px;
+}
+.player-backdrop {
+  z-index: 69;
+}
+.shared-player.expanded {
+  z-index: 70;
+}
+@media (max-width: 1000px) {
+  .shared-player {
+    grid-template-columns: minmax(140px, 1fr) minmax(260px, 1.3fr) auto;
+    padding: 12px 20px;
+    gap: 15px;
+  }
+  .shared-player .dock-track .artwork {
+    width: 45px;
+    height: 45px;
+  }
+  .shared-player .dock-track strong {
+    font-size: 14px;
+  }
+  .shared-player .dock-track small {
+    font-size: 12px;
+  }
+  .shared-player .dock-actions {
+    gap: 4px;
+  }
+  .compact-volume > span {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .shared-player {
+    height: 204px;
+    padding: 12px 18px calc(10px + env(safe-area-inset-bottom));
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+  .shared-player .dock-track {
+    grid-row: 1;
+    grid-column: 1;
+  }
+  .shared-player .dock-actions {
+    grid-row: 1;
+    grid-column: 2;
+  }
+  .shared-player .dock-controls {
+    grid-column: 1/-1;
+    grid-row: 2;
+    max-width: none;
+  }
+  .shared-player .dock-official-frame {
+    min-width: 0;
+    height: 120px;
+  }
+  .shared-player .dock-track .artwork {
+    width: 40px;
+    height: 40px;
+  }
+  .shared-player .dock-track strong {
+    font-size: 15px;
+  }
+  .shared-player .dock-track small {
+    font-size: 12px;
+  }
+  .shared-player .dock-actions .icon-button:first-child {
+    display: grid;
+  }
+  .shared-player .dock-actions button,
+  .player-options summary {
+    width: 34px;
+    height: 36px;
+    min-width: 34px;
+  }
+  .has-player {
+    padding-bottom: 212px;
+  }
+  .shared-player.provider-file {
+    height: 215px;
+  }
+  .shared-player .seek {
+    display: flex !important;
+    font-size: 12px;
+  }
+  .shared-player .dock-controls .transport .icon-button {
+    display: grid !important;
+    min-height: 32px;
+  }
+  .native-extras {
+    margin-top: 7px;
+    gap: 22px;
+  }
+  .compact-volume > span {
+    display: block;
+  }
+  .compact-volume input {
+    max-width: 130px;
+  }
+  .shared-player.expanded {
+    inset: 10px 10px auto;
+    height: max-content;
+    max-height: calc(100dvh - 20px);
+    padding: 20px;
+    gap: 18px;
+  }
+  .shared-player.expanded .expanded-story {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .expanded-story > .artwork {
+    width: min(100%, 250px);
+    justify-self: center;
+  }
+  .expanded-story h2 {
+    font-size: 35px;
+  }
+  .shared-player.compact:has(.player-error) {
+    height: 235px;
+  }
+  .player-options > button {
+    font-size: 14px;
+    width: 235px;
+  }
+  .shared-player .expanded-story .art-small {
+    font-size: 12px;
+  }
+  .shared-player .expanded-story .art-title {
+    font-size: 31px;
+  }
+}
+
+.shared-player.expanded .dock-controls {
+  width: 100%;
+  justify-self: stretch;
+  max-width: none;
+}
+.shared-player.expanded .dock-official-frame {
+  width: 100%;
+  max-width: none;
+}
+.shared-player .player-options[open] summary {
+  background: var(--soft);
+}

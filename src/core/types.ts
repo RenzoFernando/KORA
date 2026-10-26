@@ -1,0 +1,116 @@
+export type Role = 'explorer' | 'artist' | 'scout';
+export type Plan = 'free' | 'curator' | 'artist' | 'scout' | 'kit';
+export type Account = {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+  salt: string;
+  hash: string;
+  createdAt: string;
+  trialStartedAt?: string;
+  plan: Plan;
+  simulated: boolean;
+  termsAt: string;
+  privacyAt: string;
+  bio?: string;
+  entitlementSource?: 'sheet' | 'local';
+  needsConsent?: boolean;
+  termsVersion?: string;
+  status?: string;
+  isAdmin?: boolean;
+  isTest?: boolean;
+  planUntil?: string;
+};
+export type LinkItem = { label: string; url: string };
+export type Release = {
+  id: string;
+  slug: string;
+  artistId: string;
+  artist: string;
+  title: string;
+  city: string;
+  genre: string;
+  story: string;
+  kind: 'single' | 'album';
+  color: string;
+  art: number;
+  officialUrl: string;
+  links: LinkItem[];
+  playback: 'bandcamp' | 'file' | 'link';
+  embedType?: 'track' | 'album';
+  embedId?: string;
+  audioKey?: string;
+  coverKey?: string;
+  ownerId?: string;
+  status: 'draft' | 'active' | 'archived';
+  rights: 'official-embed' | 'artist-declaration';
+  rightsEvidence: string;
+  sourceUrl: string;
+  verifiedAt: string;
+  allowScout: boolean;
+  createdAt: string;
+};
+export type Shelf = {
+  saved: string[];
+  notes: Record<string, string>;
+  collections: { id: string; name: string; releaseIds: string[] }[];
+  recommendations: { id: string; releaseId: string; text: string; createdAt: string }[];
+  shortlist: string[];
+};
+export type Metric = {
+  id: string;
+  releaseId: string;
+  type: 'page_view' | 'embed_open' | 'audio_play' | 'outbound_click';
+  at: string;
+  label?: string;
+};
+export type RequestItem = {
+  id: string;
+  accountId: string;
+  plan: Plan;
+  at: string;
+  status: 'interest' | 'pending' | 'approved' | 'rejected';
+  reference?: string;
+  amount?: number;
+  method?: 'cash' | 'transfer';
+  isTest?: boolean;
+  simulated: false;
+};
+export type Store = {
+  version: 1;
+  accounts: Account[];
+  sessionId: string | null;
+  releases: Release[];
+  shelves: Record<string, Shelf>;
+  events: Metric[];
+  requests: RequestItem[];
+  settings: { theme: 'light' | 'dark' | 'system'; city: string; analytics: boolean };
+  hidden: string[];
+};
+
+export type AppNotice = {
+  id: string;
+  title: string;
+  body: string;
+  type: string;
+  link: string;
+  createdAt: string;
+  readAt: string;
+};
+export type CommunityPost = {
+  id: string;
+  releaseId: string;
+  text: string;
+  createdAt: string;
+  author: string;
+  isTest?: boolean;
+};
+export type AdminOverview = {
+  accounts: number;
+  releases: number;
+  requests: number;
+  approvedPayments: number;
+  hiddenIds: string[];
+  catalog: Release[];
+};
