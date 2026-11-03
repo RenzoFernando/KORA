@@ -34,7 +34,9 @@ export function StudioPage() {
             <i className="status-dot" />
             {account && account.plan !== 'free'
               ? (plans.find((p) => p.id === account.plan)?.name || account.plan) + ' · Activo'
-              : 'Prueba Artist · ' + (account ? trialRemaining(account) : 0) + ' días restantes'}
+              : account && trialRemaining(account) > 0
+                ? 'Prueba Artista · ' + trialRemaining(account) + ' días restantes'
+                : 'Prueba finalizada · Puedes guardar borradores'}
           </span>
           <span>
             {allowance.active} de {allowance.limit} lanzamientos activos
@@ -112,7 +114,7 @@ export function StudioPage() {
         <div className="studio-feature-grid">
           <Link className="panel feature-link" to="/studio/bio">
             <Icon name="user" size={27} />
-            <h3>Tu bio page</h3>
+            <h3>Tu página de artista</h3>
             <p>Tu historia y tus lanzamientos en una sola página.</p>
             <Icon name="arrow" />
           </Link>

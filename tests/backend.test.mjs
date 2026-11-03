@@ -428,4 +428,31 @@ check('novedades guarda teléfono y consentimiento y actualiza la inscripción e
   assert.equal(row[headers.indexOf('email')], explorer.email);
   assert.ok(row[headers.indexOf('consent_at')]);
 });
+
+check('rechaza límites de listas sin perder datos previamente guardados', () => {
+  const before = JSON.stringify(call('bootstrap', {}, explorer.token).data.shelf);
+  for (const [key, limit] of [['saved', 500], ['collections', 50], ['recommendations', 100], ['shortlist', 300]]) {
+    const result = call('bundle.save', { shelf: { [key]: Array(limit + 1).fill('x') }, releases: [] }, explorer.token);
+    assert.equal(result.error.code, 'LIMIT_REACHED');
+  }
+  assert.equal(JSON.stringify(call('bootstrap', {}, explorer.token).data.shelf), before);
+});
+check('Scout gratuito no puede añadir selección pero puede retirar elementos', () => {
+  const scout = register('scout-free-audit@example.test', 'scout');
+  call('consent.accept', { version: '2026-10-25.2', terms: true, privacy: true }, scout.token);
+  assert.equal(call('bundle.save', { shelf: { shortlist: ['x'] }, releases: [] }, scout.token).error.code, 'PLAN_REQUIRED');
+  assert.equal(call('bundle.save', { shelf: { shortlist: [] }, releases: [] }, scout.token).ok, true);
+});
+check('Launch Kit registra activación sin inventar una fecha de terminación', () => {
+  const kit = register('kit-audit@example.test', 'artist');
+  call('consent.accept', { version: '2026-10-25.2', terms: true, privacy: true }, kit.token);
+  assert.equal(call('order.create', { plan: 'kit', method: 'cash' }, kit.token).ok, true);
+  const row = tables.Usuarios.find(r => r[0] === kit.email);
+  row[4] = true; row[5] = 'kit';
+  const result = call('bootstrap', {}, kit.token).data;
+  assert.ok(Number.isFinite(Date.parse(result.account.planStartedAt)));
+  assert.equal(result.account.planUntil, '');
+  assert.equal(result.requests[0].status, 'activated');
+  assert.equal(call('bootstrap', {}, kit.token).data.account.planStartedAt, result.account.planStartedAt);
+});
 console.log('TOTAL ' + checks + ' verificaciones correctas.');

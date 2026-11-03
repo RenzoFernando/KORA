@@ -54,6 +54,7 @@ function initialStore() {
 export function AppProvider({ children }: { children: ReactNode }) {
   const [store, setStore] = useState(initialStore);
   const state = useRef(store);
+  const revision = useRef(0);
   const [publicProfilesEnabled, setPublicProfilesEnabled] = useState(false);
   const [catalog, setCatalog] = useState<Release[]>(seedCatalog);
   const [notice, notify] = useState('');
@@ -77,18 +78,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
   const clearSession = useCallback(() => {
     setToken('');
+    revision.current++;
     const before = state.current;
     replace({ ...freshStore(), settings: before.settings });
     setNotices([]);
     setAdmin(undefined);
+    setSyncState('saved');
   }, [replace]);
   const refresh = useCallback(async () => {
     if (busy.current || pending.current) return;
     busy.current = true;
     const token = getToken();
+    const startedAtRevision = revision.current;
     try {
       const data = await cloudCall<Bootstrap>('bootstrap', {}, token);
-      if (getToken() !== token) return;
+      if (getToken() !== token || revision.current !== startedAtRevision || pending.current) return;
       setCatalog(playableCatalog(data.catalog || seedCatalog));
       setPublicProfilesEnabled(data.capabilities?.publicArtistProfiles === true);
       setPosts(data.communityPosts || []);
@@ -112,11 +116,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setConnection('ready');
       return data.account ?? undefined;
     } catch (error) {
+      if (getToken() !== token) return;
       if (
         error instanceof CloudError &&
         ['UNAUTHORIZED', 'ACCOUNT_INACTIVE'].includes(error.code)
       ) {
         clearSession();
+        setConnection('ready');
         notify(error.message);
       } else
         setConnection(
@@ -206,6 +212,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       notify('Sin conexión. Este cambio necesita guardarse en tu cuenta.');
       return false;
     }
+    revision.current++;
     replace(next);
     pending.current++;
     setSyncState('saving');
@@ -215,6 +222,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       .catch(() => {})
       .then(async () => {
         try {
+          if (getToken() !== token) return false;
           await cloudCall(
             'bundle.save',
             {
@@ -229,13 +237,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
               if (next.hidden.includes(id) !== before.hidden.includes(id))
                 await cloudCall('admin.hide', { id, hidden: next.hidden.includes(id) }, token);
           }
-          setSyncState('saved');
+          if (getToken() === token) setSyncState(pending.current > 1 ? 'saving' : 'saved');
           return true;
         } catch (error) {
           if (getToken() === token && state.current === next)
             replace({ ...before, settings: state.current.settings });
-          setSyncState('error');
-          notify(error instanceof Error ? error.message : 'No se pudo guardar en tu cuenta.');
+          if (getToken() === token) {
+            setSyncState('error');
+            notify(error instanceof Error ? error.message : 'No se pudo guardar en tu cuenta.');
+          }
           return false;
         } finally {
           pending.current--;
@@ -301,9 +311,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setNotices((prev) =>
       prev.map((n) => (n.id === id ? { ...n, readAt: new Date().toISOString() } : n)),
     );
-    void cloudCall('notice.read', { id }).catch(() =>
-      notify('No se pudo marcar el aviso. Puedes reintentarlo.'),
-    );
+    const token = getToken();
+    const previous = notices.find((n) => n.id === id)?.readAt || '';
+    void cloudCall('notice.read', { id }, token).catch(() => {
+      if (getToken() !== token) return;
+      setNotices((items) => items.map((n) => (n.id === id ? { ...n, readAt: previous } : n)));
+      notify('No se pudo marcar el aviso. Puedes reintentarlo.');
+    });
   }
   function simulatePlan() {
     notify('Los planes se activan desde la hoja privada después de la revisión del equipo.');

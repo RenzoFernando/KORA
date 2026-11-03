@@ -95,6 +95,53 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }, 40);
     return () => window.clearInterval(timer);
   }, [playing, current?.playback, duration]);
+  useEffect(() => {
+    if (!('mediaSession' in navigator) || current?.playback !== 'file') return;
+    const session = navigator.mediaSession;
+    session.metadata = new MediaMetadata({
+      title: current.title,
+      artist: current.artist,
+      album: 'KORΛ · Cápsulas musicales',
+    });
+    session.playbackState = playing ? 'playing' : 'paused';
+    const handlers: [MediaSessionAction, MediaSessionActionHandler][] = [
+      [
+        'play',
+        () => {
+          void audio.current
+            ?.play()
+            .catch(() => setError('Vuelve a la aplicación para iniciar la reproducción.'));
+        },
+      ],
+      ['pause', () => audio.current?.pause()],
+      ['previoustrack', () => step(-1)],
+      ['nexttrack', () => step(1)],
+      [
+        'seekto',
+        (details) => {
+          if (details.seekTime !== undefined) seek(details.seekTime);
+        },
+      ],
+    ];
+    for (const [action, handler] of handlers) {
+      try {
+        session.setActionHandler(action, handler);
+      } catch {
+        /* Device does not support this control. */
+      }
+    }
+    return () => {
+      for (const [action] of handlers) {
+        try {
+          session.setActionHandler(action, null);
+        } catch {
+          /* Unsupported control. */
+        }
+      }
+      session.metadata = null;
+      session.playbackState = 'none';
+    };
+  });
   function select(r: Release) {
     if (current?.id === r.id) {
       if (r.playback === 'file' && !loading) void toggle();

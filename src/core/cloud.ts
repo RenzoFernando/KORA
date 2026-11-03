@@ -12,17 +12,22 @@ export class CloudError extends Error {
 export function runtimeConfig() {
   return (
     runtime ||
-    (runtime = fetch('/runtime-config.json', { cache: 'no-store' }).then(async (r) => {
-      if (!r.ok) throw new CloudError('UNCONFIGURED', 'Falta configurar la conexión compartida.');
-      const value = await r.json();
-      const apiUrl = String(import.meta.env.VITE_API_URL || value.apiUrl || '').trim();
-      if (
-        apiUrl &&
-        !/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(apiUrl)
-      )
-        throw new CloudError('UNCONFIGURED', 'La URL de Apps Script debe terminar en /exec.');
-      return { mode: 'shared' as const, apiUrl };
-    }))
+    (runtime = fetch('/runtime-config.json', { cache: 'no-store' })
+      .then(async (r) => {
+        if (!r.ok) throw new CloudError('UNCONFIGURED', 'Falta configurar la conexión compartida.');
+        const value = await r.json();
+        const apiUrl = String(import.meta.env.VITE_API_URL || value.apiUrl || '').trim();
+        if (
+          apiUrl &&
+          !/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(apiUrl)
+        )
+          throw new CloudError('UNCONFIGURED', 'La URL de Apps Script debe terminar en /exec.');
+        return { mode: 'shared' as const, apiUrl };
+      })
+      .catch((error) => {
+        runtime = undefined;
+        throw error;
+      }))
   );
 }
 export function getToken() {

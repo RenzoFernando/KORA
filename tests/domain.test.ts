@@ -100,3 +100,11 @@ test('contraseñas con sal distinta generan hashes distintos sin texto plano', a
   assert.equal(first, await passwordHash('solo-prueba-123', salt));
   assert.notEqual(first, await passwordHash('solo-prueba-123', second));
 });
+
+test('una fecha de prueba inválida o futura no concede acceso', () => {
+  assert.equal(trialRemaining({ ...artist, trialStartedAt: 'incorrecta' }, now), 0);
+  assert.equal(
+    trialRemaining({ ...artist, trialStartedAt: new Date(now + 86400000).toISOString() }, now),
+    0,
+  );
+});

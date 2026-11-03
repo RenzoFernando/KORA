@@ -1,3 +1,6 @@
+import { PlanDetails } from '../components/PlanDetails';
+import { formatDate } from '../core/dates';
+import { requestStatus } from '../core/payments';
 import { paymentWhatsApp, transferKey } from '../core/payments';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -21,8 +24,7 @@ export function PlansPage() {
   const [waitlistBusy, setWaitlistBusy] = useState(false);
   const [waitlistError, setWaitlistError] = useState('');
   const pending = [...store.requests].reverse().find((r) => r.status === 'pending');
-  const date = (value: string) =>
-    new Date(value).toLocaleDateString('es-CO', { dateStyle: 'long', timeZone: 'America/Bogota' });
+  const date = formatDate;
   const { hash, key } = useLocation();
   const target = store.requests.find((r) => hash === '#solicitud-' + r.id)?.id;
   useEffect(() => {
@@ -51,10 +53,12 @@ export function PlansPage() {
   function summary(r: RequestItem) {
     download(
       'KORΛ-solicitud-' + r.reference + '.txt',
-      'KORΛ · Solicitud pendiente\nReferencia: ' +
+      'KORΛ · ' +
+        requestStatus(r.status) +
+        '\nReferencia: ' +
         r.reference +
         '\nPlan: ' +
-        r.plan +
+        (plans.find((p) => p.id === r.plan)?.name || r.plan) +
         '\nValor orientativo: ' +
         money(r.amount || 0) +
         '\nFecha: ' +
@@ -80,6 +84,7 @@ export function PlansPage() {
         Prueba compartida · Las solicitudes quedan pendientes. El equipo confirma las condiciones y
         activa el acceso manualmente; no hay cobro automático.
       </p>
+      {account && <PlanDetails account={account} />}
       <div className="plan-grid">
         {choices.map((p) => (
           <article
@@ -119,9 +124,7 @@ export function PlansPage() {
             ) : account?.plan === p.id ? (
               <div>
                 <span className="tag">Tu acceso actual</span>
-                {p.id !== 'kit' && account.planStartedAt && (
-                  <p>Inicio: {date(account.planStartedAt)}</p>
-                )}
+                {account.planStartedAt && <p>Inicio: {date(account.planStartedAt)}</p>}
                 {p.id !== 'kit' && account.planUntil && <p>Vence el {date(account.planUntil)}</p>}
               </div>
             ) : account && pending ? (
@@ -165,12 +168,12 @@ export function PlansPage() {
         </div>
         <div>
           <p>
-            <strong>Artist:</strong> siete días de prueba desde el registro y cinco lanzamientos
+            <strong>Artista:</strong> siete días de prueba desde el registro y cinco lanzamientos
             activos. Incluye páginas compartibles, bio, enlaces, QR y eventos consentidos. Los
             borradores no cuentan.
           </p>
           <p>
-            <strong>Launch Kit:</strong> una página para un único lanzamiento. Historia, portada
+            <strong>Paquete de lanzamiento:</strong> una página para un único lanzamiento. Historia, portada
             autorizada, enlaces y QR; puedes exportarla. Antes de pagar, acuerda entrega,
             revisiones, plazo de alojamiento y soporte.
           </p>
@@ -179,7 +182,7 @@ export function PlansPage() {
             nombre. Las notas y colecciones personales siguen privadas.
           </p>
           <p>
-            <strong>Scout:</strong> selección de talento y métricas agregadas solo cuando el artista
+            <strong>Radar de talento:</strong> selección de talento y métricas agregadas solo cuando el artista
             las autorice. No incluye contactos privados ni cifras de audiencia externa.
           </p>
           <Link className="text-link" to="/legal/pagos">
@@ -200,21 +203,16 @@ export function PlansPage() {
                     {plans.find((p) => p.id === r.plan)?.name} · {r.reference}
                   </strong>
                   <p>
-                    {r.status === 'pending'
-                      ? 'Pendiente de revisión'
-                      : r.status === 'activated'
-                        ? 'Acceso activado'
-                        : r.status === 'superseded'
-                          ? 'Reemplazada por otra solicitud'
-                          : r.status === 'approved'
-                            ? 'Revisada por el equipo'
-                            : r.status === 'rejected'
-                              ? 'No aprobada'
-                              : 'Interés registrado'}
+                    {requestStatus(r.status)}
                     {r.isTest ? ' · Prueba' : ''}
                   </p>
                   <p>
-                    {money(r.amount ?? 0)} · {r.method === 'cash' ? 'Efectivo' : 'Transferencia'}
+                    {r.amount == null ? 'Valor por confirmar' : money(r.amount)} ·{' '}
+                    {r.method === 'cash'
+                      ? 'Efectivo'
+                      : r.method === 'transfer'
+                        ? 'Transferencia'
+                        : 'Medio no registrado'}
                   </p>
                   {r.status === 'pending' && r.method !== 'cash' && !r.isTest && (
                     <p>
@@ -320,6 +318,7 @@ export function PlansPage() {
       )}
       {plan && (
         <Dialog
+          busy={busy}
           title={request ? 'Tu solicitud está registrada' : 'Solicitar ' + plan.name}
           onClose={() => {
             setSelected(null);

@@ -96,12 +96,12 @@ export function LibraryPage() {
             {currentCollection && (
               <button
                 className="text-link danger"
-                onClick={() => {
-                  setShelf((s) => ({
+                onClick={async () => {
+                  const saved = await setShelf((s) => ({
                     ...s,
                     collections: s.collections.filter((c) => c.id !== collection),
                   }));
-                  setCollection('all');
+                  if (saved) setCollection('all');
                 }}
               >
                 Eliminar colección

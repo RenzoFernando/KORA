@@ -24,6 +24,7 @@ export function ReleasePage() {
   }, [release, metric]);
   useEffect(() => {
     let cancelled = false;
+    setQr('');
     import('qrcode')
       .then(({ default: QRCode }) =>
         QRCode.toDataURL(location.href, {
@@ -46,7 +47,7 @@ export function ReleasePage() {
         <h1>Este lanzamiento no está disponible.</h1>
         <p>Puede estar archivado o haber sido retirado del catálogo.</p>
         <Link className="button" to="/discover">
-          Volver a Discover
+          Volver a Descubrir
         </Link>
       </div>
     );
@@ -86,7 +87,11 @@ export function ReleasePage() {
           <div className="action-row">
             <button className="button" onClick={() => player.select(r)}>
               <Icon name="play" />
-              Escuchar {r.playback === 'file' ? 'lanzamiento' : 'en reproductor oficial'}
+              {r.playback === 'link'
+                ? 'Ver enlace de escucha'
+                : r.playback === 'file'
+                  ? 'Escuchar lanzamiento'
+                  : 'Escuchar en reproductor oficial'}
             </button>
             <button className="button secondary" onClick={() => save(r.id)}>
               <Icon name={shelf.saved.includes(r.id) ? 'check' : 'plus'} />

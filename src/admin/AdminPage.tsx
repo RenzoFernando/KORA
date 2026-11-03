@@ -7,7 +7,7 @@ export function AdminPage() {
       <div className="page empty-state">
         <h1>Acceso interno restringido.</h1>
         <Link className="button secondary" to="/discover">
-          Volver a Discover
+          Volver a Descubrir
         </Link>
       </div>
     );
@@ -41,7 +41,7 @@ export function AdminPage() {
           En «Usuarios», cambia premium a TRUE para habilitar el plan del perfil, o a FALSE para
           volver al gratuito. plan permite curator, artist, scout o kit. status: inactive suspende
           el acceso. plan_until es opcional y admite fecha ISO. La app comprueba cambios al volver a
-          la ventana y cada 60 segundos mientras está abierta.
+          la ventana y cada 15 segundos mientras está abierta.
         </p>
         <p>
           Revisar una solicitud y activar premium son decisiones separadas. Marcar una solicitud no

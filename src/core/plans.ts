@@ -33,19 +33,19 @@ export const plans: {
   },
   {
     id: 'artist',
-    name: 'Artist',
+    name: 'Artista',
     price: 24900,
     period: '/ mes',
     description: 'Un lugar para cada nuevo sonido.',
     features: [
       'Prueba de 7 días sin cobro',
       'Hasta 5 lanzamientos activos',
-      'Bio page, enlaces, QR y métricas consentidas',
+      'Página de artista, enlaces, QR y métricas consentidas',
     ],
   },
   {
     id: 'scout',
-    name: 'Scout',
+    name: 'Radar de talento',
     price: 69900,
     period: '/ mes',
     description: 'Acércate a una escena con permiso.',
@@ -57,7 +57,7 @@ export const plans: {
   },
   {
     id: 'kit',
-    name: 'Launch Kit',
+    name: 'Paquete de lanzamiento',
     price: 24900,
     period: '/ lanzamiento',
     description: 'Una canción. Una página. Tu historia.',
@@ -75,11 +75,9 @@ export const money = (n: number) =>
     maximumFractionDigits: 0,
   }).format(n);
 export function trialRemaining(account: Account, now = Date.now()) {
-  return account.trialStartedAt
-    ? Math.max(
-        0,
-        Math.ceil((new Date(account.trialStartedAt).getTime() + 7 * 86400000 - now) / 86400000),
-      )
+  const start = Date.parse(account.trialStartedAt || '');
+  return Number.isFinite(start) && start <= now
+    ? Math.max(0, Math.ceil((start + 7 * 86400000 - now) / 86400000))
     : 0;
 }
 export function releaseAllowance(account: Account, releases: Release[], now = Date.now()) {

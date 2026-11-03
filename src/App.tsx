@@ -88,7 +88,7 @@ export default function App() {
                     <div className="page empty-state">
                       <h1>Este camino aún no suena.</h1>
                       <Link className="button" to="/discover">
-                        Volver a Discover
+                        Volver a Descubrir
                       </Link>
                     </div>
                   }

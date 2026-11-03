@@ -67,9 +67,9 @@ function syncMonthlyPlan_(user) {
   const plan = effectivePlan_(user);
   if (plan === 'free' || user.plan !== plan) return;
   const pending = rows_('Solicitudes').filter(row =>
-    row.user_id === user.id && row.plan === plan && row.status === 'pending');
+    row.user_id === user.id && row.plan === plan && ['pending','approved'].includes(row.status));
   if (!pending.length) return;
-  if (plan !== 'kit' && !user.plan_until) {
+  if (!user.plan_started_at || (plan !== 'kit' && !user.plan_until)) {
     const start = new Date();
     const end = new Date(start);
     const day = end.getUTCDate();
@@ -85,8 +85,8 @@ function syncMonthlyPlan_(user) {
       startColumn = width + 1;
       sheet.getRange(1, startColumn, 1, 1).setValues([['plan_started_at']]);
     }
-    user.plan_started_at = start.toISOString();
-    user.plan_until = end.toISOString();
+    user.plan_started_at = user.plan_started_at || start.toISOString();
+    if (plan !== 'kit' && !user.plan_until) user.plan_until = end.toISOString();
     sheet.getRange(user.__row, startColumn, 1, 1).setValues([[user.plan_started_at]]);
     sheet.getRange(user.__row, headers.indexOf('plan_until') + 1, 1, 1).setValues([[user.plan_until]]);
   }
@@ -120,11 +120,14 @@ function bootstrap_(token){
   return {...publicData,account,shelf:account.needsConsent?null:parse_((rows_('Perfiles').find(p=>p.user_id===user.id)||{}).data_json,null),releases:account.needsConsent?[]:own,events,requests,notices,admin};
 }
 function cleanShelf_(input,old,user){
-  input=input||{};old=old||{};const saved=(input.saved||[]).filter(x=>typeof x==='string').slice(0,500);const notes={};for(const key of Object.keys(input.notes||{}).slice(0,500))notes[text_(key,100)]=text_(input.notes[key],700);
+  input=input||{};old=old||{};
+  for(const [key,limit] of [['saved',500],['collections',50],['recommendations',100],['shortlist',300]]){if(!Array.isArray(input[key]||[]))throw apiError_('VALIDATION','Lista inválida.');if((input[key]||[]).length>limit)throw apiError_('LIMIT_REACHED','El límite de '+key+' es '+limit+'. Retira un elemento antes de añadir otro.');}
+  if((input.collections||[]).some(c=>(c.releaseIds||[]).length>300))throw apiError_('LIMIT_REACHED','Cada colección admite hasta 300 lanzamientos.');
+  const saved=(input.saved||[]).filter(x=>typeof x==='string').slice(0,500);const notes={};for(const key of Object.keys(input.notes||{}).slice(0,500))notes[text_(key,100)]=text_(input.notes[key],700);
   const collections=(input.collections||[]).slice(0,50).map(c=>({id:text_(c.id,100),name:text_(c.name,60),releaseIds:[...new Set((c.releaseIds||[]).filter(x=>typeof x==='string'))].slice(0,300)}));
   const recommendations=(input.recommendations||[]).slice(0,100).map(p=>({id:text_(p.id,100),releaseId:text_(p.releaseId,100),text:text_(p.text,700),createdAt:text_(p.createdAt,40)}));
   if(effectivePlan_(user)!=='curator'&&recommendations.some(p=>!(old.recommendations||[]).some(o=>o.id===p.id&&o.text===p.text&&o.releaseId===p.releaseId)))throw apiError_('PLAN_REQUIRED','Curador Pro es necesario para publicar recomendaciones.');
-  const shortlist=(input.shortlist||[]).filter(x=>typeof x==='string').slice(0,300);if(user.role!=='scout'&&shortlist.length)throw apiError_('ROLE_REQUIRED','La selección de talento corresponde a Scout.');
+  const shortlist=(input.shortlist||[]).filter(x=>typeof x==='string').slice(0,300);if(effectivePlan_(user)!=='scout'&&shortlist.some(id=>!(old.shortlist||[]).includes(id)))throw apiError_('PLAN_REQUIRED','Activa Scout para añadir talento a tu selección.');if(user.role!=='scout'&&shortlist.length)throw apiError_('ROLE_REQUIRED','La selección de talento corresponde a Scout.');
   const pub=input.publicProfile||{};const publicProfile=user.role==='artist'?{bio:text_(pub.bio,700),published:pub.published===true,links:(pub.links||[]).slice(0,6).filter(l=>safeUrl_(l.url)&&text_(l.label,40)).map(l=>({label:text_(l.label,40),url:safeUrl_(l.url)}))}:undefined;return {saved:[...new Set(saved)],notes,collections,recommendations,shortlist,...(publicProfile?{publicProfile}:{})};
 }
 function cleanRelease_(r,user){
@@ -139,6 +142,7 @@ function mediaKeyAllowed_(key,ownerId,type){if(!key)return undefined;const media
 function saveBundle_(token,args){
   const {user}=session_(token,false);rate_('save:'+user.id,60,60);
   const previous=rows_('Perfiles').find(p=>p.user_id===user.id);const shelf=cleanShelf_(args.shelf,parse_(previous&&previous.data_json,{}),user);
+  if((args.releases||[]).length>30)throw apiError_('LIMIT_REACHED','Tu espacio admite hasta 30 lanzamientos. No se guardaron cambios.');
   const incoming=(args.releases||[]).slice(0,30).map(r=>cleanRelease_(r,user));const active=incoming.filter(r=>r.status==='active').length;const limit=effectivePlan_(user)==='kit'?1:5;const access=['artist','kit'].includes(effectivePlan_(user))||(user.trial_started_at&&Date.parse(user.trial_started_at)+7*86400000>Date.now());
   const previousActive=rows_('Lanzamientos').filter(r=>r.owner_id===user.id&&r.status==='active').map(r=>r.id);
   if(active>limit)throw apiError_('LIMIT_REACHED','Tu plan permite '+limit+' lanzamientos activos.');if(!access&&incoming.some(r=>r.status==='active'&&!previousActive.includes(r.id)))throw apiError_('PLAN_REQUIRED','La prueba terminó. Guarda un borrador o solicita activación.');

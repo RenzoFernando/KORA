@@ -7,12 +7,14 @@ export function Dialog({
   onClose,
   wide = false,
   open = true,
+  busy = false,
 }: {
   title: string;
   children: ReactNode;
   onClose: () => void;
   wide?: boolean;
   open?: boolean;
+  busy?: boolean;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -39,15 +41,29 @@ export function Dialog({
       aria-labelledby={titleId}
       onCancel={(e) => {
         e.preventDefault();
-        onClose();
+        if (!busy) onClose();
       }}
       onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
+        if (busy || e.target !== e.currentTarget) return;
+        const bounds = e.currentTarget.getBoundingClientRect();
+        if (
+          e.clientX < bounds.left ||
+          e.clientX > bounds.right ||
+          e.clientY < bounds.top ||
+          e.clientY > bounds.bottom
+        )
+          onClose();
       }}
     >
       <div className="dialog-heading">
         <h2 id={titleId}>{title}</h2>
-        <button className="icon-button" onClick={onClose} aria-label="Cerrar ventana">
+        <button
+          type="button"
+          className="icon-button"
+          disabled={busy}
+          onClick={onClose}
+          aria-label="Cerrar ventana"
+        >
           <Icon name="close" />
         </button>
       </div>

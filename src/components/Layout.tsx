@@ -20,6 +20,7 @@ export function Layout() {
     isAdmin,
     resolvedTheme,
     connection,
+    syncState,
     refresh,
   } = useApp();
   const player = usePlayer();
@@ -31,7 +32,7 @@ export function Layout() {
         ['/studio', 'studio', 'Mi espacio'],
         ['/studio/lanzamientos', 'music', 'Lanzamientos'],
         ['/studio/analitica', 'chart', 'Analítica'],
-        ['/studio/bio', 'user', 'Mi bio page'],
+        ['/studio/bio', 'user', 'Mi página de artista'],
       ]
     : [
         ['/discover', 'compass', 'Descubrir'],
@@ -63,11 +64,11 @@ export function Layout() {
           aria-label="Experiencia"
         >
           <Link className={!studio ? 'active' : ''} to="/discover" onClick={() => setMenu(false)}>
-            Discover
+            Descubrir
           </Link>
           {(!account || account.role === 'artist') && (
             <Link className={studio ? 'active' : ''} to="/studio" onClick={() => setMenu(false)}>
-              Studio <span>↗</span>
+              Estudio <span>↗</span>
             </Link>
           )}
         </div>
@@ -138,7 +139,7 @@ export function Layout() {
             >
               <Icon name="menu" />
             </button>
-            <span className="topbar-section">{studio ? 'Studio' : 'Discover'}</span>
+            <span className="topbar-section">{studio ? 'Estudio' : 'Descubrir'}</span>
             <span className="topbar-slash">/</span>
             <CityPicker
               value={store.settings.city}
@@ -186,7 +187,24 @@ export function Layout() {
         )}
         <main id="contenido" tabIndex={-1}>
           <PaymentFollowup />
-          <Outlet />
+          {syncState === 'saving' && (
+            <p className="connection-banner" role="status">
+              Guardando tus cambios…
+            </p>
+          )}
+          {syncState === 'error' && (
+            <p className="connection-banner" role="alert">
+              No se pudieron guardar los últimos cambios. Revisa la conexión y vuelve a intentarlo.
+            </p>
+          )}
+          {connection === 'loading' &&
+          /^\/(cuenta|guardados|studio|scout|interno|lanzamiento|artista)(\/|$)/.test(pathname) ? (
+            <div className="page" role="status">
+              Cargando tu escena…
+            </div>
+          ) : (
+            <Outlet key={account?.id || 'guest'} />
+          )}
         </main>
         <footer className="app-footer">
           <Link className="footer-brand" to="/discover">

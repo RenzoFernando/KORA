@@ -50,6 +50,8 @@ export function AuthPage() {
       <section className="panel auth-panel">
         <div className="tabs">
           <button
+            disabled={busy}
+            aria-pressed={!signup}
             className={!signup ? 'active' : ''}
             onClick={() => {
               setParams({});
@@ -59,6 +61,8 @@ export function AuthPage() {
             Iniciar sesión
           </button>
           <button
+            disabled={busy}
+            aria-pressed={signup}
             className={signup ? 'active' : ''}
             onClick={() => {
               setParams({ modo: 'registro' });
@@ -77,6 +81,7 @@ export function AuthPage() {
         <form
           onSubmit={async (e) => {
             e.preventDefault();
+            if (busy) return;
             setError('');
             setBusy(true);
             const data = new FormData(e.currentTarget);

@@ -13,13 +13,13 @@ export function ArtistPage() {
     return (
       <div className="page empty-state">
         <h1>Artista no disponible</h1>
-        <Link to="/discover">Volver a Discover</Link>
+        <Link to="/discover">Volver a Descubrir</Link>
       </div>
     );
   return (
     <div className="page">
       <Link className="back-link" to="/discover">
-        ← Volver a Discover
+        ← Volver a Descubrir
       </Link>
       <section className="artist-header">
         <div className="artist-art">

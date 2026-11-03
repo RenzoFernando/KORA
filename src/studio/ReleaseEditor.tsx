@@ -9,6 +9,7 @@ import { Artwork } from '../components/Artwork';
 import { StudioGate } from './StudioGate';
 import { Icon } from '../components/Icon';
 export function ReleaseEditor() {
+  const { id } = useParams();
   const { connection, account } = useApp();
   if (connection === 'loading')
     return (
@@ -16,7 +17,7 @@ export function ReleaseEditor() {
         <p role="status">Abriendo tu espacio…</p>
       </div>
     );
-  return <ReleaseEditorForm key={account?.id || 'guest'} />;
+  return <ReleaseEditorForm key={`${account?.id || 'guest'}:${id || 'new'}`} />;
 }
 function ReleaseEditorForm() {
   const { id } = useParams();
@@ -62,7 +63,7 @@ function ReleaseEditorForm() {
     city,
     genre: genre || 'Tu sonido',
     story,
-    kind: 'single',
+    kind: existing?.kind || 'single',
     color,
     art,
     officialUrl: url,

@@ -18,10 +18,12 @@ export function AnalyticsPage() {
     const d = new Date();
     d.setDate(d.getDate() - 6 + i);
     return {
-      date: d.toLocaleDateString('en-CA'),
-      label: d.toLocaleDateString('es-CO', { weekday: 'short' }),
+      date: d.toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }),
+      label: d.toLocaleDateString('es-CO', { weekday: 'short', timeZone: 'America/Bogota' }),
       count: events.filter(
-        (e) => new Date(e.at).toLocaleDateString('en-CA') === d.toLocaleDateString('en-CA'),
+        (e) =>
+          new Date(e.at).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }) ===
+          d.toLocaleDateString('en-CA', { timeZone: 'America/Bogota' }),
       ).length,
     };
   });
@@ -60,8 +62,9 @@ export function AnalyticsPage() {
         </p>
         {!store.settings.analytics && (
           <p className="notice">
-            La medición está desactivada. <Link to="/cuenta">Puedes activarla en tu cuenta</Link>.
-            No se reconstruye actividad anterior.
+            La medición de tus propias acciones está desactivada en este dispositivo.{' '}
+            <Link to="/cuenta">Puedes activarla en tu cuenta</Link>. Esto no impide recibir eventos
+            de otros usuarios que sí hayan dado su consentimiento.
           </p>
         )}
         <div className="metrics-grid">
@@ -76,7 +79,7 @@ export function AnalyticsPage() {
         <section className="panel activity-chart">
           <div className="section-heading">
             <h2>Los últimos siete días</h2>
-            <span className="micro">Eventos registrados</span>
+            <span className="micro">Eventos registrados · hora de Colombia</span>
           </div>
           <div
             className="bar-chart"

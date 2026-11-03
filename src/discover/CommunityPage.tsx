@@ -5,6 +5,7 @@ import { Artwork } from '../components/Artwork';
 import { Icon } from '../components/Icon';
 export function CommunityPage() {
   const { communityPosts, account, catalog, shelf, setShelf, refresh } = useApp();
+  const [busy, setBusy] = useState(false);
   const [releaseId, setReleaseId] = useState('');
   const [text, setText] = useState('');
   const canCurate = account?.plan === 'curator' && account.entitlementSource === 'sheet';
@@ -27,7 +28,8 @@ export function CommunityPage() {
           className="panel recommendation-form"
           onSubmit={async (e) => {
             e.preventDefault();
-            if (!releaseId || !text.trim()) return;
+            if (busy || !releaseId || !text.trim()) return;
+            setBusy(true);
             const saved = await setShelf((s) => ({
               ...s,
               recommendations: [
@@ -40,6 +42,7 @@ export function CommunityPage() {
                 ...s.recommendations,
               ],
             }));
+            setBusy(false);
             if (!saved) return;
             await refresh();
             setText('');
@@ -69,8 +72,8 @@ export function CommunityPage() {
               placeholder="Un detalle, una sensación, una historia…"
             />
           </label>
-          <button className="button" type="submit">
-            Compartir recomendación <Icon name="arrow" size={16} />
+          <button className="button" type="submit" disabled={busy}>
+            {busy ? 'Publicando…' : 'Compartir recomendación'} <Icon name="arrow" size={16} />
           </button>
         </form>
       ) : (

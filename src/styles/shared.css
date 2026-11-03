@@ -510,3 +510,22 @@
     padding-bottom: 20px;
   }
 }
+
+.plan-dates {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 18px;
+}
+.plan-dates dt {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+.plan-dates dd {
+  margin: 5px 0 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.account-overview > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

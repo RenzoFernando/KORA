@@ -25,3 +25,14 @@ export function paymentWhatsApp(
     (r.isTest ? ' Solicitud de prueba; no es una venta real.' : '');
   return 'https://wa.me/' + phone + '?text=' + encodeURIComponent(text);
 }
+
+export function requestStatus(status: RequestItem['status']) {
+  return {
+    pending: 'Pendiente de revisión',
+    activated: 'Acceso activado',
+    superseded: 'Reemplazada por otra solicitud',
+    approved: 'Revisada por el equipo',
+    rejected: 'No aprobada',
+    interest: 'Interés registrado',
+  }[status];
+}

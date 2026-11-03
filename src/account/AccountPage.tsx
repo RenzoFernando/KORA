@@ -4,9 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../core/useApp';
 import { Dialog } from '../components/Dialog';
 import { Icon } from '../components/Icon';
-import { trialRemaining, plans } from '../core/plans';
+import { PlanDetails } from '../components/PlanDetails';
+import { plans } from '../core/plans';
 export function AccountPage() {
   const { account, store, update, logout, exportData, deleteAccount, notify, refresh } = useApp();
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [profileError, setProfileError] = useState('');
   const [remove, setRemove] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -39,7 +43,7 @@ export function AccountPage() {
         </button>
       </div>
       <div className="account-overview panel">
-        <span className="avatar large">{account.name[0].toUpperCase()}</span>
+        <span className="avatar large">{account.name.charAt(0).toUpperCase() || 'K'}</span>
         <div>
           <h2>{account.name}</h2>
           <p>{account.email}</p>
@@ -50,29 +54,36 @@ export function AccountPage() {
               : plans.find((p) => p.id === account.plan)?.name}
             {account.isTest ? ' · Cuenta de prueba' : ''}
           </span>
-          {account.role === 'artist' && (
-            <p className="micro">Prueba Artist: {trialRemaining(account)} días restantes.</p>
-          )}
         </div>
       </div>
+      <PlanDetails account={account} />
       <section className="panel">
         <h2>Tu perfil</h2>
         <form
           onSubmit={async (e) => {
             e.preventDefault();
             const data = new FormData(e.currentTarget);
+            const name = String(data.get('name') || '').trim();
+            if (!name) {
+              setProfileError('Escribe un nombre; no puede contener solo espacios.');
+              return;
+            }
+            if (saving) return;
+            setProfileError('');
+            setSaving(true);
             const saved = await update((s) => ({
               ...s,
               accounts: s.accounts.map((a) =>
                 a.id === account.id
                   ? {
                       ...a,
-                      name: String(data.get('name')).trim(),
+                      name,
                       bio: String(data.get('bio')).trim(),
                     }
                   : a,
               ),
             }));
+            setSaving(false);
             if (saved) notify('Perfil guardado en tu cuenta.');
           }}
         >
@@ -84,8 +95,13 @@ export function AccountPage() {
             Sobre ti
             <textarea name="bio" defaultValue={account.bio || ''} rows={3} maxLength={700} />
           </label>
-          <button className="button small" type="submit">
-            Guardar perfil
+          {profileError && (
+            <p className="error" role="alert">
+              {profileError}
+            </p>
+          )}
+          <button className="button small" type="submit" disabled={saving}>
+            {saving ? 'Guardando…' : 'Guardar perfil'}
           </button>
         </form>
       </section>
@@ -153,7 +169,7 @@ export function AccountPage() {
       <section className="panel">
         <h2>Tus datos, contigo.</h2>
         <p>
-          Exporta tu perfil, notas, guardados y lanzamientos en JSON. Los archivos de audio e imagen
+          Descarga una copia de tu perfil, notas, guardados y lanzamientos. Los archivos de audio e imagen
           se exportan desde Studio.
         </p>
         <div className="action-row">
@@ -177,7 +193,7 @@ export function AccountPage() {
         </button>
       </section>
       {remove && (
-        <Dialog title="Eliminar tu cuenta de KORΛ" onClose={() => setRemove(false)}>
+        <Dialog busy={deleting} title="Eliminar tu cuenta de KORΛ" onClose={() => setRemove(false)}>
           <p>
             Se retirarán tus registros y archivos de esta prueba. Las copias que hayas descargado
             siguen bajo tu control. Escribe ELIMINAR para confirmar.
@@ -185,13 +201,16 @@ export function AccountPage() {
           <form
             onSubmit={async (e) => {
               e.preventDefault();
+              if (deleting) return;
+              setDeleting(true);
+              setError('');
               try {
                 await deleteAccount();
                 navigate('/discover');
               } catch {
-                setError(
-                  'No pudimos eliminar los archivos. Exporta tus datos y vuelve a intentarlo.',
-                );
+                setError('No pudimos completar la eliminación. Vuelve a intentarlo.');
+              } finally {
+                setDeleting(false);
               }
             }}
           >
@@ -204,8 +223,8 @@ export function AccountPage() {
                 {error}
               </p>
             )}
-            <button className="button danger-button" type="submit">
-              Eliminar definitivamente
+            <button className="button danger-button" type="submit" disabled={deleting}>
+              {deleting ? 'Eliminando…' : 'Eliminar definitivamente'}
             </button>
           </form>
         </Dialog>
