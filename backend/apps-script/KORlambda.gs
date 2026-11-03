@@ -63,7 +63,38 @@ function effectivePlan_(user){
   if(!bool_(user.premium))return 'free';if(user.plan_until&&(!Number.isFinite(Date.parse(user.plan_until))||Date.parse(user.plan_until)<=Date.now()))return 'free';
   const allowed=user.role==='explorer'?['curator']:user.role==='artist'?['artist','kit']:['scout'];return allowed.includes(user.plan)?user.plan:allowed[0];
 }
-function account_(user){return {id:user.id,name:user.name,email:user.email,role:user.role,createdAt:user.created_at,trialStartedAt:user.trial_started_at||undefined,plan:effectivePlan_(user),simulated:false,salt:'',hash:'',termsAt:user.terms_at||'',privacyAt:user.privacy_at||'',termsVersion:user.terms_version||'',needsConsent:user.terms_version!==legalVersion_(),bio:user.bio||'',status:user.status,isAdmin:bool_(user.is_admin),isTest:bool_(user.is_test),entitlementSource:'sheet',planUntil:user.plan_until||''};}
+function syncMonthlyPlan_(user) {
+  const plan = effectivePlan_(user);
+  if (plan === 'free' || user.plan !== plan) return;
+  const pending = rows_('Solicitudes').filter(row =>
+    row.user_id === user.id && row.plan === plan && row.status === 'pending');
+  if (!pending.length) return;
+  if (plan !== 'kit' && !user.plan_until) {
+    const start = new Date();
+    const end = new Date(start);
+    const day = end.getUTCDate();
+    end.setUTCDate(1);
+    end.setUTCMonth(end.getUTCMonth() + 1);
+    const lastDay = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth() + 1, 0)).getUTCDate();
+    end.setUTCDate(Math.min(day, lastDay));
+    const sheet = table_('Usuarios');
+    const width = sheet.getLastColumn();
+    const headers = sheet.getRange(1, 1, 1, width).getValues()[0];
+    let startColumn = headers.indexOf('plan_started_at') + 1;
+    if (!startColumn) {
+      startColumn = width + 1;
+      sheet.getRange(1, startColumn, 1, 1).setValues([['plan_started_at']]);
+    }
+    user.plan_started_at = start.toISOString();
+    user.plan_until = end.toISOString();
+    sheet.getRange(user.__row, startColumn, 1, 1).setValues([[user.plan_started_at]]);
+    sheet.getRange(user.__row, headers.indexOf('plan_until') + 1, 1, 1).setValues([[user.plan_until]]);
+  }
+  const latest = pending.pop();
+  put_('Solicitudes', {...latest, status:'activated'});
+  for (const duplicate of pending) put_('Solicitudes', {...duplicate, status:'superseded'});
+}
+function account_(user){return {id:user.id,name:user.name,email:user.email,role:user.role,createdAt:user.created_at,trialStartedAt:user.trial_started_at||undefined,plan:effectivePlan_(user),simulated:false,salt:'',hash:'',termsAt:user.terms_at||'',privacyAt:user.privacy_at||'',termsVersion:user.terms_version||'',needsConsent:user.terms_version!==legalVersion_(),bio:user.bio||'',status:user.status,isAdmin:bool_(user.is_admin),isTest:bool_(user.is_test),entitlementSource:'sheet',planUntil:user.plan_until||'',planStartedAt:user.plan_started_at||''};}
 function session_(token,allowUnaccepted){
   if(!token||String(token).length>150)throw apiError_('UNAUTHORIZED','Inicia sesión para continuar.');const session=rows_('Sesiones').find(s=>equal_(s.token_hash,sha_(token))&&s.status==='active'&&Date.parse(s.expires_at)>Date.now());
   if(!session)throw apiError_('UNAUTHORIZED','Tu sesión venció. Inicia sesión de nuevo.');const user=rows_('Usuarios').find(u=>u.id===session.user_id);
@@ -79,7 +110,7 @@ function allReleases_(){
 }
 function publicData_(){const hidden=rows_('Moderacion').filter(r=>bool_(r.hidden)).map(r=>r.release_id);const catalog=allReleases_().filter(r=>r.status==='active'&&!hidden.includes(r.id)&&(!r.ownerId||rows_('Usuarios').some(u=>u.id===r.ownerId&&u.status==='active')));for(const release of catalog){if(!release.ownerId)continue;const profile=rows_('Perfiles').find(p=>p.user_id===release.ownerId);const pub=parse_(profile&&profile.data_json,{}).publicProfile;if(pub&&pub.published){release.artistBio=text_(pub.bio,700);release.artistLinks=(pub.links||[]).filter(l=>safeUrl_(l.url)).slice(0,6);}}const posts=[];for(const profile of rows_('Perfiles')){const user=rows_('Usuarios').find(u=>u.id===profile.user_id&&u.status==='active');if(!user||effectivePlan_(user)!=='curator')continue;const shelf=parse_(profile.data_json,{});for(const post of shelf.recommendations||[])if(catalog.some(r=>r.id===post.releaseId))posts.push({...post,author:user.name,isTest:bool_(user.is_test)});}return {capabilities:{publicArtistProfiles:true},catalog,communityPosts:posts.slice(-200),legalVersion:legalVersion_(),whatsapp:config_('whatsapp_number',KORA_CONFIG.whatsapp)};}
 function bootstrap_(token){
-  const publicData=publicData_();if(!token)return {...publicData,account:null};const {user,session}=session_(token,true);const account=account_(user);if(session.last_plan!==account.plan){addNotice_(user.id,'Tu acceso cambió','El equipo actualizó tu plan a '+account.plan+'.','plan','/cuenta');session.last_plan=account.plan;put_('Sesiones',session);}
+  const publicData=publicData_();if(!token)return {...publicData,account:null};const {user,session}=session_(token,true);syncMonthlyPlan_(user);const account=account_(rows_('Usuarios').find(row=>row.id===user.id));if(session.last_plan!==account.plan){addNotice_(user.id,'Tu acceso cambió','El equipo actualizó tu plan a '+account.plan+'.','plan','/cuenta');session.last_plan=account.plan;put_('Sesiones',session);}
   const own=rows_('Lanzamientos').filter(r=>r.owner_id===user.id).map(r=>({...parse_(r.data_json,{}),ownerId:r.owner_id,status:r.status}));
   const allowedIds=allReleases_().filter(r=>r.ownerId===user.id||(account.role==='scout'&&account.plan==='scout'&&r.allowScout&&r.status==='active')).map(r=>r.id);
   const events=account.needsConsent?[]:rows_('Eventos').filter(e=>allowedIds.includes(e.release_id)).slice(-10000).map(e=>({id:e.id,releaseId:e.release_id,type:e.type,at:e.at,label:e.label||undefined}));
@@ -132,7 +163,7 @@ function handleKora_(payload){
     const cache=CacheService.getScriptCache();const cacheKey=requestId?'request:'+sha_(action+token+requestId):'';if(cacheKey){const cached=cache.get(cacheKey);if(cached){if(token&&!action.startsWith('auth.'))session_(token,true);return parse_(cached,{});}}
     let result;
     switch(action){
-      case 'health':result={version:'2.1.0',environment:'shared-test',storage:'google-sheets',legalVersion:legalVersion_()};break;
+      case 'health':result={version:'2.2.0',environment:'shared-test',storage:'google-sheets',legalVersion:legalVersion_()};break;
       case 'public.catalog':result=publicData_();break;
       case 'auth.challenge':{
         const email=email_(args.email);rate_('challenge:'+email,10,300);const user=rows_('Usuarios').find(u=>u.email===email);const challengeId=id_();const nonce=id_()+id_();cache.put('challenge:'+challengeId,JSON.stringify({email,nonce}),120);result={challengeId,nonce,salt:user?user.password_salt:sha_(id_()).slice(0,32),iterations:210000};break;
@@ -148,7 +179,11 @@ function handleKora_(payload){
       case 'consent.accept':{const {user}=session_(token,true);if(args.version!==legalVersion_()||args.terms!==true||args.privacy!==true)throw apiError_('VALIDATION','Confirma términos y privacidad vigentes.');user.terms_version=legalVersion_();user.terms_at=now_();user.privacy_at=now_();put_('Usuarios',user);result={account:account_(user)};break;}
       case 'bundle.save':result=saveBundle_(token,args);break;
       case 'notice.read':{const {user}=session_(token,true);const row=rows_('Notificaciones').find(n=>n.id===args.id&&n.user_id===user.id);if(row){row.read_at=now_();put_('Notificaciones',row);}result={read:true};break;}
-      case 'order.create':{const {user}=session_(token,false);const allowed=user.role==='artist'?['artist','kit']:user.role==='scout'?['scout']:['curator'];if(!allowed.includes(args.plan))throw apiError_('PLAN_REQUIRED','Elige un plan de tu perfil.');rate_('orders:'+user.id,6,3600);const order={id:id_(),user_id:user.id,plan:args.plan,amount_cop:KORA_PLANS[args.plan],method:args.method==='cash'?'cash':'transfer',status:'pending',created_at:now_(),reference:'KORΛ-'+id_().slice(0,8).toUpperCase(),is_test:bool_(user.is_test)};put_('Solicitudes',order);addNotice_(user.id,'Solicitud registrada','Tu referencia es '+order.reference+'. El acceso cambia cuando el equipo lo active.','order','/planes');result={id:order.id,accountId:user.id,plan:order.plan,amount:order.amount_cop,method:order.method,status:'pending',at:order.created_at,reference:order.reference,isTest:order.is_test};break;}
+      case 'order.create':{const {user}=session_(token,false);const allowed=user.role==='artist'?['artist','kit']:user.role==='scout'?['scout']:['curator'];if(!allowed.includes(args.plan))throw apiError_('PLAN_REQUIRED','Elige un plan de tu perfil.');syncMonthlyPlan_(user);
+        if(effectivePlan_(user)===args.plan)throw apiError_('PLAN_ACTIVE','Tu plan ya está activo.');
+        if(rows_('Solicitudes').some(row=>row.user_id===user.id&&row.status==='pending'))
+          throw apiError_('ORDER_PENDING','Ya tienes una solicitud pendiente.');
+        rate_('orders:'+user.id,6,3600);const order={id:id_(),user_id:user.id,plan:args.plan,amount_cop:KORA_PLANS[args.plan],method:args.method==='cash'?'cash':'transfer',status:'pending',created_at:now_(),reference:'KORΛ-'+id_().slice(0,8).toUpperCase(),is_test:bool_(user.is_test)};put_('Solicitudes',order);addNotice_(user.id,'Solicitud registrada','Tu referencia es '+order.reference+'. El acceso cambia cuando el equipo lo active.','order','/planes');result={id:order.id,accountId:user.id,plan:order.plan,amount:order.amount_cop,method:order.method,status:'pending',at:order.created_at,reference:order.reference,isTest:order.is_test};break;}
       case 'waitlist.subscribe': {
         const {user} = session_(token,false);
         if (args.consent !== true) throw apiError_('CONSENT_REQUIRED','Autoriza el uso de tus datos de contacto.');

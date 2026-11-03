@@ -133,8 +133,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     void refresh();
     const timer = setInterval(() => {
-      if (document.visibilityState === 'visible') void refresh();
-    }, 60000);
+      if (getToken() && document.visibilityState === 'visible') void refresh();
+    }, 15000);
     const focus = () => {
       if (document.visibilityState === 'visible') void refresh();
     };

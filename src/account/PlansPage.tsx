@@ -20,6 +20,9 @@ export function PlansPage() {
   const [phone, setPhone] = useState('');
   const [waitlistBusy, setWaitlistBusy] = useState(false);
   const [waitlistError, setWaitlistError] = useState('');
+  const pending = [...store.requests].reverse().find((r) => r.status === 'pending');
+  const date = (value: string) =>
+    new Date(value).toLocaleDateString('es-CO', { dateStyle: 'long', timeZone: 'America/Bogota' });
   const { hash, key } = useLocation();
   const target = store.requests.find((r) => hash === '#solicitud-' + r.id)?.id;
   useEffect(() => {
@@ -114,7 +117,17 @@ export function PlansPage() {
                 Seguir explorando
               </Link>
             ) : account?.plan === p.id ? (
-              <span className="tag">Tu acceso actual</span>
+              <div>
+                <span className="tag">Tu acceso actual</span>
+                {p.id !== 'kit' && account.planStartedAt && (
+                  <p>Inicio: {date(account.planStartedAt)}</p>
+                )}
+                {p.id !== 'kit' && account.planUntil && <p>Vence el {date(account.planUntil)}</p>}
+              </div>
+            ) : account && pending ? (
+              <Link className="button secondary full" to={'/planes#solicitud-' + pending.id}>
+                Ver solicitud pendiente
+              </Link>
             ) : account ? (
               <button
                 className="button full"
@@ -189,11 +202,15 @@ export function PlansPage() {
                   <p>
                     {r.status === 'pending'
                       ? 'Pendiente de revisión'
-                      : r.status === 'approved'
-                        ? 'Revisada por el equipo'
-                        : r.status === 'rejected'
-                          ? 'No aprobada'
-                          : 'Interés registrado'}
+                      : r.status === 'activated'
+                        ? 'Acceso activado'
+                        : r.status === 'superseded'
+                          ? 'Reemplazada por otra solicitud'
+                          : r.status === 'approved'
+                            ? 'Revisada por el equipo'
+                            : r.status === 'rejected'
+                              ? 'No aprobada'
+                              : 'Interés registrado'}
                     {r.isTest ? ' · Prueba' : ''}
                   </p>
                   <p>
@@ -205,6 +222,7 @@ export function PlansPage() {
                       WhatsApp.
                     </p>
                   )}
+                  <p>Solicitada el {date(r.at)}</p>
                   <div className="action-row">
                     {r.status === 'pending' && (
                       <a

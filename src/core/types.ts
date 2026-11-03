@@ -21,6 +21,7 @@ export type Account = {
   isAdmin?: boolean;
   isTest?: boolean;
   planUntil?: string;
+  planStartedAt?: string;
 };
 export type LinkItem = { label: string; url: string };
 export type Release = {
@@ -74,7 +75,7 @@ export type RequestItem = {
   accountId: string;
   plan: Plan;
   at: string;
-  status: 'interest' | 'pending' | 'approved' | 'rejected';
+  status: 'interest' | 'pending' | 'approved' | 'rejected' | 'activated' | 'superseded';
   reference?: string;
   amount?: number;
   method?: 'cash' | 'transfer';

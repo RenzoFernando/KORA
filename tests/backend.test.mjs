@@ -226,6 +226,20 @@ check('una solicitud no activa el plan ni confirma pago', () => {
   assert.equal(r.data.status, 'pending');
   assert.equal(call('bootstrap', {}, explorer.token).data.account.plan, 'free');
 });
+check('bloquea solicitudes repetidas y asigna vigencia solo al activar', () => {
+  const duplicate = call('order.create', { plan: 'curator', method: 'cash' }, explorer.token);
+  assert.equal(duplicate.error.code, 'ORDER_PENDING');
+  row[4] = true;
+  const first = call('bootstrap', {}, explorer.token).data;
+  assert.equal(first.account.plan, 'curator');
+  assert.equal(first.requests[0].status, 'activated');
+  assert.ok(Date.parse(first.account.planUntil) > Date.parse(first.account.planStartedAt));
+  assert.equal(
+    call('bootstrap', {}, explorer.token).data.account.planUntil,
+    first.account.planUntil,
+  );
+  assert.equal(call('order.create', { plan: 'curator' }, explorer.token).error.code, 'PLAN_ACTIVE');
+});
 check('un token desconocido no recibe datos privados', () => {
   assert.equal(call('bootstrap', {}, 'token-falso').error.code, 'UNAUTHORIZED');
 });
