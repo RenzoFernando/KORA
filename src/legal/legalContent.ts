@@ -54,11 +54,11 @@ export const legalDocs: Record<
       ],
       [
         'Google, alojamiento y servicios externos',
-        'Sheets y Drive alojan los registros y archivos del proyecto; Apps Script atiende solicitudes. El alojamiento entrega la aplicación. Esos proveedores pueden procesar datos fuera de Colombia conforme a sus condiciones. Bandcamp se carga al elegir un lanzamiento para escucharlo y puede aplicar su propia política. Su reproductor conserva los controles oficiales; los archivos aportados con autorización usan los controles personalizados de KORΛ. WhatsApp se abre por decisión tuya y envía solo lo que confirmes allí. No se envían mensajes desde esta pantalla.',
+        'Sheets y Drive alojan los registros y archivos del proyecto; Apps Script atiende solicitudes. El alojamiento entrega la aplicación. Esos proveedores pueden procesar datos fuera de Colombia conforme a sus condiciones. Bandcamp se carga al elegir un lanzamiento para escucharlo y puede aplicar su propia política. Su reproductor conserva los controles oficiales; los archivos aportados con autorización usan los controles personalizados de KORΛ. Las versiones completas de las cápsulas con licencia abierta se solicitan a Internet Archive al elegir continuar. WhatsApp se abre por decisión tuya y envía solo lo que confirmes allí. No se envían mensajes desde esta pantalla.',
       ],
       [
         'Novedades y comunicaciones',
-        'La lista de novedades requiere una autorización adicional. Conserva tu correo y fecha de consentimiento para que el equipo pueda informarte sobre el proyecto. Puedes pedir la baja por el correo del responsable o el WhatsApp del proyecto. Esta versión no implementa envíos automáticos ni avisos push del teléfono.',
+        'La lista de novedades requiere una autorización adicional. Guarda en la hoja privada tu correo, teléfono y fecha de consentimiento para que el equipo pueda informarte sobre novedades, planes y descuentos. Puedes pedir la baja por el correo del responsable o el WhatsApp del proyecto. Esta versión no implementa envíos automáticos ni avisos push del teléfono.',
       ],
       [
         'Control, conservación y eliminación',

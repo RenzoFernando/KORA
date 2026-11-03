@@ -23,11 +23,12 @@ import { LegalPage } from './legal/LegalPage';
 import { SourcesPage } from './legal/SourcesPage';
 import { AdminPage } from './admin/AdminPage';
 function RouteFocus() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
+    if (pathname === '/planes' && hash.startsWith('#solicitud-')) return;
     window.scrollTo(0, 0);
     document.querySelector<HTMLElement>('#contenido')?.focus({ preventScroll: true });
-  }, [pathname]);
+  }, [pathname, hash]);
   return null;
 }
 class ErrorBoundary extends Component<{ children: ReactNode }, { error: boolean }> {

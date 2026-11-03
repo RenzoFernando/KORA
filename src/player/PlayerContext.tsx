@@ -6,6 +6,7 @@ import type { Release } from '../core/types';
 import { useApp } from '../core/useApp';
 import { readFile } from '../core/media';
 import { embedUrl } from '../core/catalog';
+import { fullLicensedAudio } from '../core/licensedCatalog';
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const { catalog, metric, notify, store, resolvedTheme } = useApp();
   const [current, setCurrent] = useState<Release>();
@@ -21,6 +22,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const audio = useRef<HTMLAudioElement>(null);
   const playCounted = useRef(false);
   const autoStart = useRef(false);
+  const [fullTrack, setFullTrack] = useState(false);
+  const resumeAt = useRef(0);
+  const fullSource =
+    current?.playback === 'file' && current.audioKey
+      ? fullLicensedAudio[current.audioKey]
+      : undefined;
+  const fullUrl = fullTrack ? fullSource?.url : undefined;
   const currentId = current?.id;
   useEffect(() => {
     let dead = false;
@@ -34,7 +42,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     playCounted.current = false;
     autoStart.current = current?.playback === 'file';
     setLoading(current?.playback === 'file');
-    if (current?.playback === 'file' && current.audioKey)
+    if (fullUrl) {
+      setMediaUrl(fullUrl);
+    } else if (current?.playback === 'file' && current.audioKey)
       void readFile(current.audioKey)
         .then((blob) => {
           if (dead) return;
@@ -56,7 +66,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       dead = true;
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [currentId, current?.audioKey, current?.playback]);
+  }, [currentId, current?.audioKey, current?.playback, fullUrl]);
   useEffect(() => {
     if (audio.current) audio.current.volume = volume;
   }, [volume, mediaUrl]);
@@ -68,6 +78,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     ) {
       audio.current?.pause();
       setCurrent(undefined);
+      setFullTrack(false);
       setExpanded(false);
       setIframeSrc('');
     }
@@ -92,10 +103,16 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       return;
     }
     audio.current?.pause();
+    setFullTrack(false);
     setCurrent(r);
-    setExpanded(false);
     setIframeSrc(r.playback === 'bandcamp' ? embedUrl(r, resolvedTheme === 'dark') : '');
     if (r.playback === 'bandcamp') metric(r.id, 'embed_open');
+  }
+  function playVersion() {
+    if (!fullSource) return;
+    resumeAt.current = fullTrack ? 0 : fullSource.offset + elapsed;
+    audio.current?.pause();
+    setFullTrack(!fullTrack);
   }
   async function toggle() {
     const element = audio.current;
@@ -114,7 +131,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }
   function seek(value: number) {
     if (audio.current && Number.isFinite(duration) && duration > 0) {
-      audio.current.currentTime = capsulePosition(value, duration);
+      audio.current.currentTime = Math.min(duration, Math.max(0, value));
       setElapsed(audio.current.currentTime);
     }
   }
@@ -126,6 +143,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   function close() {
     audio.current?.pause();
     setCurrent(undefined);
+    setFullTrack(false);
     setExpanded(false);
     setIframeSrc('');
     setLoading(false);
@@ -140,6 +158,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     <Context.Provider
       value={{
         current,
+        fullTrack,
+        canPlayFull: Boolean(fullSource),
+        playVersion,
         playing,
         elapsed,
         duration,
@@ -176,6 +197,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         onTimeUpdate={() => {
           const element = audio.current;
           if (!element) return;
+          if (fullUrl) {
+            setElapsed(element.currentTime);
+            return;
+          }
           const end = capsuleDuration(element.duration);
           if (end && element.currentTime >= end) {
             element.pause();
@@ -185,7 +210,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         }}
         onLoadedMetadata={() => {
           const value = audio.current?.duration || 0;
-          setDuration(capsuleDuration(value));
+          if (fullUrl && audio.current && Number.isFinite(value) && value > 0) {
+            audio.current.currentTime = Math.min(resumeAt.current, Math.max(0, value - 1));
+            setElapsed(audio.current.currentTime);
+          }
+          setDuration(fullUrl && Number.isFinite(value) ? value : capsuleDuration(value));
           setLoading(false);
         }}
         onCanPlay={() => {
@@ -198,12 +227,22 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         }}
         onEnded={() => {
           setPlaying(false);
-          notify('Terminó la cápsula. Descubre otro lanzamiento o visita su fuente oficial.');
+          notify(
+            fullUrl
+              ? 'Terminó la canción.'
+              : fullSource
+                ? 'Terminó la cápsula. Puedes continuar con la versión completa.'
+                : 'Terminó la cápsula. Visita la fuente oficial para seguir escuchando.',
+          );
         }}
         onError={() => {
           if (mediaUrl) {
             setLoading(false);
-            setError('No se pudo leer este formato de audio.');
+            setError(
+              fullUrl
+                ? 'La versión completa no está disponible ahora. Puedes volver a la cápsula o abrir la fuente oficial.'
+                : 'No se pudo leer este formato de audio.',
+            );
           }
         }}
       />

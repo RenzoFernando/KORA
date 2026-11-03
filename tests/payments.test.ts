@@ -20,7 +20,7 @@ test('receipt WhatsApp identifies the account and reference without confirming a
   assert.equal(url.pathname, '/573112476840');
   const text = url.searchParams.get('text')!;
   assert.ok(text.includes('KORA-ABC'));
-  assert.ok(text.includes('comprobante para revisión'));
+  assert.ok(text.includes('Adjunto el comprobante'));
   assert.ok(text.includes('no es una venta real'));
   assert.ok(text.includes('qa@example.test'));
 });

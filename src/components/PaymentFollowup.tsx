@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../core/useApp';
 import { plans } from '../core/plans';
@@ -7,11 +7,7 @@ export function PaymentFollowup() {
   const { account, store, whatsapp, refresh } = useApp();
   const [checking, setChecking] = useState(false);
   const request = [...store.requests].reverse().find((r) => r.status === 'pending');
-  useEffect(() => {
-    const focus = () => void refresh();
-    window.addEventListener('focus', focus);
-    return () => window.removeEventListener('focus', focus);
-  }, [refresh]);
+  const [feedback, setFeedback] = useState<{ reference: string; text: string }>();
   if (!account || !request) return null;
   const name = plans.find((p) => p.id === request.plan)?.name || request.plan;
   const active = account.plan === request.plan;
@@ -45,7 +41,16 @@ export function PaymentFollowup() {
             onClick={async () => {
               setChecking(true);
               try {
-                await refresh();
+                const latest = await refresh();
+                setFeedback({
+                  reference: request.id,
+                  text:
+                    latest?.plan === request.plan
+                      ? name + ' ya está activo.'
+                      : latest
+                        ? 'Tu plan todavía está pendiente de activación.'
+                        : 'No pudimos comprobar el estado ahora. Inténtalo de nuevo en unos segundos.',
+                });
               } finally {
                 setChecking(false);
               }
@@ -54,10 +59,19 @@ export function PaymentFollowup() {
             {checking ? 'Consultando…' : 'Comprobar activación'}
           </button>
         )}
-        <Link className="text-link" to="/planes">
+        <Link className="text-link" to={'/planes#solicitud-' + request.id}>
           Ver solicitud
         </Link>
       </div>
+      <p role="status" className="payment-status">
+        {checking
+          ? 'Estamos consultando tu activación. Puede tardar unos segundos.'
+          : feedback?.reference === request.id
+            ? active
+              ? name + ' ya está activo.'
+              : feedback.text
+            : ''}
+      </p>
     </aside>
   );
 }

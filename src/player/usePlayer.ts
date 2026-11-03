@@ -2,6 +2,9 @@ import { createContext, useContext } from 'react';
 import type { Release } from '../core/types';
 export type PlayerValue = {
   current: Release | undefined;
+  fullTrack: boolean;
+  canPlayFull: boolean;
+  playVersion: () => void;
   playing: boolean;
   loading: boolean;
   elapsed: number;

@@ -244,3 +244,190 @@
 .capsule-rail .card-genre span:last-child {
   white-space: nowrap;
 }
+
+.shared-player.expanded {
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  transform: none;
+  border-radius: 0;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.shared-player .seek {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.shared-player input[type='range'] {
+  appearance: none;
+  border-radius: 999px;
+  height: 6px;
+  accent-color: #f1871c;
+  cursor: pointer;
+}
+
+.shared-player input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #f1871c;
+}
+
+.shared-player .seek-step {
+  border-radius: 50%;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+/* Keep the full control hit area while painting a separate track and thumb. */
+.shared-player input[type='range'] {
+  height: 26px;
+  background: transparent;
+  color: var(--text);
+}
+.shared-player input[type='range']::-webkit-slider-runnable-track {
+  height: 7px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #f1871c var(--fill, 0%), var(--muted) var(--fill, 0%));
+}
+.shared-player input[type='range']::-moz-range-track {
+  height: 7px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #f1871c var(--fill, 0%), var(--muted) var(--fill, 0%));
+}
+.shared-player input[type='range']::-webkit-slider-thumb {
+  margin-top: -4.5px;
+}
+.shared-player input[type='range']::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 50%;
+  background: #f1871c;
+}
+.shared-player .seek time {
+  min-width: 3ch;
+}
+.shared-player .seek-step {
+  width: auto;
+  padding-inline: 10px;
+  background: var(--soft);
+  white-space: nowrap;
+}
+.shared-player .seek-step > span {
+  position: static;
+  font-size: 13px;
+}
+.shared-player .capsule-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.shared-player .capsule-label a {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.shared-player .dock-controls .transport .play-button {
+  width: 46px;
+  height: 46px;
+  background: #f1871c;
+  color: #20160f;
+}
+.shared-player .transport {
+  min-height: 46px;
+}
+.shared-player.expanded {
+  padding: clamp(14px, 3vw, 48px);
+  gap: clamp(10px, 2vh, 24px);
+  background:
+    radial-gradient(ellipse at 15% 80%, rgb(241 135 28 / 16%), transparent 60%), var(--surface);
+}
+.shared-player.expanded .expanded-story {
+  width: min(100%, 1050px);
+  justify-self: center;
+  align-items: center;
+}
+.shared-player.expanded .expanded-story > .artwork {
+  width: min(100%, 44dvh);
+  justify-self: center;
+}
+.player-story-details {
+  margin-block: 12px;
+}
+.player-story-details summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.capsule-rail .art-small {
+  z-index: 1;
+  background: var(--surface);
+  border-radius: 5px;
+  padding: 3px 6px;
+  color: var(--text);
+}
+.payment-followup .payment-status {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+.payment-status:empty {
+  display: none;
+}
+.request-list article:target,
+.request-list article:focus {
+  outline: 2px solid #f1871c;
+  outline-offset: 4px;
+  border-radius: 10px;
+}
+.plans-page .waitlist {
+  background: var(--soft);
+  border: 2px solid #f1871c;
+  border-radius: 20px;
+  padding: clamp(18px, 3vw, 36px);
+}
+.transfer-instructions {
+  padding: 12px 16px;
+  background: var(--soft);
+  border-left: 4px solid #f1871c;
+  border-radius: 8px;
+}
+@media (max-width: 650px) {
+  .shared-player.expanded .expanded-story {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .shared-player.expanded .expanded-story > .artwork {
+    width: min(100%, 28dvh);
+  }
+  .shared-player .native-extras {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 650px) {
+  .shared-player.expanded .expanded-story > .artwork {
+    width: min(100%, 24dvh);
+  }
+  .shared-player.expanded .player-legal {
+    margin-top: 10px;
+  }
+}
+
+.shared-player.expanded .expanded-story > .artwork {
+  container-type: inline-size;
+}
+.shared-player.expanded .expanded-story .art-title {
+  font-size: clamp(13px, 9cqw, 32px);
+  left: 10%;
+  right: 8%;
+  max-width: none;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}

@@ -39,13 +39,13 @@ export type ContextValue = {
   notices: AppNotice[];
   readNotice: (id: string) => void;
   acceptTerms: () => Promise<void>;
-  refresh: () => Promise<void>;
+  refresh: () => Promise<Account | undefined>;
   legalVersion: string;
   whatsapp: string;
   communityPosts: CommunityPost[];
   adminOverview: AdminOverview | undefined;
   createOrder: (plan: Plan, method: 'cash' | 'transfer') => Promise<RequestItem>;
-  joinWaitlist: () => Promise<void>;
+  joinWaitlist: (phone: string) => Promise<void>;
 };
 export const Context = createContext<ContextValue | null>(null);
 export function useApp() {

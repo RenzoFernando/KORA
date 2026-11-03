@@ -1,6 +1,6 @@
-import { paymentWhatsApp } from '../core/payments';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { paymentWhatsApp, transferKey } from '../core/payments';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useApp } from '../core/useApp';
 import { plans, money } from '../core/plans';
 import type { Plan, RequestItem } from '../core/types';
@@ -16,6 +16,18 @@ export function PlansPage() {
   const [error, setError] = useState('');
   const [waiting, setWaiting] = useState(false);
   const [consent, setConsent] = useState(false);
+  const [paymentConsent, setPaymentConsent] = useState(false);
+  const [phone, setPhone] = useState('');
+  const [waitlistBusy, setWaitlistBusy] = useState(false);
+  const [waitlistError, setWaitlistError] = useState('');
+  const { hash, key } = useLocation();
+  const target = store.requests.find((r) => hash === '#solicitud-' + r.id)?.id;
+  useEffect(() => {
+    if (!target) return;
+    const element = document.getElementById('solicitud-' + target);
+    element?.focus({ preventScroll: true });
+    element?.scrollIntoView({ block: 'center' });
+  }, [target, key]);
   const plan = plans.find((p) => p.id === selected);
   const allowed =
     account?.role === 'artist'
@@ -108,6 +120,7 @@ export function PlansPage() {
                 className="button full"
                 onClick={() => {
                   setSelected(p.id);
+                  setPaymentConsent(false);
                   setRequest(undefined);
                   setError('');
                 }}
@@ -169,7 +182,7 @@ export function PlansPage() {
           ) : (
             <div className="request-list">
               {[...store.requests].reverse().map((r) => (
-                <article key={r.id}>
+                <article key={r.id} id={'solicitud-' + r.id} tabIndex={-1}>
                   <strong>
                     {plans.find((p) => p.id === r.plan)?.name} · {r.reference}
                   </strong>
@@ -183,6 +196,15 @@ export function PlansPage() {
                           : 'Interés registrado'}
                     {r.isTest ? ' · Prueba' : ''}
                   </p>
+                  <p>
+                    {money(r.amount ?? 0)} · {r.method === 'cash' ? 'Efectivo' : 'Transferencia'}
+                  </p>
+                  {r.status === 'pending' && r.method !== 'cash' && !r.isTest && (
+                    <p>
+                      Llave Bre-B: <strong>{transferKey}</strong>. Adjunta el comprobante por
+                      WhatsApp.
+                    </p>
+                  )}
                   <div className="action-row">
                     {r.status === 'pending' && (
                       <a
@@ -194,14 +216,16 @@ export function PlansPage() {
                         Ya pagué: enviar comprobante ↗
                       </a>
                     )}
-                    <a
-                      className="text-link"
-                      href={whatsappUrl(r)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Coordinar pago por WhatsApp ↗
-                    </a>
+                    {r.method === 'cash' && r.status === 'pending' && (
+                      <a
+                        className="text-link"
+                        href={whatsappUrl(r)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Coordinar efectivo ↗
+                      </a>
+                    )}
                     <button className="text-link" onClick={() => summary(r)}>
                       Descargar resumen
                     </button>
@@ -216,25 +240,37 @@ export function PlansPage() {
         <section className="panel waitlist">
           <p className="eyebrow">LO QUE VIENE</p>
           <h2>La escena sigue creciendo.</h2>
-          <p>
-            Déjanos avisarte cuando haya novedades del proyecto. No se envían mensajes automáticos
-            desde esta pantalla.
-          </p>
+          <p>Entérate de novedades, próximos planes y descuentos de KORΛ.</p>
           <form
             onSubmit={async (e) => {
               e.preventDefault();
-              setBusy(true);
-              setError('');
+              setWaitlistBusy(true);
+              setWaitlistError('');
               try {
-                await joinWaitlist();
+                await joinWaitlist(phone);
                 setWaiting(true);
               } catch (err) {
-                setError(err instanceof Error ? err.message : 'No se pudo guardar.');
+                setWaitlistError(err instanceof Error ? err.message : 'No se pudo guardar.');
               } finally {
-                setBusy(false);
+                setWaitlistBusy(false);
               }
             }}
           >
+            <p>
+              Usaremos el correo de tu cuenta <strong>{account.email}</strong>.
+            </p>
+            <label>
+              Teléfono de contacto
+              <input
+                type="tel"
+                autoComplete="tel"
+                required
+                maxLength={24}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                disabled={waiting || waitlistBusy}
+              />
+            </label>
             <label className="checkbox-label">
               <input
                 type="checkbox"
@@ -243,13 +279,19 @@ export function PlansPage() {
                 onChange={(e) => setConsent(e.target.checked)}
               />
               <span>
-                Autorizo al equipo a usar mi correo para novedades de KORΛ. Puedo solicitar la baja
-                por WhatsApp.
+                Autorizo al equipo a usar mi correo y teléfono para novedades, planes y descuentos.
+                Puedo pedir la baja por WhatsApp.
               </span>
             </label>
-            <button className="button secondary" disabled={busy || waiting || !consent}>
-              {waiting ? 'Ya estás en la lista' : 'Quiero enterarme'}
+            {waitlistError && (
+              <p role="alert" className="error">
+                {waitlistError}
+              </p>
+            )}
+            <button className="button" disabled={waitlistBusy || waiting || !consent}>
+              {waitlistBusy ? 'Guardando…' : waiting ? 'Ya estás en la lista' : 'Quiero enterarme'}
             </button>
+            {waiting && <p role="status">Guardamos tu inscripción y tus datos de contacto.</p>}
           </form>
         </section>
       )}
@@ -272,18 +314,27 @@ export function PlansPage() {
                 Referencia <strong>{request.reference}</strong>. Estado: pendiente de revisión
                 {request.isTest ? ' · cuenta de prueba' : ''}.
               </p>
-              <p>
-                Confirma el alcance y los datos de pago por WhatsApp. Después de pagar, envía allí
-                el comprobante con tu referencia. Al volver verás tu solicitud pendiente hasta que
-                el equipo active el plan.
-              </p>
+              {request.isTest ? (
+                <p>Solicitud de prueba. No envíes dinero.</p>
+              ) : request.method === 'transfer' ? (
+                <p>
+                  Transfiere <strong>{money(request.amount ?? plan.price)}</strong> a la llave Bre-B{' '}
+                  <strong>{transferKey}</strong>. Cuando hayas pagado, abre WhatsApp y adjunta la
+                  captura o el archivo del comprobante. Revisaremos tu referencia antes de activar
+                  el plan.
+                </p>
+              ) : (
+                <p>Acuerda la entrega en efectivo con el equipo por WhatsApp.</p>
+              )}
               <a
                 className="button full"
-                href={whatsappUrl(request)}
+                href={whatsappUrl(request, request.method === 'transfer')}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Continuar en WhatsApp ↗
+                {request.method === 'transfer'
+                  ? 'Ya pagué · Enviar comprobante ↗'
+                  : 'Coordinar efectivo ↗'}
               </a>
               <button className="text-link" onClick={() => summary(request)}>
                 Descargar resumen de solicitud
@@ -313,19 +364,23 @@ export function PlansPage() {
                   value={method}
                   onChange={(e) => setMethod(e.target.value as 'cash' | 'transfer')}
                 >
-                  <option value="transfer">Transferencia, por acordar con el equipo</option>
+                  <option value="transfer">Transferencia por Bre-B</option>
                   <option value="cash">Efectivo</option>
                 </select>
               </label>
               <label className="checkbox-label">
-                <input type="checkbox" required />
+                <input
+                  type="checkbox"
+                  required
+                  checked={paymentConsent}
+                  onChange={(e) => setPaymentConsent(e.target.checked)}
+                />
                 <span>
                   Leí las{' '}
                   <Link to="/legal/pagos" target="_blank">
                     condiciones
                   </Link>
-                  . Entiendo que es una solicitud pendiente y que debo confirmar la prestación antes
-                  de pagar.
+                  . El acceso se activa después de que el equipo revise el pago.
                 </span>
               </label>
               {error && (
@@ -333,7 +388,18 @@ export function PlansPage() {
                   {error}
                 </p>
               )}
-              <button className="button full" disabled={busy}>
+              {paymentConsent && method === 'transfer' && !account?.isTest && (
+                <p className="transfer-instructions">
+                  Llave Bre-B <strong>{transferKey}</strong> · {money(plan.price)}. Registra tu
+                  solicitud para obtener la referencia que acompañará el comprobante.
+                </p>
+              )}
+              {busy && (
+                <p role="status">
+                  Estamos guardando tu solicitud. Espera unos segundos para recibir la referencia.
+                </p>
+              )}
+              <button className="button full" disabled={busy || !paymentConsent}>
                 {busy ? 'Registrando…' : 'Registrar solicitud'}
               </button>
             </form>

@@ -1,5 +1,6 @@
 import { Attribution } from '../components/Attribution';
 import { useEffect, useRef } from 'react';
+import type { CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { usePlayer, formatTime } from './usePlayer';
 import { useApp } from '../core/useApp';
@@ -101,7 +102,27 @@ export function PlayerDock() {
         <div className="dock-controls">
           {r.playback === 'file' ? (
             <>
-              <span className="capsule-label">Cápsula · hasta 30 segundos</span>
+              <div className="capsule-label">
+                {p.fullTrack
+                  ? 'Versión completa · Internet Archive'
+                  : 'Cápsula · hasta 30 segundos'}
+                {p.canPlayFull ? (
+                  <button className="text-link" onClick={p.playVersion}>
+                    {p.fullTrack ? 'Volver a la cápsula' : 'Seguir con la versión completa'}
+                  </button>
+                ) : (
+                  safeUrl(r.officialUrl) && (
+                    <a
+                      href={safeUrl(r.officialUrl)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => metric(r.id, 'outbound_click', 'Versión completa')}
+                    >
+                      Versión completa ↗
+                    </a>
+                  )
+                )}
+              </div>
               <div className="transport">
                 <button className="icon-button" aria-label="Anterior" onClick={() => p.step(-1)}>
                   <Icon name="previous" />
@@ -125,8 +146,7 @@ export function PlayerDock() {
                   disabled={!p.duration}
                   onClick={() => p.seek(p.elapsed - 15)}
                 >
-                  <Icon name="back15" size={18} />
-                  <span>15</span>
+                  <span aria-hidden="true">−15 s</span>
                 </button>
                 <label className="volume compact-volume">
                   <span>Volumen</span>
@@ -136,6 +156,7 @@ export function PlayerDock() {
                     max="1"
                     step="0.01"
                     value={p.volume}
+                    style={{ '--fill': p.volume * 100 + '%' } as CSSProperties}
                     onChange={(e) => p.setVolume(Number(e.target.value))}
                   />
                 </label>
@@ -145,8 +166,7 @@ export function PlayerDock() {
                   disabled={!p.duration}
                   onClick={() => p.seek(p.elapsed + 15)}
                 >
-                  <Icon name="forward15" size={18} />
-                  <span>15</span>
+                  <span aria-hidden="true">+15 s</span>
                 </button>
               </div>
               <div className="seek">
@@ -156,6 +176,11 @@ export function PlayerDock() {
                   min="0"
                   max={p.duration || 0}
                   value={Math.min(p.elapsed, p.duration || 0)}
+                  style={
+                    {
+                      '--fill': (p.duration ? Math.min(1, p.elapsed / p.duration) * 100 : 0) + '%',
+                    } as CSSProperties
+                  }
                   step="0.1"
                   disabled={!p.duration}
                   onChange={(e) => p.seek(Number(e.target.value))}
@@ -223,8 +248,11 @@ export function PlayerDock() {
             >
               {r.artist} ↗
             </Link>
-            <p>{r.story}</p>
-            <Attribution release={r} />
+            <details className="player-story-details">
+              <summary>Historia y créditos</summary>
+              <p>{r.story}</p>
+              <Attribution release={r} />
+            </details>
             <div className="action-row">
               <button className="button secondary small" onClick={() => void share()}>
                 <Icon name="share" size={16} />

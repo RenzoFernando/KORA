@@ -110,6 +110,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       };
       replace(next);
       setConnection('ready');
+      return data.account ?? undefined;
     } catch (error) {
       if (
         error instanceof CloudError &&
@@ -337,8 +338,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
     await refresh();
     return result;
   }
-  async function joinWaitlist() {
-    await cloudCall('waitlist.join', { consent: true });
+  async function joinWaitlist(phone: string) {
+    const result = await cloudCall<{ phoneSaved?: boolean }>('waitlist.subscribe', {
+      consent: true,
+      phone,
+    });
+    if (!result.phoneSaved)
+      throw new Error(
+        'La lista aún no admite teléfonos. Inténtalo cuando se actualice el servicio.',
+      );
     notify('Ya estás en la lista para recibir novedades de KORΛ.');
   }
   const remoteStatus =

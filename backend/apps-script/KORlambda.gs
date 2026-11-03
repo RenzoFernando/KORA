@@ -149,6 +149,33 @@ function handleKora_(payload){
       case 'bundle.save':result=saveBundle_(token,args);break;
       case 'notice.read':{const {user}=session_(token,true);const row=rows_('Notificaciones').find(n=>n.id===args.id&&n.user_id===user.id);if(row){row.read_at=now_();put_('Notificaciones',row);}result={read:true};break;}
       case 'order.create':{const {user}=session_(token,false);const allowed=user.role==='artist'?['artist','kit']:user.role==='scout'?['scout']:['curator'];if(!allowed.includes(args.plan))throw apiError_('PLAN_REQUIRED','Elige un plan de tu perfil.');rate_('orders:'+user.id,6,3600);const order={id:id_(),user_id:user.id,plan:args.plan,amount_cop:KORA_PLANS[args.plan],method:args.method==='cash'?'cash':'transfer',status:'pending',created_at:now_(),reference:'KORΛ-'+id_().slice(0,8).toUpperCase(),is_test:bool_(user.is_test)};put_('Solicitudes',order);addNotice_(user.id,'Solicitud registrada','Tu referencia es '+order.reference+'. El acceso cambia cuando el equipo lo active.','order','/planes');result={id:order.id,accountId:user.id,plan:order.plan,amount:order.amount_cop,method:order.method,status:'pending',at:order.created_at,reference:order.reference,isTest:order.is_test};break;}
+      case 'waitlist.subscribe': {
+        const {user} = session_(token,false);
+        if (args.consent !== true) throw apiError_('CONSENT_REQUIRED','Autoriza el uso de tus datos de contacto.');
+        const rawPhone = String(args.phone || '').trim();
+        const phone = rawPhone.replace(/\D/g,'');
+        if (!/^\+?[0-9 ()-]{8,24}$/.test(rawPhone) || !/^\d{8,15}$/.test(phone)) {
+          throw apiError_('VALIDATION','Escribe un teléfono válido, con indicativo si corresponde.');
+        }
+        const sheet = table_('Espera');
+        const columns = sheet.getLastColumn();
+        const headers = sheet.getRange(1,1,1,columns).getValues()[0];
+        if (!headers.includes('phone')) sheet.getRange(1,columns+1,1,1).setValues([['phone']]);
+        const existing = rows_('Espera').find(row => row.user_id === user.id);
+        const now = now_();
+        put_('Espera',{
+          ...existing,
+          id:existing ? existing.id : id_(),
+          user_id:user.id,
+          email:user.email,
+          phone:rawPhone.startsWith('+') ? '+'+phone : phone,
+          created_at:existing ? existing.created_at : now,
+          consent_at:now,
+          status:'subscribed'
+        });
+        result={subscribed:true,phoneSaved:true};
+        break;
+      }
       case 'waitlist.join':{const {user}=session_(token,false);if(args.consent!==true)throw apiError_('CONSENT_REQUIRED','Autoriza recibir información del proyecto.');const existing=rows_('Espera').find(r=>r.user_id===user.id);if(!existing)put_('Espera',{id:id_(),user_id:user.id,email:user.email,created_at:now_(),consent_at:now_(),status:'subscribed'});result={subscribed:true};break;}
       case 'metric.record':{const {user}=session_(token,false);if(args.consent!==true)throw apiError_('CONSENT_REQUIRED','Falta autorización de medición.');if(!['page_view','outbound_click','embed_open','audio_play'].includes(args.type))throw apiError_('VALIDATION','Evento inválido.');rate_('events:'+user.id,60,60);const release=publicData_().catalog.find(r=>r.id===args.releaseId);if(!release)throw apiError_('NOT_FOUND','Lanzamiento no disponible.');put_('Eventos',{id:id_(),release_id:release.id,owner_id:release.ownerId||'',type:args.type,at:now_(),label:text_(args.label,80)});result={recorded:true};break;}
       case 'metrics.clear':{const {user}=session_(token,false);removeWhere_('Eventos',row=>row.owner_id===user.id);result={cleared:true};break;}

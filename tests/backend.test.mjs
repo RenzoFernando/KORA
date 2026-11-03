@@ -401,4 +401,17 @@ check('Launch Kit no se recicla activando otra página tras archivar la original
     'KIT_RELEASE_BOUND',
   );
 });
+check('novedades guarda teléfono y consentimiento y actualiza la inscripción existente', () => {
+  const subscribe = (phone, consent = true) =>
+    call('waitlist.subscribe', { phone, consent }, explorer.token);
+  assert.equal(subscribe('123', false).error.code, 'CONSENT_REQUIRED');
+  assert.equal(subscribe('123').error.code, 'VALIDATION');
+  assert.equal(subscribe('+57 300 000 0000').data.phoneSaved, true);
+  assert.equal(subscribe('301 000 0000').data.phoneSaved, true);
+  const [headers, row] = tables.Espera;
+  assert.equal(tables.Espera.length, 2);
+  assert.equal(row[headers.indexOf('phone')], '3010000000');
+  assert.equal(row[headers.indexOf('email')], explorer.email);
+  assert.ok(row[headers.indexOf('consent_at')]);
+});
 console.log('TOTAL ' + checks + ' verificaciones correctas.');

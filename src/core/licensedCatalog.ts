@@ -219,3 +219,43 @@ export const licensedAudio: Record<string, string> = {
   'licensed:02_velez_-_sin_nombre.mp3': '/audio/02_velez_-_sin_nombre.mp3',
   'licensed:03_velez_-_tema_inoquo.mp3': '/audio/03_velez_-_tema_inoquo.mp3',
 };
+
+export const fullLicensedAudio: Readonly<Record<string, { url: string; offset: number }>> =
+  Object.fromEntries(
+    [
+      [
+        'licensed:cenizacromada-san-agustin.mp3',
+        'SanAgustnastronautaDePiedraSingle',
+        'Cenizacromada-SanAgustnAstronautaDePiedra.mp3',
+        45,
+      ],
+      [
+        'licensed:cenizacromada-tu-fuego.mp3',
+        'Cenizacromada-TuFuegopremix',
+        'Tu_fuego_Premix.mp3',
+        45,
+      ],
+      ['licensed:aterciopelados-errante-diamante.mp3', 'ErranteDiamante', 'Errante.mp3', 40],
+      [
+        'licensed:01_velez_-_free_example.mp3',
+        'MNF055_Velez--Sin_Nombre',
+        '01_Velez_-_Free_Example.mp3',
+        0,
+      ],
+      [
+        'licensed:02_velez_-_sin_nombre.mp3',
+        'MNF055_Velez--Sin_Nombre',
+        '02_Velez_-_Sin_Nombre.mp3',
+        0,
+      ],
+      [
+        'licensed:03_velez_-_tema_inoquo.mp3',
+        'MNF055_Velez--Sin_Nombre',
+        '03_Velez_-_Tema_Inoquo.mp3',
+        0,
+      ],
+    ].map(([key, item, file, offset]) => [
+      key,
+      { url: 'https://archive.org/download/' + item + '/' + file, offset: Number(offset) },
+    ]),
+  );

@@ -1,4 +1,5 @@
 import type { RequestItem } from './types';
+export const transferKey = '@3112476840';
 export function paymentWhatsApp(
   number: string,
   r: RequestItem,
@@ -10,7 +11,7 @@ export function paymentWhatsApp(
   if (phone.length < 8 || phone.length > 15) return '';
   const text =
     (receipt
-      ? 'Hola, equipo KORΛ. Quiero enviar el comprobante para revisión.'
+      ? 'Hola, equipo KORΛ. Les comparto mi referencia de pago. Adjunto el comprobante para que revisen mi solicitud.'
       : 'Hola, equipo KORΛ. Quiero coordinar el pago y confirmar las condiciones.') +
     ' Plan: ' +
     planName +
