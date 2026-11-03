@@ -881,7 +881,7 @@ export function embedUrl(release: Release, dark = false) {
     release.embedType +
     '=' +
     release.embedId +
-    '/size=large/bgcol=' +
+    '/size=small/bgcol=' +
     (dark ? '17171b' : 'ffffff') +
     '/linkcol=f1871c/artwork=none/tracklist=false/transparent=true/'
   );
